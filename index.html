@@ -21,7 +21,7 @@ function upload() {
     const base64 = reader.result.split(',')[1];
 
     // 👇 ここがポイント（追加部分）
-    fetch("ここにPower AutomateのURL", {
+    fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f9656bca52304caf86316e1810ea1b12/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AnQow9BIK1LV7BM_Wl4iwu95aqvbRSqb1ypzmule3Tk", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
