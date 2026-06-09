@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>写真アップ</title>
+  <title>CE写真アップ</title>
 </head>
 <body>
 
@@ -21,8 +20,20 @@ function upload() {
   reader.onload = function() {
     const base64 = reader.result.split(',')[1];
 
-    console.log(base64); // 今はテスト
-    alert("送信確認（まだ保存はしない）");
+    // 👇 ここがポイント（追加部分）
+    fetch("ここにPower AutomateのURL", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: document.getElementById("name").value,
+        fileName: file.name,
+        fileContent: base64
+      })
+    });
+
+    alert("送信しました！");
   };
 
   reader.readAsDataURL(file);
