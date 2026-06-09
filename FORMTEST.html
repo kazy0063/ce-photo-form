@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>写真アップ</title>
+</head>
+<body>
+
+<h2>写真アップフォーム</h2>
+
+<input type="text" id="name" placeholder="名前"><br><br>
+<input type="file" id="file"><br><br>
+<button onclick="upload()">送信</button>
+
+<script>
+function upload() {
+  const file = document.getElementById('file').files[0];
+  const reader = new FileReader();
+
+  reader.onload = function() {
+    const base64 = reader.result.split(',')[1];
+
+    console.log(base64); // 今はテスト
+    alert("送信確認（まだ保存はしない）");
+  };
+
+  reader.readAsDataURL(file);
+}
+</script>
+
+</body>
+</html>
