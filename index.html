@@ -1,43 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>CE写真アップ</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: -apple-system, sans-serif;
+  background: #f2f4f7;
+  margin: 0;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  margin-top: 20px;
+  background: #007aff;
+  color: white;
+  font-size: 16px;
+}
+</style>
 </head>
+
 <body>
 
-<h2>写真アップフォーム</h2>
+<div class="container">
+<h2>写真提出フォーム</h2>
 
-<input type="text" id="name" placeholder="名前"><br><br>
-<input type="file" id="file"><br><br>
-<button onclick="upload()">送信</button>
+<div class="card">
+  <label>現状写真1</label>
+  <input type="file" id="photo1" accept="image/*" capture="environment">
+</div>
+
+<div class="card">
+  <label>現状写真2</label>
+  <input type="file" id="photo2" accept="image/*" capture="environment">
+</div>
+
+<div class="card">
+  <label>レジ台写真</label>
+  <input type="file" id="photo3" accept="image/*" capture="environment">
+</div>
+
+<div class="card">
+  <label>電源写真</label>
+  <input type="file" id="photo4" accept="image/*" capture="environment">
+</div>
+
+<button onclick="submitForm()">送信</button>
+
+</div>
 
 <script>
-function upload() {
-  const file = document.getElementById('file').files[0];
-  const reader = new FileReader();
 
-  reader.onload = function() {
-    const base64 = reader.result.split(',')[1];
+async function readFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
 
-    // 👇 ここがポイント（追加部分）
-    fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/f9656bca52304caf86316e1810ea1b12/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AnQow9BIK1LV7BM_Wl4iwu95aqvbRSqb1ypzmule3Tk", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: document.getElementById("name").value,
-        fileName: file.name,
-        fileContent: base64
-      })
-    });
+async function getImage(id) {
+  const file = document.getElementById(id).files[0];
+  if (!file) return null;
+  return await readFile(file);
+}
 
-    alert("送信しました！");
+async function submitForm() {
+
+  const payload = {
+    timestamp: new Date().toISOString(),
+
+    images: {
+      photo1: await getImage("photo1"),
+      photo2: await getImage("photo2"),
+      photo3: await getImage("photo3"),
+      photo4: await getImage("photo4")
+    }
   };
 
-  reader.readAsDataURL(file);
+  console.log(payload);
+
+  await fetch("YOUR_POWER_AUTOMATE_URL", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  alert("送信完了");
 }
+
 </script>
 
 </body>
