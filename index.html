@@ -1,9 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: -apple-system, sans-serif;
+  background: #f2f4f7;
+  margin: 0;
+}
+
+.container {
+  max-width: 480px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+h2 {
+  text-align: center;
+}
+
+label {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+input[type="file"] {
+  margin-top: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  margin-top: 20px;
+  background: #007aff;
+  color: white;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>写真提出フォーム</h2>
+
+<div class="card">
+  <label>現状写真1</label>
+  <input type="file" id="photo1" accept="image/*" capture="environment">
+</div>
+
+<div class="card">
+  <label>現状写真2</label>
+  <input type="file" id="photo2" accept="image/*" capture="environment">
+</div>
+
+<div class="card">
+  <label>レジ台写真</label>
+  <input type="file" id="photo3" accept="image/*" capture="environment">
+</div>
+
+<div class="card">
+  <label>電源写真</label>
+  <input type="file" id="photo4" accept="image/*" capture="environment">
+</div>
+
+<button onclick="submitForm()">送信</button>
+
+</div>
+
 <script>
+
+async function readFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function getImage(id) {
+  const file = document.getElementById(id).files[0];
+  if (!file) return null;
+  return await readFile(file);
+}
+
 async function submitForm() {
 
   const payload = {
-    test: "HELLO",
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+
+    images: {
+      photo1: await getImage("photo1"),
+      photo2: await getImage("photo2"),
+      photo3: await getImage("photo3"),
+      photo4: await getImage("photo4")
+    }
   };
 
   console.log(payload);
@@ -18,4 +120,8 @@ async function submitForm() {
 
   alert("送信完了");
 }
+
 </script>
+
+</body>
+</html>
