@@ -80,47 +80,40 @@ button {
 </div>
 
 <script>
-
-async function readFile(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
-}
-
-async function getImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) return null;
-  return await readFile(file);
-}
-
 async function submitForm() {
 
-  const payload = {
-    timestamp: new Date().toISOString(),
+  const p1 = document.getElementById("photo1").files[0];
+  const p2 = document.getElementById("photo2").files[0];
+  const p3 = document.getElementById("photo3").files[0];
+  const p4 = document.getElementById("photo4").files[0];
 
-    images: {
-      photo1: await getImage("photo1"),
-      photo2: await getImage("photo2"),
-      photo3: await getImage("photo3"),
-      photo4: await getImage("photo4")
-    }
-  };
+  // 未選択チェック
+  if (!p1 || !p2 || !p3 || !p4) {
+    alert("4枚すべて選択してください");
+    return;
+  }
 
-  console.log(payload);
+  const formData = new FormData();
 
-  await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
-  });
+  formData.append("timestamp", new Date().toISOString());
+  formData.append("photo1", p1);
+  formData.append("photo2", p2);
+  formData.append("photo3", p3);
+  formData.append("photo4", p4);
 
-  alert("送信完了");
+  try {
+    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
+      method: "POST",
+      body: formData
+    });
+
+    alert("送信完了");
+
+  } catch (error) {
+    console.error(error);
+    alert("送信エラー");
+  }
 }
-
 </script>
 
 </body>
