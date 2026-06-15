@@ -33,11 +33,31 @@ label {
   font-weight: bold;
 }
 
-input[type="file"] {
+/* ボタン */
+.input-group {
   margin-top: 8px;
 }
 
-button {
+.input-group button {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  background: #007aff;
+  color: white;
+}
+
+/* サムネ */
+.preview {
+  margin-top: 10px;
+}
+
+.preview img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+button.submit {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
@@ -55,31 +75,88 @@ button {
 <div class="container">
 <h2>写真提出フォーム</h2>
 
-<div class="card">
-  <label>現状写真1</label>
-  <input type="file" id="photo1" accept="image/*" capture="environment">
-</div>
+<!-- 共通UI -->
+<script>
+function createPhotoBlock(id, labelText) {
+  return `
+  <div class="card">
+    <label>${labelText}</label>
 
-<div class="card">
-  <label>現状写真2</label>
-  <input type="file" id="photo2" accept="image/*" capture="environment">
-</div>
+    <div class="input-group">
+      <button onclick="openCamera('${id}')">📷 カメラ</button>
+      <button onclick="openLibrary('${id}')">📁 ライブラリ</button>
+    </div>
 
-<div class="card">
-  <label>レジ台写真</label>
-  <input type="file" id="photo3" accept="image/*" capture="environment">
-</div>
+    <input type="file" id="${id}" accept="image/*" style="display:none" onchange="previewImage('${id}')">
 
-<div class="card">
-  <label>電源写真</label>
-  <input type="file" id="photo4" accept="image/*" capture="environment">
-</div>
+    <div class="preview">
+      <img id="${id}_preview" style="display:none;">
+    </div>
+  </div>
+  `;
+}
+</script>
 
-<button onclick="submitForm()">送信</button>
+<div id="formArea"></div>
+
+<button class="submit" onclick="submitForm()">送信</button>
 
 </div>
 
 <script>
+
+// フォーム生成
+document.getElementById("formArea").innerHTML =
+  createPhotoBlock("photo1", "現状写真1") +
+  createPhotoBlock("photo2", "現状写真2") +
+  createPhotoBlock("photo3", "レジ台写真") +
+  createPhotoBlock("photo4", "電源写真");
+
+// カメラ起動
+function openCamera(id) {
+  const input = document.getElementById(id);
+  input.setAttribute("capture", "environment");
+  input.click();
+}
+
+// ライブラリ起動
+function openLibrary(id) {
+  const input = document.getElementById(id);
+  input.removeAttribute("capture");
+  input.click();
+}
+
+// サムネ表示
+function previewImage(id) {
+  const file = document.getElementById(id).files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = document.getElementById(id + "_preview");
+    img.src = e.target.result;
+    img.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+
+// Base64変換
+async function readFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+// 画像取得
+async function getImage(id) {
+  const file = document.getElementById(id).files[0];
+  if (!file) return null;
+  return await readFile(file);
+}
+
+// 送信
 async function submitForm() {
 
   const p1 = document.getElementById("photo1").files[0];
@@ -87,24 +164,29 @@ async function submitForm() {
   const p3 = document.getElementById("photo3").files[0];
   const p4 = document.getElementById("photo4").files[0];
 
-  // 未選択チェック
   if (!p1 || !p2 || !p3 || !p4) {
     alert("4枚すべて選択してください");
     return;
   }
 
-  const formData = new FormData();
+  const payload = {
+    timestamp: new Date().toISOString(),
 
-  formData.append("timestamp", new Date().toISOString());
-  formData.append("photo1", p1);
-  formData.append("photo2", p2);
-  formData.append("photo3", p3);
-  formData.append("photo4", p4);
+    images: {
+      photo1: await getImage("photo1"),
+      photo2: await getImage("photo2"),
+      photo3: await getImage("photo3"),
+      photo4: await getImage("photo4")
+    }
+  };
 
   try {
-    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
+    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
     });
 
     alert("送信完了");
@@ -114,6 +196,7 @@ async function submitForm() {
     alert("送信エラー");
   }
 }
+
 </script>
 
 </body>
