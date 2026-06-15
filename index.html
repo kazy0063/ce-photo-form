@@ -33,7 +33,6 @@ label {
   font-weight: bold;
 }
 
-/* ボタン */
 .input-group {
   margin-top: 8px;
 }
@@ -48,13 +47,10 @@ label {
 }
 
 /* サムネ */
-.preview {
-  margin-top: 10px;
-}
-
 .preview img {
   width: 100%;
   border-radius: 10px;
+  margin-top: 10px;
 }
 
 button.submit {
@@ -75,8 +71,17 @@ button.submit {
 <div class="container">
 <h2>写真提出フォーム</h2>
 
-<!-- 共通UI -->
+<div id="formArea"></div>
+
+<button class="submit" onclick="submitForm()">送信</button>
+
+</div>
+
 <script>
+
+// ============================
+// フォーム生成
+// ============================
 function createPhotoBlock(id, labelText) {
   return `
   <div class="card">
@@ -89,115 +94,3 @@ function createPhotoBlock(id, labelText) {
 
     <input type="file" id="${id}" accept="image/*" style="display:none" onchange="previewImage('${id}')">
 
-    <div class="preview">
-      <img id="${id}_preview" style="display:none;">
-    </div>
-  </div>
-  `;
-}
-</script>
-
-<div id="formArea"></div>
-
-<button class="submit" onclick="submitForm()">送信</button>
-
-</div>
-
-<script>
-
-// フォーム生成
-document.getElementById("formArea").innerHTML =
-  createPhotoBlock("photo1", "現状写真1") +
-  createPhotoBlock("photo2", "現状写真2") +
-  createPhotoBlock("photo3", "レジ台写真") +
-  createPhotoBlock("photo4", "電源写真");
-
-// カメラ起動
-function openCamera(id) {
-  const input = document.getElementById(id);
-  input.setAttribute("capture", "environment");
-  input.click();
-}
-
-// ライブラリ起動
-function openLibrary(id) {
-  const input = document.getElementById(id);
-  input.removeAttribute("capture");
-  input.click();
-}
-
-// サムネ表示
-function previewImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = document.getElementById(id + "_preview");
-    img.src = e.target.result;
-    img.style.display = "block";
-  };
-  reader.readAsDataURL(file);
-}
-
-// Base64変換
-async function readFile(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
-}
-
-// 画像取得
-async function getImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) return null;
-  return await compressImage(file);
-}
-
-// 送信
-async function submitForm() {
-
-  const p1 = document.getElementById("photo1").files[0];
-  const p2 = document.getElementById("photo2").files[0];
-  const p3 = document.getElementById("photo3").files[0];
-  const p4 = document.getElementById("photo4").files[0];
-
-  if (!p1 || !p2 || !p3 || !p4) {
-    alert("4枚すべて選択してください");
-    return;
-  }
-
-  const payload = {
-    timestamp: new Date().toISOString(),
-
-    images: {
-      photo1: await getImage("photo1"),
-      photo2: await getImage("photo2"),
-      photo3: await getImage("photo3"),
-      photo4: await getImage("photo4")
-    }
-  };
-
-  try {
-    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    alert("送信完了");
-
-  } catch (error) {
-    console.error(error);
-    alert("送信エラー");
-  }
-}
-
-</script>
-
-</body>
-</html>
