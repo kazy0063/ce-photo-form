@@ -28,11 +28,6 @@ h2 {
   text-align: center;
 }
 
-label {
-  font-size: 14px;
-  font-weight: bold;
-}
-
 .input-group {
   margin-top: 8px;
 }
@@ -46,13 +41,22 @@ label {
   color: white;
 }
 
-/* サムネ */
-.preview img {
-  width: 100%;
-  border-radius: 10px;
+/* ✅ 横サムネ */
+.preview {
+  display: flex;
+  gap: 8px;
   margin-top: 10px;
 }
 
+.preview img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 送信ボタン */
 button.submit {
   width: 100%;
   padding: 14px;
@@ -62,6 +66,39 @@ button.submit {
   background: #007aff;
   color: white;
   font-size: 16px;
+
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+button.submit:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+button.submit:disabled {
+  background: #999;
+}
+
+/* スピナー */
+.spinner {
+  text-align: center;
+  margin-top: 10px;
+  display: none;
+}
+
+.spinner div {
+  width: 24px;
+  height: 24px;
+  border: 3px solid #ccc;
+  border-top: 3px solid #007aff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -74,6 +111,8 @@ button.submit {
 <div id="formArea"></div>
 
 <button class="submit" onclick="submitForm()">送信</button>
+
+<div class="spinner" id="spinner"><div></div></div>
 
 </div>
 
@@ -88,15 +127,13 @@ function createPhotoBlock(id, labelText) {
     <label>${labelText}</label>
 
     <div class="input-group">
-      <button onclick="openCamera('${id}')">📷 カメラ</button>
-      <button onclick="openLibrary('${id}')">📁 ライブラリ</button>
+      <button onclick="openCamera('${id}')">📷</button>
+      <button onclick="openLibrary('${id}')">📁</button>
     </div>
 
     <input type="file" id="${id}" accept="image/*" style="display:none" onchange="previewImage('${id}')">
 
-    <div class="preview">
-      <img id="${id}_preview" style="display:none;">
-    </div>
+    <div class="preview" id="${id}_preview"></div>
   </div>
   `;
 }
@@ -108,7 +145,7 @@ document.getElementById("formArea").innerHTML =
   createPhotoBlock("photo4", "電源写真");
 
 // ============================
-// カメラ・ライブラリ切替
+// カメラ・ライブラリ
 // ============================
 function openCamera(id) {
   const input = document.getElementById(id);
@@ -123,129 +160,3 @@ function openLibrary(id) {
 }
 
 // ============================
-// サムネ表示
-// ============================
-function previewImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = document.getElementById(id + "_preview");
-    img.src = e.target.result;
-    img.style.display = "block";
-  };
-  reader.readAsDataURL(file);
-}
-
-// ============================
-// 🔥 画像圧縮（安定版）
-// ============================
-async function compressImage(file) {
-  return new Promise((resolve, reject) => {
-
-    const reader = new FileReader();
-
-    reader.onload = function (e) {
-
-      const img = new Image();
-
-      img.onload = function () {
-        try {
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-
-          const MAX_WIDTH = 1280;
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > MAX_WIDTH) {
-            const scale = MAX_WIDTH / width;
-            width = MAX_WIDTH;
-            height = height * scale;
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-
-          ctx.drawImage(img, 0, 0, width, height);
-
-          const result = canvas.toDataURL("image/jpeg", 0.7);
-
-          resolve(result);
-
-        } catch (err) {
-          reject("圧縮エラー");
-        }
-      };
-
-      img.onerror = () => reject("画像読み込みエラー");
-
-      img.src = e.target.result;
-    };
-
-    reader.onerror = () => reject("ファイル読み込みエラー");
-
-    reader.readAsDataURL(file);
-  });
-}
-
-// ============================
-// Base64取得（圧縮版）
-// ============================
-async function getImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) throw new Error(id + "が未選択");
-
-  console.log(id + " 圧縮開始");
-
-  const img = await compressImage(file);
-
-  console.log(id + " 圧縮完了");
-
-  return img;
-}
-
-// ============================
-// 送信処理
-// ============================
-async function submitForm() {
-
-  try {
-
-    // 送信中表示
-    alert("送信処理開始（数秒かかります）");
-
-    const payload = {
-      timestamp: new Date().toISOString(),
-      images: {
-        photo1: await getImage("photo1"),
-        photo2: await getImage("photo2"),
-        photo3: await getImage("photo3"),
-        photo4: await getImage("photo4")
-      }
-    };
-
-    console.log("payload完成", payload);
-
-    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    alert("送信完了");
-
-  } catch (error) {
-    console.error(error);
-    alert("エラー発生：" + error);
-  }
-}
-
-</script>
-
-</body>
-</html>
