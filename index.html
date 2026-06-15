@@ -153,7 +153,7 @@ async function readFile(file) {
 async function getImage(id) {
   const file = document.getElementById(id).files[0];
   if (!file) return null;
-  return await readFile(file);
+  return await compressImage(file);
 }
 
 // 送信
