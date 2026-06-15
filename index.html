@@ -94,3 +94,158 @@ function createPhotoBlock(id, labelText) {
 
     <input type="file" id="${id}" accept="image/*" style="display:none" onchange="previewImage('${id}')">
 
+    <div class="preview">
+      <img id="${id}_preview" style="display:none;">
+    </div>
+  </div>
+  `;
+}
+
+document.getElementById("formArea").innerHTML =
+  createPhotoBlock("photo1", "現状写真1") +
+  createPhotoBlock("photo2", "現状写真2") +
+  createPhotoBlock("photo3", "レジ台写真") +
+  createPhotoBlock("photo4", "電源写真");
+
+// ============================
+// カメラ・ライブラリ切替
+// ============================
+function openCamera(id) {
+  const input = document.getElementById(id);
+  input.setAttribute("capture", "environment");
+  input.click();
+}
+
+function openLibrary(id) {
+  const input = document.getElementById(id);
+  input.removeAttribute("capture");
+  input.click();
+}
+
+// ============================
+// サムネ表示
+// ============================
+function previewImage(id) {
+  const file = document.getElementById(id).files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = document.getElementById(id + "_preview");
+    img.src = e.target.result;
+    img.style.display = "block";
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============================
+// 🔥 画像圧縮（安定版）
+// ============================
+async function compressImage(file) {
+  return new Promise((resolve, reject) => {
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+
+      const img = new Image();
+
+      img.onload = function () {
+        try {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          const MAX_WIDTH = 1280;
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > MAX_WIDTH) {
+            const scale = MAX_WIDTH / width;
+            width = MAX_WIDTH;
+            height = height * scale;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const result = canvas.toDataURL("image/jpeg", 0.7);
+
+          resolve(result);
+
+        } catch (err) {
+          reject("圧縮エラー");
+        }
+      };
+
+      img.onerror = () => reject("画像読み込みエラー");
+
+      img.src = e.target.result;
+    };
+
+    reader.onerror = () => reject("ファイル読み込みエラー");
+
+    reader.readAsDataURL(file);
+  });
+}
+
+// ============================
+// Base64取得（圧縮版）
+// ============================
+async function getImage(id) {
+  const file = document.getElementById(id).files[0];
+  if (!file) throw new Error(id + "が未選択");
+
+  console.log(id + " 圧縮開始");
+
+  const img = await compressImage(file);
+
+  console.log(id + " 圧縮完了");
+
+  return img;
+}
+
+// ============================
+// 送信処理
+// ============================
+async function submitForm() {
+
+  try {
+
+    // 送信中表示
+    alert("送信処理開始（数秒かかります）");
+
+    const payload = {
+      timestamp: new Date().toISOString(),
+      images: {
+        photo1: await getImage("photo1"),
+        photo2: await getImage("photo2"),
+        photo3: await getImage("photo3"),
+        photo4: await getImage("photo4")
+      }
+    };
+
+    console.log("payload完成", payload);
+
+    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    alert("送信完了");
+
+  } catch (error) {
+    console.error(error);
+    alert("エラー発生：" + error);
+  }
+}
+
+</script>
+
+</body>
+</html>
