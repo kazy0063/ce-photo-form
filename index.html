@@ -28,6 +28,34 @@ h2 {
   text-align: center;
 }
 
+/* ログイン */
+#loginArea {
+  text-align: center;
+  margin-top: 80px;
+}
+
+#loginArea input {
+  padding: 12px;
+  width: 80%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+#loginArea button {
+  margin-top: 10px;
+  padding: 12px;
+  width: 85%;
+  border-radius: 12px;
+  border: none;
+  background: #007aff;
+  color: white;
+}
+
+/* フォーム非表示初期 */
+#appArea {
+  display: none;
+}
+
 .input-group {
   margin-top: 8px;
 }
@@ -41,7 +69,6 @@ h2 {
   color: white;
 }
 
-/* ✅ 横サムネ */
 .preview {
   display: flex;
   gap: 8px;
@@ -53,10 +80,8 @@ h2 {
   height: 80px;
   object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-/* 送信ボタン */
 button.submit {
   width: 100%;
   padding: 14px;
@@ -65,22 +90,12 @@ button.submit {
   margin-top: 20px;
   background: #007aff;
   color: white;
-  font-size: 16px;
-
-  transition: transform 0.08s ease, box-shadow 0.08s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-button.submit:active {
-  transform: scale(0.95);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 button.submit:disabled {
   background: #999;
 }
 
-/* スピナー */
 .spinner {
   text-align: center;
   margin-top: 10px;
@@ -105,18 +120,42 @@ button.submit:disabled {
 
 <body>
 
-<div class="container">
-<h2>写真提出フォーム</h2>
+<!-- ✅ ログイン画面 -->
+<div class="container" id="loginArea">
+  <h2>アクセス認証</h2>
+  <input type="password" id="password" placeholder="パスワードを入力">
+  <button onclick="checkPassword()">ログイン</button>
+</div>
 
-<div id="formArea"></div>
+<!-- ✅ アプリ本体 -->
+<div class="container" id="appArea">
+  <h2>写真提出フォーム</h2>
 
-<button class="submit" onclick="submitForm()">送信</button>
+  <div id="formArea"></div>
 
-<div class="spinner" id="spinner"><div></div></div>
+  <button class="submit" onclick="submitForm()">送信</button>
 
+  <div class="spinner" id="spinner"><div></div></div>
 </div>
 
 <script>
+
+// ✅ パスワード（ここ変える）
+const APP_PASSWORD = "1234";
+
+// ============================
+// ログインチェック
+// ============================
+function checkPassword() {
+  const input = document.getElementById("password").value;
+
+  if (input === APP_PASSWORD) {
+    document.getElementById("loginArea").style.display = "none";
+    document.getElementById("appArea").style.display = "block";
+  } else {
+    alert("パスワードが違います");
+  }
+}
 
 // ============================
 // フォーム生成
@@ -160,22 +199,19 @@ function openLibrary(id) {
 }
 
 // ============================
-// ✅ 横サムネ表示
+// プレビュー
 // ============================
 function previewImage(id) {
-
   const file = document.getElementById(id).files[0];
   if (!file) return;
 
   const container = document.getElementById(id + "_preview");
-  container.innerHTML = ""; // 上書き
+  container.innerHTML = "";
 
   const reader = new FileReader();
-
   reader.onload = function(e) {
     const img = document.createElement("img");
     img.src = e.target.result;
-
     container.appendChild(img);
   };
 
@@ -186,21 +222,15 @@ function previewImage(id) {
 // 圧縮
 // ============================
 async function compressImage(file) {
-  return new Promise((resolve, reject) => {
-
+  return new Promise((resolve) => {
     const reader = new FileReader();
-
     reader.onload = function (e) {
-
       const img = new Image();
-
       img.onload = function () {
-
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
 
         const MAX_WIDTH = 1280;
-
         let width = img.width;
         let height = img.height;
 
@@ -214,13 +244,10 @@ async function compressImage(file) {
         canvas.height = height;
 
         ctx.drawImage(img, 0, 0, width, height);
-
         resolve(canvas.toDataURL("image/jpeg", 0.7));
       };
-
       img.src = e.target.result;
     };
-
     reader.readAsDataURL(file);
   });
 }
@@ -231,7 +258,6 @@ async function compressImage(file) {
 async function getImage(id) {
   const file = document.getElementById(id).files[0];
   if (!file) throw new Error(id + "未選択");
-
   return await compressImage(file);
 }
 
@@ -239,12 +265,10 @@ async function getImage(id) {
 // 送信
 // ============================
 async function submitForm() {
-
   const btn = document.querySelector(".submit");
   const spinner = document.getElementById("spinner");
 
   try {
-
     btn.disabled = true;
     btn.innerText = "送信中...";
     spinner.style.display = "block";
@@ -259,7 +283,7 @@ async function submitForm() {
       }
     };
 
-    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
+    await fetch("YOUR_FLOW_URL", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
@@ -277,6 +301,6 @@ async function submitForm() {
 }
 
 </script>
-
 </body>
 </html>
+``
