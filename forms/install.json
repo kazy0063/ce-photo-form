@@ -1,7 +1,8 @@
 
 {
   "logo": "/logos/voyix.png",
-  "formType": "install",
+  "formType": "NCR_VOYIXtest",
+  "formGroup": "install",
   "fields": [
     { "label": "① Store No.", "type": "text", "bind": "txt1" },
     { "label": "② Terminal No.", "type": "text", "bind": "txt2" },
