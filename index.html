@@ -70,26 +70,42 @@ button {
 
 <body>
 
+<!-- ✅ ヘッダー（ロゴ差し替え用） -->
 <div class="header">
   <img id="logo" class="logo">
 </div>
 
+<!-- ✅ フォーム表示エリア -->
 <div class="container" id="formArea"></div>
 
 <button onclick="submitForm()">送信</button>
 
 <script>
 
-// URLからform取得
+// ✅ URLからform取得
 const formType = new URLSearchParams(location.search).get("form");
 
-// フォーム読み込み
+// ✅ フォーム読み込み（ロゴもここで設定）
 fetch(`./forms/${formType}.json`)
   .then(res => res.json())
-  .then(config => renderForm(config));
+  .then(config => {
+    setLogo(config.logo);         // ✅ 追加ポイント
+    renderForm(config.fields);    // ✅ ここ変更（fieldsに注意）
+  });
 
+// ✅ ロゴ切替（追加）
+function setLogo(logoPath) {
+  const logo = document.getElementById("logo");
+
+  if (logoPath) {
+    logo.src = logoPath;
+  } else {
+    logo.src = "/logo.png"; // デフォルト
+  }
+}
+
+// ✅ フォーム描画
 function renderForm(config) {
-
   const area = document.getElementById("formArea");
 
   config.forEach(item => {
@@ -99,7 +115,6 @@ function renderForm(config) {
 
     const label = document.createElement("label");
     label.textContent = item.label;
-
     div.appendChild(label);
 
     // テキスト
@@ -133,18 +148,14 @@ function renderForm(config) {
         other.id = item.id + "_other";
 
         select.addEventListener("change", () => {
-          if (select.value === "その他") {
-            other.style.display = "block";
-          } else {
-            other.style.display = "none";
-          }
+          other.style.display = (select.value === "その他") ? "block" : "none";
         });
 
         div.appendChild(other);
       }
     }
 
-    // 画像
+    // ファイル
     if (item.type === "file") {
       const input = document.createElement("input");
       input.type = "file";
@@ -158,7 +169,7 @@ function renderForm(config) {
   });
 }
 
-// ファイル読み込み
+// ✅ ファイル読み込み
 async function readFile(file) {
   return new Promise(resolve => {
     const reader = new FileReader();
@@ -167,7 +178,7 @@ async function readFile(file) {
   });
 }
 
-// 送信処理
+// ✅ 送信処理
 async function submitForm() {
 
   const config = await fetch(`./forms/${formType}.json`).then(r => r.json());
@@ -176,7 +187,7 @@ async function submitForm() {
     timestamp: new Date().toISOString()
   };
 
-  for (const item of config) {
+  for (const item of config.fields) {
 
     // テキスト
     if (item.type === "text") {
@@ -206,7 +217,7 @@ async function submitForm() {
 
   console.log(payload);
 
-  await fetch("YOUR_POWERAUTOMATE_URL", {
+  await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -219,4 +230,3 @@ async function submitForm() {
 
 </body>
 </html>
-``
