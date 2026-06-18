@@ -1,6 +1,6 @@
 
 {
-  "logo": "/logos/aoki.jpg",
+  "logo": "/logos/aoki.png",
   "formType": "install",
   "fields": [
     { "label": "① Store No.", "type": "text", "bind": "txt1" },
