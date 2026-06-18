@@ -1,6 +1,17 @@
 [
-  { "label": "現状写真1", "type": "file", "id": "photo1" },
-  { "label": "現状写真2", "type": "file", "id": "photo2" },
-  { "label": "レジ台写真", "type": "file", "id": "photo3" },
-  { "label": "電源写真", "type": "file", "id": "photo4" }
+  { "label": "① Store No.", "type": "text", "id": "storeNo" },
+  { "label": "② Terminal No.", "type": "text", "id": "terminalNo" },
+  { "label": "③ CE Name", "type": "text", "id": "ceName" },
+
+  {
+    "label": "④ Type",
+    "type": "select",
+    "id": "type",
+    "options": ["レーン", "据え置き", "その他"],
+    "hasOther": true
+  },
+
+  { "label": "⑤ POS写真_1", "type": "file", "id": "photo1" },
+  { "label": "⑥ POS写真_2", "type": "file", "id": "photo2" },
+  { "label": "⑦ 電源写真", "type": "file", "id": "photo3" }
 ]
