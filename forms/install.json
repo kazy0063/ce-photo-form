@@ -1,20 +1,22 @@
+
 {
-  "logo": "/logos/voyix.png",
+  "logo": "/logos/install.png",
+  "formType": "install",
   "fields": [
-    { "label": "① Store No.", "type": "text", "id": "storeNo" },
-    { "label": "② Terminal No.", "type": "text", "id": "terminalNo" },
-    { "label": "③ CE Name", "type": "text", "id": "ceName" },
+    { "label": "① Store No.", "type": "text", "bind": "txt1" },
+    { "label": "② Terminal No.", "type": "text", "bind": "txt2" },
+    { "label": "③ CE Name", "type": "text", "bind": "txt3" },
 
     {
       "label": "④ Type",
       "type": "select",
-      "id": "type",
+      "bind": "txt4",
       "options": ["レーン", "据え置き", "その他"],
       "hasOther": true
     },
 
-    { "label": "⑤ POS写真_1", "type": "file", "id": "photo1" },
-    { "label": "⑥ POS写真_2", "type": "file", "id": "photo2" },
-    { "label": "⑦ 電源写真", "type": "file", "id": "photo3" }
+    { "label": "⑤ POS写真_1", "type": "file", "bind": "img1" },
+    { "label": "⑥ POS写真_2", "type": "file", "bind": "img2" },
+    { "label": "⑦ 電源写真", "type": "file", "bind": "img3" }
   ]
 }
