@@ -3,23 +3,114 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f4f6f8;
+}
+
+.header {
+  background: #fff;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.logo {
+  max-height: 40px;
+}
+
+#formArea {
+  padding: 16px;
+}
+
+#formArea div {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+/* サムネ */
+.preview {
+  width: 80px;
+  margin-top: 10px;
+  display: none;
+}
+
+/* ボタン */
+button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px;
+  font-size: 18px;
+  background: #0078d4;
+  color: #fff;
+  border: none;
+}
+
+.spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #fff;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+</style>
 </head>
 
 <body>
 
-<!-- ✅ ロゴ -->
 <div class="header">
   <img id="logo" class="logo">
 </div>
 
-<!-- ✅ フォーム -->
 <div id="formArea"></div>
 
-<button onclick="submitForm()">送信</button>
+<button id="submitBtn" onclick="submitForm()">
+  <span id="btnText">送信</span>
+  <span id="spinner" class="spinner"></span>
+</button>
 
 <script>
 
 const formType = new URLSearchParams(location.search).get("form");
+const draftKey = "draft_" + formType;
+let draft = {};
+
+// ✅ 下書き読込
+try {
+  draft = JSON.parse(localStorage.getItem(draftKey)) || {};
+} catch {
+  draft = {};
+}
 
 // JSON読み込み
 fetch(`./forms/${formType}.json`)
@@ -32,9 +123,13 @@ fetch(`./forms/${formType}.json`)
 
 // ロゴ
 function setLogo(logoPath) {
-  const logo = document.getElementById("logo");
-  if (!logo) return;   // 念のため
-  logo.src = logoPath || "/logo.png";
+  document.getElementById("logo").src = logoPath || "/logo.png";
+}
+
+// ✅ 下書き保存
+function saveDraft(key, value) {
+  draft[key] = value;
+  localStorage.setItem(draftKey, JSON.stringify(draft));
 }
 
 // フォーム描画
@@ -48,16 +143,21 @@ function renderForm(fields) {
 
     const label = document.createElement("label");
     label.textContent = item.label;
-
     div.appendChild(label);
 
+    // --- TEXT ---
     if (item.type === "text") {
       const input = document.createElement("input");
       input.type = "text";
       input.dataset.bind = item.bind;
+      input.value = draft[item.bind] || "";
+
+      input.oninput = () => saveDraft(item.bind, input.value);
+
       div.appendChild(input);
     }
 
+    // --- SELECT ---
     if (item.type === "select") {
       const select = document.createElement("select");
       select.dataset.bind = item.bind;
@@ -69,14 +169,42 @@ function renderForm(fields) {
         select.appendChild(option);
       });
 
+      select.value = draft[item.bind] || "";
+      select.onchange = () => saveDraft(item.bind, select.value);
+
       div.appendChild(select);
     }
 
+    // --- FILE ---
     if (item.type === "file") {
+
       const input = document.createElement("input");
       input.type = "file";
+      input.accept = "image/*";
       input.dataset.bind = item.bind;
+
+      const preview = document.createElement("img");
+      preview.className = "preview";
+
+      // 既存画像復元
+      if (draft[item.bind]) {
+        preview.src = draft[item.bind];
+        preview.style.display = "block";
+      }
+
+      input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        const base64 = await readFile(file);
+        preview.src = base64;
+        preview.style.display = "block";
+
+        saveDraft(item.bind, base64);
+      };
+
       div.appendChild(input);
+      div.appendChild(preview);
     }
 
     area.appendChild(div);
@@ -92,8 +220,16 @@ async function readFile(file) {
   });
 }
 
-// 送信
+// ✅ 送信
 async function submitForm() {
+
+  const btn = document.getElementById("submitBtn");
+  const text = document.getElementById("btnText");
+  const spinner = document.getElementById("spinner");
+
+  text.textContent = "送信中...";
+  spinner.style.display = "inline-block";
+  btn.disabled = true;
 
   const payload = {
     timestamp: new Date().toISOString(),
@@ -109,8 +245,8 @@ async function submitForm() {
     }
 
     if (field.type === "file") {
-      if (field.files[0]) {
-        payload[key] = await readFile(field.files[0]);
+      if (draft[key]) {
+        payload[key] = draft[key];
       }
     }
   }
@@ -121,11 +257,20 @@ async function submitForm() {
     body: JSON.stringify(payload)
   });
 
-  alert("送信完了");
+  // ✅ 下書き削除
+  localStorage.removeItem(draftKey);
+
+  text.textContent = "送信完了 ✅";
+  spinner.style.display = "none";
+
+  setTimeout(() => {
+    text.textContent = "送信";
+    btn.disabled = false;
+    location.reload();
+  }, 1500);
 }
 
 </script>
 
 </body>
 </html>
-``
