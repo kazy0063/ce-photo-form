@@ -1,4 +1,11 @@
+
 [
+  
+{
+  "logo": "/logos/install.png",
+  "fields": [ ... ]
+}
+
   { "label": "① Store No.", "type": "text", "id": "storeNo" },
   { "label": "② Terminal No.", "type": "text", "id": "terminalNo" },
   { "label": "③ CE Name", "type": "text", "id": "ceName" },
