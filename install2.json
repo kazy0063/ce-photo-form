@@ -1,0 +1,21 @@
+
+{
+  "logo": "/logos/voyix.png",
+  "formType": "install",
+  "fields": [
+    { "label": "① Store No.", "type": "text", "bind": "txt1" },
+    { "label": "② Terminal No.", "type": "text", "bind": "txt2" },
+    { "label": "③ CE Name", "type": "text", "bind": "txt3" },
+
+    {
+      "label": "④ Type",
+      "type": "select",
+      "bind": "txt4",
+      "options": ["レーン", "据え置き", "その他"],
+      "hasOther": true
+    },
+
+    { "label": "⑤ POS写真", "type": "file", "bind": "img1" },
+    { "label": "⑦ 電源写真", "type": "file", "bind": "img3" }
+  ]
+}
