@@ -51,6 +51,27 @@ input, select {
   box-sizing: border-box; 
 }
 
+/* ✅ ファイル＋カメラ横並び */
+.file-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.file-row input[type="file"] {
+  flex: 1;
+}
+
+.camera-btn {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: #eee;
+  font-size: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
 /* サムネ */
 .preview {
   width: 80px;
@@ -58,8 +79,8 @@ input, select {
   display: none;
 }
 
-/* ボタン */
-button {
+/* 送信ボタン */
+button.submit {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -96,7 +117,7 @@ button {
 
 <div id="formArea"></div>
 
-<button id="submitBtn" onclick="submitForm()">
+<button id="submitBtn" class="submit" onclick="submitForm()">
   <span id="btnText">送信</span>
   <span id="spinner" class="spinner"></span>
 </button>
@@ -107,7 +128,7 @@ const formType = new URLSearchParams(location.search).get("form");
 const draftKey = "draft_" + formType;
 let draft = {};
 
-// ✅ 下書き読込
+// 下書き取得
 try {
   draft = JSON.parse(localStorage.getItem(draftKey)) || {};
 } catch {
@@ -123,31 +144,28 @@ fetch(`./forms/${formType}.json`)
     window.currentConfig = config;
   });
 
-// ロゴ
 function setLogo(logoPath) {
   document.getElementById("logo").src = logoPath || "/logo.png";
 }
 
-// ✅ 下書き保存
+// 下書き保存
 function saveDraft(key, value) {
   draft[key] = value;
   localStorage.setItem(draftKey, JSON.stringify(draft));
 }
 
-// フォーム描画
+// フォーム生成
 function renderForm(fields) {
-
   const area = document.getElementById("formArea");
 
   fields.forEach(item => {
-
     const div = document.createElement("div");
 
     const label = document.createElement("label");
     label.textContent = item.label;
     div.appendChild(label);
 
-    // --- TEXT ---
+    // TEXT
     if (item.type === "text") {
       const input = document.createElement("input");
       input.type = "text";
@@ -155,11 +173,10 @@ function renderForm(fields) {
       input.value = draft[item.bind] || "";
 
       input.oninput = () => saveDraft(item.bind, input.value);
-
       div.appendChild(input);
     }
 
-    // --- SELECT ---
+    // SELECT
     if (item.type === "select") {
       const select = document.createElement("select");
       select.dataset.bind = item.bind;
@@ -177,18 +194,32 @@ function renderForm(fields) {
       div.appendChild(select);
     }
 
-    // --- FILE ---
+    // ✅ FILE（カメラボタン付き）
     if (item.type === "file") {
+
+      const wrapper = document.createElement("div");
+      wrapper.className = "file-row";
 
       const input = document.createElement("input");
       input.type = "file";
       input.accept = "image/*";
       input.dataset.bind = item.bind;
 
+      // カメラボタン
+      const cameraBtn = document.createElement("button");
+      cameraBtn.textContent = "📷";
+      cameraBtn.type = "button";
+      cameraBtn.className = "camera-btn";
+
+      cameraBtn.onclick = () => {
+        input.capture = "environment"; // 背面カメラ
+        input.click();
+      };
+
       const preview = document.createElement("img");
       preview.className = "preview";
 
-      // 既存画像復元
+      // 復元
       if (draft[item.bind]) {
         preview.src = draft[item.bind];
         preview.style.display = "block";
@@ -205,7 +236,10 @@ function renderForm(fields) {
         saveDraft(item.bind, base64);
       };
 
-      div.appendChild(input);
+      wrapper.appendChild(input);
+      wrapper.appendChild(cameraBtn);
+
+      div.appendChild(wrapper);
       div.appendChild(preview);
     }
 
@@ -214,7 +248,7 @@ function renderForm(fields) {
 }
 
 // base64変換
-async function readFile(file) {
+function readFile(file) {
   return new Promise(resolve => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
@@ -222,7 +256,7 @@ async function readFile(file) {
   });
 }
 
-// ✅ 送信
+// 送信
 async function submitForm() {
 
   const btn = document.getElementById("submitBtn");
@@ -259,7 +293,6 @@ async function submitForm() {
     body: JSON.stringify(payload)
   });
 
-  // ✅ 下書き削除
   localStorage.removeItem(draftKey);
 
   text.textContent = "送信完了 ✅";
