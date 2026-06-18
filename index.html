@@ -1,34 +1,222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div id="formArea"></div>
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f5f5f7;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: white;
+  border-bottom: 1px solid #ddd;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.container {
+  padding: 16px;
+  max-width: 480px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+label {
+  display:block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  margin-top: 20px;
+  background: #007aff;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <img src="logo.png" class="logo">
+</div>
+
+<div class="container" id="formArea"></div>
+
+<button onclick="submitForm()">送信</button>
 
 <script>
+
+// URLからform取得
 const formType = new URLSearchParams(location.search).get("form");
 
-fetch(`/forms/${formType}.json`)
+// フォーム読み込み
+fetch(`./forms/${formType}.json`)
   .then(res => res.json())
   .then(config => renderForm(config));
 
 function renderForm(config) {
+
   const area = document.getElementById("formArea");
 
   config.forEach(item => {
+
     const div = document.createElement("div");
+    div.className = "card";
 
     const label = document.createElement("label");
     label.textContent = item.label;
 
-    const input = document.createElement("input");
-    input.type = item.type;
-    input.id = item.id;
+    div.appendChild(label);
 
-    if (item.type === "file") {
-      input.accept = "image/*";
-      input.capture = "environment";
+    // テキスト
+    if (item.type === "text") {
+      const input = document.createElement("input");
+      input.type = "text";
+      input.id = item.id;
+      div.appendChild(input);
     }
 
-    div.appendChild(label);
-    div.appendChild(input);
+    // プルダウン
+    if (item.type === "select") {
+      const select = document.createElement("select");
+      select.id = item.id;
+
+      item.options.forEach(opt => {
+        const option = document.createElement("option");
+        option.value = opt;
+        option.text = opt;
+        select.appendChild(option);
+      });
+
+      div.appendChild(select);
+
+      // その他入力
+      if (item.hasOther) {
+        const other = document.createElement("input");
+        other.type = "text";
+        other.placeholder = "その他を入力";
+        other.style.display = "none";
+        other.id = item.id + "_other";
+
+        select.addEventListener("change", () => {
+          if (select.value === "その他") {
+            other.style.display = "block";
+          } else {
+            other.style.display = "none";
+          }
+        });
+
+        div.appendChild(other);
+      }
+    }
+
+    // 画像
+    if (item.type === "file") {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.id = item.id;
+      input.accept = "image/*";
+      input.capture = "environment";
+      div.appendChild(input);
+    }
+
     area.appendChild(div);
   });
 }
+
+// ファイル読み込み
+async function readFile(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+
+// 送信処理
+async function submitForm() {
+
+  const config = await fetch(`./forms/${formType}.json`).then(r => r.json());
+
+  const payload = {
+    timestamp: new Date().toISOString()
+  };
+
+  for (const item of config) {
+
+    // テキスト
+    if (item.type === "text") {
+      payload[item.id] = document.getElementById(item.id).value;
+    }
+
+    // select
+    if (item.type === "select") {
+      const value = document.getElementById(item.id).value;
+
+      if (value === "その他") {
+        payload[item.id] =
+          document.getElementById(item.id + "_other").value;
+      } else {
+        payload[item.id] = value;
+      }
+    }
+
+    // ファイル
+    if (item.type === "file") {
+      const file = document.getElementById(item.id).files[0];
+      if (file) {
+        payload[item.id] = await readFile(file);
+      }
+    }
+  }
+
+  console.log(payload);
+
+  await fetch("YOUR_POWERAUTOMATE_URL", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  alert("送信完了");
+}
+
 </script>
+
+</body>
+</html>
+``
