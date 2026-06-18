@@ -1,0 +1,6 @@
+[
+  { "label": "現状写真1", "type": "file", "id": "photo1" },
+  { "label": "現状写真2", "type": "file", "id": "photo2" },
+  { "label": "レジ台写真", "type": "file", "id": "photo3" },
+  { "label": "電源写真", "type": "file", "id": "photo4" }
+]
