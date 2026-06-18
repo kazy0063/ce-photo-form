@@ -1,7 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+
+<!-- ✅ ロゴ -->
+<div class="header">
+  <img id="logo" class="logo">
+</div>
+
+<!-- ✅ フォーム -->
+<div id="formArea"></div>
+
+<button onclick="submitForm()">送信</button>
+
 <script>
 
 const formType = new URLSearchParams(location.search).get("form");
 
+// JSON読み込み
 fetch(`./forms/${formType}.json`)
   .then(res => res.json())
   .then(config => {
@@ -10,11 +30,14 @@ fetch(`./forms/${formType}.json`)
     window.currentConfig = config;
   });
 
+// ロゴ
 function setLogo(logoPath) {
   const logo = document.getElementById("logo");
+  if (!logo) return;   // 念のため
   logo.src = logoPath || "/logo.png";
 }
 
+// フォーム描画
 function renderForm(fields) {
 
   const area = document.getElementById("formArea");
@@ -22,10 +45,10 @@ function renderForm(fields) {
   fields.forEach(item => {
 
     const div = document.createElement("div");
-    div.className = "card";
 
     const label = document.createElement("label");
     label.textContent = item.label;
+
     div.appendChild(label);
 
     if (item.type === "text") {
@@ -47,26 +70,11 @@ function renderForm(fields) {
       });
 
       div.appendChild(select);
-
-      if (item.hasOther) {
-        const other = document.createElement("input");
-        other.type = "text";
-        other.style.display = "none";
-        other.dataset.bind = item.bind + "_other";
-
-        select.addEventListener("change", () => {
-          other.style.display = (select.value === "その他") ? "block" : "none";
-        });
-
-        div.appendChild(other);
-      }
     }
 
     if (item.type === "file") {
       const input = document.createElement("input");
       input.type = "file";
-      input.accept = "image/*";
-      input.capture = "environment";
       input.dataset.bind = item.bind;
       div.appendChild(input);
     }
@@ -74,7 +82,6 @@ function renderForm(fields) {
     area.appendChild(div);
   });
 }
-``
 
 // base64変換
 async function readFile(file) {
@@ -97,20 +104,16 @@ async function submitForm() {
 
     const key = field.dataset.bind;
 
-    // text/select
     if (field.type === "text" || field.tagName === "SELECT") {
       payload[key] = field.value;
     }
 
-    // file
     if (field.type === "file") {
       if (field.files[0]) {
         payload[key] = await readFile(field.files[0]);
       }
     }
   }
-
-  console.log(payload);
 
   await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/13447be074b2425ab229f956f6faf702/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KUSuR-p13NP_l_XGo0B3k_jXRXDg6B9bJpFyr-mPVH0", {
     method: "POST",
@@ -122,3 +125,7 @@ async function submitForm() {
 }
 
 </script>
+
+</body>
+</html>
+``
