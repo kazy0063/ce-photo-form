@@ -12,8 +12,7 @@
       "label": "④ Type",
       "type": "select",
       "bind": "txt4",
-      "options": ["レーン", "据え置き", "その他"],
-      "hasOther": true
+      "options": ["レーン", "据え置き", "その他"]
     },
 
     { "label": "⑤ POS写真", "type": "file", "bind": "img1" },
