@@ -1,6 +1,6 @@
 
 {
-  "logo": "/logos/install.png",
+  "logo": "/logos/voyix.png",
   "formType": "install",
   "fields": [
     { "label": "① Store No.", "type": "text", "bind": "txt1" },
