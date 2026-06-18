@@ -1,24 +1,20 @@
-
-[
-  
 {
-  "logo": "/logos/install.png",
-  "fields": [ ... ]
+  "logo": "/logos/voyix.png",
+  "fields": [
+    { "label": "① Store No.", "type": "text", "id": "storeNo" },
+    { "label": "② Terminal No.", "type": "text", "id": "terminalNo" },
+    { "label": "③ CE Name", "type": "text", "id": "ceName" },
+
+    {
+      "label": "④ Type",
+      "type": "select",
+      "id": "type",
+      "options": ["レーン", "据え置き", "その他"],
+      "hasOther": true
+    },
+
+    { "label": "⑤ POS写真_1", "type": "file", "id": "photo1" },
+    { "label": "⑥ POS写真_2", "type": "file", "id": "photo2" },
+    { "label": "⑦ 電源写真", "type": "file", "id": "photo3" }
+  ]
 }
-
-  { "label": "① Store No.", "type": "text", "id": "storeNo" },
-  { "label": "② Terminal No.", "type": "text", "id": "terminalNo" },
-  { "label": "③ CE Name", "type": "text", "id": "ceName" },
-
-  {
-    "label": "④ Type",
-    "type": "select",
-    "id": "type",
-    "options": ["レーン", "据え置き", "その他"],
-    "hasOther": true
-  },
-
-  { "label": "⑤ POS写真_1", "type": "file", "id": "photo1" },
-  { "label": "⑥ POS写真_2", "type": "file", "id": "photo2" },
-  { "label": "⑦ 電源写真", "type": "file", "id": "photo3" }
-]
