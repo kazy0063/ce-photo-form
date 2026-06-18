@@ -269,7 +269,7 @@ async function submitForm() {
 
   const payload = {
     timestamp: new Date().toISOString(),
-    formType: window.currentConfig.formType
+    formType: formType
   };
 
   for (const field of document.querySelectorAll("[data-bind]")) {
