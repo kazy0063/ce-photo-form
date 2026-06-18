@@ -1,306 +1,34 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  font-family: -apple-system, sans-serif;
-  background: #f2f4f7;
-  margin: 0;
-}
-
-.container {
-  max-width: 480px;
-  margin: auto;
-  padding: 16px;
-}
-
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 12px;
-}
-
-h2 {
-  text-align: center;
-}
-
-/* ログイン */
-#loginArea {
-  text-align: center;
-  margin-top: 80px;
-}
-
-#loginArea input {
-  padding: 12px;
-  width: 80%;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-}
-
-#loginArea button {
-  margin-top: 10px;
-  padding: 12px;
-  width: 85%;
-  border-radius: 12px;
-  border: none;
-  background: #007aff;
-  color: white;
-}
-
-/* フォーム非表示初期 */
-#appArea {
-  display: none;
-}
-
-.input-group {
-  margin-top: 8px;
-}
-
-.input-group button {
-  margin-right: 8px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: none;
-  background: #007aff;
-  color: white;
-}
-
-.preview {
-  display: flex;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.preview img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-button.submit {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  margin-top: 20px;
-  background: #007aff;
-  color: white;
-}
-
-button.submit:disabled {
-  background: #999;
-}
-
-.spinner {
-  text-align: center;
-  margin-top: 10px;
-  display: none;
-}
-
-.spinner div {
-  width: 24px;
-  height: 24px;
-  border: 3px solid #ccc;
-  border-top: 3px solid #007aff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: auto;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-</style>
-</head>
-
-<body>
-
-<!-- ✅ ログイン画面 -->
-<div class="container" id="loginArea">
-  <h2>アクセス認証</h2>
-  <input type="password" id="password" placeholder="パスワードを入力">
-  <button onclick="checkPassword()">ログイン</button>
-</div>
-
-<!-- ✅ アプリ本体 -->
-<div class="container" id="appArea">
-  <h2>写真提出フォーム</h2>
-
-  <div id="formArea"></div>
-
-  <button class="submit" onclick="submitForm()">送信</button>
-
-  <div class="spinner" id="spinner"><div></div></div>
-</div>
+<div id="formArea"></div>
 
 <script>
+const formType = new URLSearchParams(location.search).get("form");
 
-// ✅ パスワード（ここ変える）
-const APP_PASSWORD = "1234";
+fetch(`/forms/${formType}.json`)
+  .then(res => res.json())
+  .then(config => renderForm(config));
 
-// ============================
-// ログインチェック
-// ============================
-function checkPassword() {
-  const input = document.getElementById("password").value;
+function renderForm(config) {
+  const area = document.getElementById("formArea");
 
-  if (input === APP_PASSWORD) {
-    document.getElementById("loginArea").style.display = "none";
-    document.getElementById("appArea").style.display = "block";
-  } else {
-    alert("パスワードが違います");
-  }
-}
+  config.forEach(item => {
+    const div = document.createElement("div");
 
-// ============================
-// フォーム生成
-// ============================
-function createPhotoBlock(id, labelText) {
-  return `
-  <div class="card">
-    <label>${labelText}</label>
+    const label = document.createElement("label");
+    label.textContent = item.label;
 
-    <div class="input-group">
-      <button onclick="openCamera('${id}')">📷</button>
-      <button onclick="openLibrary('${id}')">📁</button>
-    </div>
+    const input = document.createElement("input");
+    input.type = item.type;
+    input.id = item.id;
 
-    <input type="file" id="${id}" accept="image/*" style="display:none" onchange="previewImage('${id}')">
+    if (item.type === "file") {
+      input.accept = "image/*";
+      input.capture = "environment";
+    }
 
-    <div class="preview" id="${id}_preview"></div>
-  </div>
-  `;
-}
-
-document.getElementById("formArea").innerHTML =
-  createPhotoBlock("photo1", "現状写真1") +
-  createPhotoBlock("photo2", "現状写真2") +
-  createPhotoBlock("photo3", "レジ台写真") +
-  createPhotoBlock("photo4", "電源写真");
-
-// ============================
-// カメラ・ライブラリ
-// ============================
-function openCamera(id) {
-  const input = document.getElementById(id);
-  input.setAttribute("capture", "environment");
-  input.click();
-}
-
-function openLibrary(id) {
-  const input = document.getElementById(id);
-  input.removeAttribute("capture");
-  input.click();
-}
-
-// ============================
-// プレビュー
-// ============================
-function previewImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) return;
-
-  const container = document.getElementById(id + "_preview");
-  container.innerHTML = "";
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = document.createElement("img");
-    img.src = e.target.result;
-    container.appendChild(img);
-  };
-
-  reader.readAsDataURL(file);
-}
-
-// ============================
-// 圧縮
-// ============================
-async function compressImage(file) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      const img = new Image();
-      img.onload = function () {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-
-        const MAX_WIDTH = 1280;
-        let width = img.width;
-        let height = img.height;
-
-        if (width > MAX_WIDTH) {
-          const scale = MAX_WIDTH / width;
-          width = MAX_WIDTH;
-          height = height * scale;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL("image/jpeg", 0.7));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
+    div.appendChild(label);
+    div.appendChild(input);
+    area.appendChild(div);
   });
 }
-
-// ============================
-// 画像取得
-// ============================
-async function getImage(id) {
-  const file = document.getElementById(id).files[0];
-  if (!file) throw new Error(id + "未選択");
-  return await compressImage(file);
-}
-
-// ============================
-// 送信
-// ============================
-async function submitForm() {
-  const btn = document.querySelector(".submit");
-  const spinner = document.getElementById("spinner");
-
-  try {
-    btn.disabled = true;
-    btn.innerText = "送信中...";
-    spinner.style.display = "block";
-
-    const payload = {
-      timestamp: new Date().toISOString(),
-      images: {
-        photo1: await getImage("photo1"),
-        photo2: await getImage("photo2"),
-        photo3: await getImage("photo3"),
-        photo4: await getImage("photo4")
-      }
-    };
-
-    await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
-
-    btn.innerText = "✅ 完了";
-
-  } catch (e) {
-    btn.disabled = false;
-    btn.innerText = "再送信";
-    alert("エラー：" + e);
-  } finally {
-    spinner.style.display = "none";
-  }
-}
-
 </script>
-</body>
-</html>
-``
