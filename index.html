@@ -139,10 +139,21 @@ try {
 fetch(`./forms/${formType}.json`)
   .then(res => res.json())
   .then(config => {
+
+    
+    console.log("formType:", formType);
+    console.log("currentConfig BEFORE:", window.currentConfig);
+    console.log("config:", config);
+
     setLogo(config.logo);
-    renderForm(config.fields);
     window.currentConfig = config;
+    renderForm(config.fields);
+  })
+  .catch(err => {
+    console.error(err);
+    alert("フォーム読み込みエラー");
   });
+
 
 function setLogo(logoPath) {
   document.getElementById("logo").src = logoPath || "/logo.png";
@@ -270,7 +281,7 @@ async function submitForm() {
   const payload = {
     timestamp: new Date().toISOString(),
     formType: formType,
-    formGroup: window.currentConfig.formType 
+    formGroup: window.currentConfig.formGroup
   };
 
   for (const field of document.querySelectorAll("[data-bind]")) {
