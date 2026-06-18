@@ -1,111 +1,22 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f5f5f7;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  background: white;
-  border-bottom: 1px solid #ddd;
-}
-
-.logo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-}
-
-.container {
-  padding: 16px;
-  max-width: 480px;
-  margin: auto;
-}
-
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
-
-label {
-  display:block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-input, select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 16px;
-}
-
-button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
-  margin-top: 20px;
-  background: #007aff;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-}
-</style>
-</head>
-
-<body>
-
-<!-- ✅ ヘッダー（ロゴ差し替え用） -->
-<div class="header">
-  <img id="logo" class="logo">
-</div>
-
-<!-- ✅ フォーム表示エリア -->
-<div class="container" id="formArea"></div>
-
-<button onclick="submitForm()">送信</button>
-
 <script>
 
-// ✅ URLからform取得
 const formType = new URLSearchParams(location.search).get("form");
 
-// ✅ フォーム読み込み（ロゴもここで設定）
 fetch(`./forms/${formType}.json`)
   .then(res => res.json())
   .then(config => {
-    setLogo(config.logo);         // ✅ 追加ポイント
-    renderForm(config.fields);    // ✅ ここ変更（fieldsに注意）
+    setLogo(config.logo);
+    renderForm(config.fields);
+    window.currentConfig = config;
   });
 
-// ✅ ロゴ切替（追加）
 function setLogo(logoPath) {
   const logo = document.getElementById("logo");
-
-  if (logoPath) {
-    logo.src = logoPath;
-  } else {
-    logo.src = "/logo.png"; // デフォルト
-  }
+  logo.src = logoPath || "/logo.png";
 }
 
-// ✅ フォーム描画
 function renderForm(config) {
+
   const area = document.getElementById("formArea");
 
   config.forEach(item => {
@@ -121,14 +32,14 @@ function renderForm(config) {
     if (item.type === "text") {
       const input = document.createElement("input");
       input.type = "text";
-      input.id = item.id;
+      input.dataset.bind = item.bind;
       div.appendChild(input);
     }
 
-    // プルダウン
+    // select
     if (item.type === "select") {
       const select = document.createElement("select");
-      select.id = item.id;
+      select.dataset.bind = item.bind;
 
       item.options.forEach(opt => {
         const option = document.createElement("option");
@@ -139,13 +50,12 @@ function renderForm(config) {
 
       div.appendChild(select);
 
-      // その他入力
+      // その他
       if (item.hasOther) {
         const other = document.createElement("input");
         other.type = "text";
-        other.placeholder = "その他を入力";
         other.style.display = "none";
-        other.id = item.id + "_other";
+        other.dataset.bind = item.bind + "_other";
 
         select.addEventListener("change", () => {
           other.style.display = (select.value === "その他") ? "block" : "none";
@@ -155,13 +65,13 @@ function renderForm(config) {
       }
     }
 
-    // ファイル
+    // file
     if (item.type === "file") {
       const input = document.createElement("input");
       input.type = "file";
-      input.id = item.id;
       input.accept = "image/*";
       input.capture = "environment";
+      input.dataset.bind = item.bind;
       div.appendChild(input);
     }
 
@@ -169,7 +79,7 @@ function renderForm(config) {
   });
 }
 
-// ✅ ファイル読み込み
+// base64変換
 async function readFile(file) {
   return new Promise(resolve => {
     const reader = new FileReader();
@@ -178,46 +88,34 @@ async function readFile(file) {
   });
 }
 
-// ✅ 送信処理
+// 送信
 async function submitForm() {
 
-  const config = await fetch(`./forms/${formType}.json`).then(r => r.json());
-
   const payload = {
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    formType: window.currentConfig.formType
   };
 
-  for (const item of config.fields) {
+  for (const field of document.querySelectorAll("[data-bind]")) {
 
-    // テキスト
-    if (item.type === "text") {
-      payload[item.id] = document.getElementById(item.id).value;
+    const key = field.dataset.bind;
+
+    // text/select
+    if (field.type === "text" || field.tagName === "SELECT") {
+      payload[key] = field.value;
     }
 
-    // select
-    if (item.type === "select") {
-      const value = document.getElementById(item.id).value;
-
-      if (value === "その他") {
-        payload[item.id] =
-          document.getElementById(item.id + "_other").value;
-      } else {
-        payload[item.id] = value;
-      }
-    }
-
-    // ファイル
-    if (item.type === "file") {
-      const file = document.getElementById(item.id).files[0];
-      if (file) {
-        payload[item.id] = await readFile(file);
+    // file
+    if (field.type === "file") {
+      if (field.files[0]) {
+        payload[key] = await readFile(field.files[0]);
       }
     }
   }
 
   console.log(payload);
 
-  await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com/powerautomate/automations/direct/workflows/962b9cab1f5c48b39cf8ed523ecc79a5/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=2eZQj9P5qbGAeZV017KO2K4xZciPgyxY9CFkyFTR664", {
+  await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/13447be074b2425ab229f956f6faf702/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KUSuR-p13NP_l_XGo0B3k_jXRXDg6B9bJpFyr-mPVH0", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
@@ -227,6 +125,4 @@ async function submitForm() {
 }
 
 </script>
-
-</body>
-</html>
+``
