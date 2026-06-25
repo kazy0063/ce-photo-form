@@ -10,7 +10,7 @@
       "label": "3. 店舗名",
       "type": "select",
       "bind": "txt3",
-      "options": ["本館", "TGM", "WM","FM岡崎"]
+      "options": ["本館", "TGM", "WM","FM岡崎"],
       "allowOther": true
     },
     { "label": "4. フロア", "type": "text", "bind": "txt4" },
@@ -20,35 +20,35 @@
       "label": "7. 設置場所",
       "type": "select",
       "bind": "txt7",
-      "options": ["フロア全体", "各売り場", "バックヤード", "特殊エリア", "その他"]
+      "options": ["フロア全体", "各売り場", "バックヤード", "特殊エリア", "その他"],
       "allowOther": true
     },
     {
       "label": "8. 補足",
       "type": "select",
       "bind": "txt8",
-      "options": ["夜間作業の制約", "警備立会", "その他"]
+      "options": ["夜間作業の制約", "警備立会", "その他"],
       "allowOther": true
     },
     {
       "label": "9. 構成",
       "type": "select",
       "bind": "txt9",
-      "options": ["レーン型", "据置型", "携帯型","その他"]
+      "options": ["レーン型", "据置型", "携帯型","その他"],
       "allowOther": true
     },
     {
       "label": "10. レジ台タイプ",
       "type": "select",
       "bind": "txt10",
-      "options": ["造作", "レジ台", "既製レジ台","その他"]
+      "options": ["造作", "レジ台", "既製レジ台","その他"],
       "allowOther": true
     },
     {
       "label": "11. 設置構造",
       "type": "select",
       "bind": "txt11",
-      "options": ["レジ台平置き", "レジ台組込み", "その他"]
+      "options": ["レジ台平置き", "レジ台組込み", "その他"],
       "allowOther": true
     },
     { "label": "12. 作業スペース状況", "type": "textarea", "bind": "txt12" },
@@ -56,21 +56,21 @@
       "label": "13. 電源種別①",
       "type": "select",
       "bind": "txt13",
-      "options": ["直結", "タップ", "その他"]
+      "options": ["直結", "タップ", "その他"],
       "allowOther": true
     },
     {
       "label": "14. 電源種別②",
       "type": "select",
       "bind": "txt14",
-      "options": ["3P平行", "3Pツイスト", "2P","その他"]
+      "options": ["3P平行", "3Pツイスト", "2P","その他"],
       "allowOther": true
     },
     {
       "label": "15. UPS有無",
       "type": "select",
       "bind": "txt15",
-      "options": ["有", "無"]
+      "options": ["有", "無"],
     },
     { "label": "16. 配線状況", "type": "textarea", "bind": "txt16" },
     { "label": "11. POS写真_1", "type": "file", "bind": "img1" },
