@@ -189,22 +189,50 @@ function renderForm(fields) {
 
     // SELECT
     if (item.type === "select") {
-      const select = document.createElement("select");
-      select.dataset.bind = item.bind;
+  const select = document.createElement("select");
+  select.dataset.bind = item.bind;
 
-      item.options.forEach(opt => {
-        const option = document.createElement("option");
-        option.value = opt;
-        option.text = opt;
-        select.appendChild(option);
-      });
+  item.options.forEach(opt => {
+    const option = document.createElement("option");
+    option.value = opt;
+    option.text = opt;
+    select.appendChild(option);
+  });
 
-      select.value = draft[item.bind] || "";
-      select.onchange = () => saveDraft(item.bind, select.value);
+  select.value = draft[item.bind] || "";
 
-      div.appendChild(select);
+  div.appendChild(select);
+
+  // ✅ その他入力欄（自動生成）
+  let otherInput = null;
+
+  if (item.allowOther) {
+    otherInput = document.createElement("input");
+    otherInput.type = "text";
+    otherInput.placeholder = "具体的に入力";
+    otherInput.dataset.bind = item.bind + "_other";
+    otherInput.value = draft[item.bind + "_other"] || "";
+
+    // 初期表示制御
+    otherInput.style.display =
+      select.value === "その他" ? "block" : "none";
+
+    otherInput.oninput = () =>
+      saveDraft(otherInput.dataset.bind, otherInput.value);
+
+    div.appendChild(otherInput);
+  }
+
+  // ✅ 選択変更時
+  select.onchange = () => {
+    saveDraft(item.bind, select.value);
+
+    if (item.allowOther && otherInput) {
+      otherInput.style.display =
+        select.value === "その他" ? "block" : "none";
     }
-
+  };
+}
     // ✅ FILE（カメラボタン付き）
     if (item.type === "file") {
 
@@ -268,6 +296,7 @@ function readFile(file) {
 }
 
 // 送信
+// 送信
 async function submitForm() {
 
   const btn = document.getElementById("submitBtn");
@@ -288,7 +317,7 @@ async function submitForm() {
 
     const key = field.dataset.bind;
 
-    if (field.type === "text" || field.tagName === "SELECT") {
+    if (field.type === "text" || field.tagName === "SELECT" || field.tagName === "TEXTAREA") {
       payload[key] = field.value;
     }
 
@@ -299,7 +328,25 @@ async function submitForm() {
     }
   }
 
-  await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/13447be074b2425ab229f956f6faf702/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=KUSuR-p13NP_l_XGo0B3k_jXRXDg6B9bJpFyr-mPVH0", {
+function normalizePayload(payload) {
+  Object.keys(payload).forEach(key => {
+
+    if (payload[key] === "その他") {
+      const otherKey = key + "_other";
+
+      if (payload[otherKey]) {
+        payload[key] = `その他(${payload[otherKey]})`;
+        delete payload[otherKey];
+      }
+    }
+
+  });
+}
+
+  // ✅ ★ここが正しい位置★
+  normalizePayload(payload);
+
+  await fetch("https://xxxxx", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
