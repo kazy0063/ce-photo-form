@@ -70,7 +70,7 @@
       "label": "15. UPS有無",
       "type": "select",
       "bind": "txt15",
-      "options": ["有", "無"],
+      "options": ["有", "無"]
     },
     { "label": "16. 配線状況", "type": "textarea", "bind": "txt16" },
     { "label": "11. POS写真_1", "type": "file", "bind": "img1" },
