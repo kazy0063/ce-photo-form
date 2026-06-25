@@ -346,7 +346,7 @@ function normalizePayload(payload) {
   // ✅ ★ここが正しい位置★
   normalizePayload(payload);
 
-  await fetch("https://xxxxx", {
+  await fetch("https://280f681b44d7ef19a1c9c1de4d1b9b.0d.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/bf6dd4bdd6ba49c3bf3e27ad77dd6368/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=x2BhTjQMyzgZExNWLXACX7Ek-lS_awZdkm3KthzQQPM", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
