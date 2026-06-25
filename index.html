@@ -186,6 +186,18 @@ function renderForm(fields) {
       input.oninput = () => saveDraft(item.bind, input.value);
       div.appendChild(input);
     }
+  
+  // ✅ TEXTAREA
+    if (item.type === "textarea") {
+      const textarea = document.createElement("textarea");
+      textarea.dataset.bind = item.bind;
+      textarea.rows = 4;
+      textarea.value = draft[item.bind] || "";
+
+      textarea.oninput = () => saveDraft(item.bind, textarea.value);
+
+  　　div.appendChild(textarea);
+    }
 
     // SELECT
     if (item.type === "select") {
@@ -317,9 +329,15 @@ async function submitForm() {
 
     const key = field.dataset.bind;
 
-    if (field.type === "text" || field.tagName === "SELECT" || field.tagName === "TEXTAREA") {
-      payload[key] = field.value;
-    }
+
+if (
+  field.type === "text" ||
+  field.tagName === "SELECT" ||
+  field.tagName === "TEXTAREA"
+) {
+  payload[key] = field.value;
+}
+
 
     if (field.type === "file") {
       if (draft[key]) {
