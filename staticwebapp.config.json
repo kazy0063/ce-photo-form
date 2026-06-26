@@ -5,5 +5,8 @@
       "route": "/*",
       "allowedRoles": ["authenticated"]
     }
-  ]
+  ],
+  "navigationFallback": {
+    "rewrite": "/.auth/login/aad"
+  }
 }
