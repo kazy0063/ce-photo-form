@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<script src="https://unpkg.com/html5-qrcode"></script>
 <style>
 body {
   margin: 0;
@@ -116,6 +116,7 @@ button.submit {
 </div>
 
 <div id="formArea"></div>
+<div id="reader" style="width:300px; margin:16px;"></div>
 
 <button id="submitBtn" class="submit" onclick="submitForm()">
   <span id="btnText">送信</span>
@@ -159,6 +160,31 @@ function setLogo(logoPath) {
   document.getElementById("logo").src = logoPath || "/logo.png";
 }
 
+unction startBarcodeScanner(targetBind) {
+
+  const html5QrCode = new Html5Qrcode("reader");
+
+  html5QrCode.start(
+    { facingMode: "environment" },
+    { fps: 10, qrbox: 250 },
+    (decodedText) => {
+
+      // ✅ 値をinputに反映
+      const input = document.querySelector(`[data-bind="${targetBind}"]`);
+      if (input) {
+        input.value = decodedText;
+        saveDraft(targetBind, decodedText);
+      }
+
+      html5QrCode.stop();
+    },
+    (error) => {
+      // 読取中エラー（無視でOK）
+    }
+  );
+}
+
+  
 // 下書き保存
 function saveDraft(key, value) {
   draft[key] = value;
