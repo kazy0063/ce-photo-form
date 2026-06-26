@@ -160,7 +160,7 @@ function setLogo(logoPath) {
   document.getElementById("logo").src = logoPath || "/logo.png";
 }
 
-unction startBarcodeScanner(targetBind) {
+function startBarcodeScanner(targetBind) {
 
   const html5QrCode = new Html5Qrcode("reader");
 
@@ -203,16 +203,7 @@ function renderForm(fields) {
     div.appendChild(label);
 
     // TEXT
-    if (item.type === "text") {
-      const input = document.createElement("input");
-      input.type = "text";
-      input.dataset.bind = item.bind;
-      input.value = draft[item.bind] || "";
-
-      input.oninput = () => saveDraft(item.bind, input.value);
-      div.appendChild(input);
-    }
-  
+   
 if (item.type === "text") {
   const input = document.createElement("input");
   input.type = "text";
@@ -222,7 +213,7 @@ if (item.type === "text") {
   input.oninput = () => saveDraft(item.bind, input.value);
   div.appendChild(input);
 
-  // ✅ ここ追加（バーコード有効な場合）
+  // ✅ バーコードボタン
   if (item.enableScan) {
     const btn = document.createElement("button");
     btn.textContent = "📷読取";
@@ -235,6 +226,7 @@ if (item.type === "text") {
   }
 }
 
+
   // ✅ TEXTAREA
     if (item.type === "textarea") {
       const textarea = document.createElement("textarea");
@@ -243,8 +235,8 @@ if (item.type === "text") {
       textarea.value = draft[item.bind] || "";
 
       textarea.oninput = () => saveDraft(item.bind, textarea.value);
-
-  　　div.appendChild(textarea);
+      
+    div.appendChild(textarea);
     }
 
     // SELECT
