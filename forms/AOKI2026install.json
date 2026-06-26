@@ -15,6 +15,15 @@
       "options": ["レーン", "据え置き", "その他"]
     },
 
+    
+{
+  "label": "バーコード",
+  "type": "text",
+  "bind": "barcode",
+  "enableScan": true
+}
+
+
     { "label": "⑤ POS写真", "type": "file", "bind": "img1" },
     { "label": "⑦ 電源写真", "type": "file", "bind": "img3" }
   ]
