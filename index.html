@@ -213,6 +213,28 @@ function renderForm(fields) {
       div.appendChild(input);
     }
   
+if (item.type === "text") {
+  const input = document.createElement("input");
+  input.type = "text";
+  input.dataset.bind = item.bind;
+  input.value = draft[item.bind] || "";
+
+  input.oninput = () => saveDraft(item.bind, input.value);
+  div.appendChild(input);
+
+  // ✅ ここ追加（バーコード有効な場合）
+  if (item.enableScan) {
+    const btn = document.createElement("button");
+    btn.textContent = "📷読取";
+    btn.type = "button";
+    btn.style.marginTop = "8px";
+
+    btn.onclick = () => startBarcodeScanner(item.bind);
+
+    div.appendChild(btn);
+  }
+}
+
   // ✅ TEXTAREA
     if (item.type === "textarea") {
       const textarea = document.createElement("textarea");
