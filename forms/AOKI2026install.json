@@ -21,7 +21,7 @@
   "type": "text",
   "bind": "barcode",
   "enableScan": true
-}
+},
 
 
     { "label": "⑤ POS写真", "type": "file", "bind": "img1" },
