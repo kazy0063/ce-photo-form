@@ -11,6 +11,6 @@
 {"label": "6. 画像添付_POS","type": "file","bind": "img1"},
 {"label": "7. 画像添付_全体","type": "file","bind": "img2"},
 {"label": "8. 画像添付_電源","type": "file","bind": "img3"},
-{"label": "9. シリアル","type": "barcode","bind": "txt6","enableScan":true}
+{"label": "9. シリアル","type": "barcode","bind": "txt6","enableScan": true}
 ]
 }
