@@ -3,14 +3,14 @@
 "formType": "t_sample",
 "formGroup": "g_sample",
 "fields": [
-{"label": "1. “X•Ü–¼","type": "text","bind": "txt1"},
-{"label": "2. CE–¼","type": "text","bind": "txt2"},
+{"label": "1. åº—èˆ—å","type": "text","bind": "txt1"},
+{"label": "2. CEå","type": "text","bind": "txt2"},
 {"label": "3. POS No","type": "text","bind": "txt3"},
-{"label": "4. POS Type","type": "select","bind": "txt4","options": ["ƒŒ[ƒ“", "˜‚¦’u‚«", "‚»‚Ì‘¼"]},
-{"label": "5. Memo—“","type": "textarea","bind": "txt5"},
-{"label": "6. ‰æ‘œ“Y•t_POS","type": "file","bind": "img1"},
-{"label": "7. ‰æ‘œ“Y•t_‘S‘Ì","type": "file","bind": "img2"},
-{"label": "8. ‰æ‘œ“Y•t_“dŒ¹","type": "file","bind": "img3"},
-{"label": "9. ƒVƒŠƒAƒ‹","type": "text","bind": "txt6","enableScan":true}
+{"label": "4. POS Type","type": "select","bind": "txt4","options": ["ãƒ¬ãƒ¼ãƒ³", "æ®ãˆç½®ã", "ãã®ä»–"]},
+{"label": "5. Memoæ¬„","type": "textarea","bind": "txt5"},
+{"label": "6. ç”»åƒæ·»ä»˜_POS","type": "file","bind": "img1"},
+{"label": "7. ç”»åƒæ·»ä»˜_å…¨ä½“","type": "file","bind": "img2"},
+{"label": "8. ç”»åƒæ·»ä»˜_é›»æº","type": "file","bind": "img3"},
+{"label": "9. ã‚·ãƒªã‚¢ãƒ«","type": "text","bind": "txt6","enableScan":true}
 ]
-
+}
