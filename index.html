@@ -198,9 +198,15 @@ function renderForm(fields) {
   fields.forEach(item => {
     const div = document.createElement("div");
 
-    const label = document.createElement("label");
-    label.textContent = item.label;
-    div.appendChild(label);
+const label = document.createElement("label");
+
+label.innerHTML =
+  item.label +
+  (item.required
+    ? ' <span style="color:red;">*</span>'
+    : '');
+
+div.appendChild(label);
 
     // TEXT
    
@@ -354,6 +360,43 @@ function readFile(file) {
 // 送信
 // 送信
 async function submitForm() {
+
+ // ====================
+  // 必須チェック
+  // ====================
+  for (const item of window.currentConfig.fields) {
+
+    if (!item.required) {
+      continue;
+    }
+
+    // ファイル
+    if (item.type === "file") {
+
+      if (!draft[item.bind]) {
+
+        alert(item.label + " は必須です");
+
+        return;
+      }
+
+    } else {
+
+      const field =
+        document.querySelector(
+          `[data-bind="${item.bind}"]`
+        );
+
+      if (!field || !field.value.trim()) {
+
+        alert(item.label + " は必須です");
+
+        field?.focus();
+
+        return;
+      }
+    }
+  }
 
   const btn = document.getElementById("submitBtn");
   const text = document.getElementById("btnText");
