@@ -1,0 +1,13 @@
+{
+"logo": "/logos/voyix.png",
+"formType": "t_sample",
+"formGroup": "",
+"fields": [
+{"label": "1. aaa","type": "text","bind": "txt1","required": true},
+{"label": "2. bbb","type": "textarea","bind": "txt2","required": false},
+{"label": "3. ccc","type": "select","bind": "txt3","options": ["AAA","BBB","CCC"],"required": true,"required": true},
+{"label": "4. ddd","type": "text","bind": "txt4","enableScan":true,"required": false},
+{"label": "5. eee","type": "file","bind": "img1","required": true}
+]
+}
+
