@@ -208,6 +208,7 @@ if (item.type === "text") {
   const input = document.createElement("input");
   input.type = "text";
   input.dataset.bind = item.bind;
+  input.required = item.required || false;
   input.value = draft[item.bind] || "";
 
   input.oninput = () => saveDraft(item.bind, input.value);
@@ -233,6 +234,7 @@ if (item.type === "text") {
       textarea.dataset.bind = item.bind;
       textarea.rows = 4;
       textarea.value = draft[item.bind] || "";
+      textarea.required = item.required || false;
 
       textarea.oninput = () => saveDraft(item.bind, textarea.value);
       
@@ -243,6 +245,7 @@ if (item.type === "text") {
     if (item.type === "select") {
   const select = document.createElement("select");
   select.dataset.bind = item.bind;
+  select.required = item.required || false;     
 
   item.options.forEach(opt => {
     const option = document.createElement("option");
@@ -295,6 +298,7 @@ if (item.type === "text") {
       input.type = "file";
       input.accept = "image/*";
       input.dataset.bind = item.bind;
+      input.required = item.required || false;
 
       // カメラボタン
       const cameraBtn = document.createElement("button");
