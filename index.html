@@ -305,10 +305,18 @@ if (item.type === "text") {
       input.accept = "image/*";
       input.dataset.bind = item.bind;
       input.required = item.required || false;
+      input.style.display = "none";
+
 
       // カメラボタン
       const cameraBtn = document.createElement("button");
       cameraBtn.textContent = "📷";
+      
+      const fileLabel = document.createElement("span");
+      fileLabel.textContent = "未選択";
+      fileLabel.style.fontSize = "14px";
+      fileLabel.style.color = "#666";
+
       cameraBtn.type = "button";
       cameraBtn.className = "camera-btn";
 
@@ -324,21 +332,28 @@ if (item.type === "text") {
       if (draft[item.bind]) {
         preview.src = draft[item.bind];
         preview.style.display = "block";
+        fileLabel.textContent = "画像選択済";
       }
 
       input.onchange = async () => {
-        const file = input.files[0];
-        if (!file) return;
 
-        const base64 = await readFile(file);
-        preview.src = base64;
-        preview.style.display = "block";
+  const file = input.files[0];
+  if (!file) return;
 
-        saveDraft(item.bind, base64);
-      };
+  fileLabel.textContent = file.name;
+
+  const base64 = await readFile(file);
+
+  preview.src = base64;
+  preview.style.display = "block";
+
+  saveDraft(item.bind, base64);
+};
+
 
       wrapper.appendChild(input);
       wrapper.appendChild(cameraBtn);
+      wrapper.appendChild(fileLabel);
 
       div.appendChild(wrapper);
       div.appendChild(preview);
