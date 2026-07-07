@@ -241,7 +241,7 @@ if (item.type === "text") {
       textarea.rows = 4;
       textarea.value = draft[item.bind] || "";
       textarea.required = item.required || false;
-
+      textarea.style.width = "100%";
       textarea.oninput = () => saveDraft(item.bind, textarea.value);
       
     div.appendChild(textarea);
