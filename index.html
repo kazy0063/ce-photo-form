@@ -42,7 +42,7 @@ label {
   color: #444;
 }
 
-input, select {
+input, select, textarea {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -241,7 +241,6 @@ if (item.type === "text") {
       textarea.rows = 4;
       textarea.value = draft[item.bind] || "";
       textarea.required = item.required || false;
-      textarea.style.width = "100%";
       textarea.oninput = () => saveDraft(item.bind, textarea.value);
       
     div.appendChild(textarea);
