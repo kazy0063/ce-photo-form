@@ -1,7 +1,7 @@
 
 {
   "logo": "/logos/takashimaya.png",
-  "formType": "JRTTinst_gencho",
+  "formType": "JRTT1",
   "formGroup": "install_takashimaya",
   "fields": [
     { "label": "1. 調査担当者：氏名", "type": "text", "bind": "txt1" },
