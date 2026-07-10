@@ -1,7 +1,7 @@
 
 {
   "logo": "/logos/aoki.png",
-  "formType": "AOKI2026install",
+  "formType": "AOKI1",
   "formGroup": "install",
   "fields": [
     { "label": "① Store No.", "type": "text", "bind": "txt1" },
