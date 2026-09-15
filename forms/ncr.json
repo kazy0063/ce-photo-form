@@ -8,7 +8,7 @@
 {"label": "3. Other","type": "select","bind": "txt3","options": ["Type1","Type2","Type3"],"required": true,"allowOther": true },
 {"label": "4. S/N Barcode","type": "text","bind": "txt4","enableScan":true,"required": true},
 {"label": "5. Photo_1","type": "file","bind": "img1","required": false},
-{"label": "6. Photo_2","type": "file","bind": "img1","required": false},
-{"label": "7. Photo_3","type": "file","bind": "img1","required": false}
+{"label": "6. Photo_2","type": "file","bind": "img2","required": false},
+{"label": "7. Photo_3","type": "file","bind": "img3","required": false}
 ]
 }
