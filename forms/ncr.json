@@ -3,7 +3,7 @@
 "formType": "t_sample",
 "formGroup": "",
 "fields": [
-{"label": "1. CE NAME","type": "text","bind": "txt1","required": true},
+{"label": "1. CE CODE","type": "text","bind": "txt1","required": true},
 {"label": "2. POS TYPE","type": "select","bind": "txt2","options": ["CX7","CX7_2","VOYIXPOS"],"required": false},
 {"label": "3. Other","type": "select","bind": "txt3","options": [],"required": true,"allowOther": true },
 {"label": "4. S/N Barcode","type": "text","bind": "txt4","enableScan":true,"required": true},
