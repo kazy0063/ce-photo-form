@@ -301,7 +301,7 @@ if (item.type === "text") {
 
       const input = document.createElement("input");
       input.type = "file";
-      input.accept = "image/*";
+      input.accept =  ".jpg,.jpeg,.png,.heic,.heif,.pdf";
       input.dataset.bind = item.bind;
       input.required = item.required || false;
 
@@ -325,16 +325,48 @@ if (item.type === "text") {
         preview.style.display = "block";
       }
 
-      input.onchange = async () => {
-        const file = input.files[0];
-        if (!file) return;
+input.onchange = async () => {
 
-        const base64 = await readFile(file);
-        preview.src = base64;
-        preview.style.display = "block";
+  const file = input.files[0];
+  if (!file) return;
 
-        saveDraft(item.bind, base64);
-      };
+  // 拡張子チェック
+  const ext =
+    file.name.split(".").pop().toLowerCase();
+
+  if (!allowedExtensions.includes(ext)) {
+
+    alert(
+      "対応形式は JPG / JPEG / PNG / HEIC / HEIF / PDF のみです"
+    );
+
+    input.value = "";
+    return;
+  }
+
+  // サイズチェック
+  if (file.size > MAX_SIZE) {
+
+    alert(
+      "ファイルサイズは20MB以下にしてください"
+    );
+
+    input.value = "";
+    return;
+  }
+
+  const base64 = await readFile(file);
+
+  // PDFはプレビューしない
+  if (ext !== "pdf") {
+    preview.src = base64;
+    preview.style.display = "block";
+  } else {
+    preview.style.display = "none";
+  }
+
+  saveDraft(item.bind, base64);
+};
 
       wrapper.appendChild(input);
       wrapper.appendChild(cameraBtn);
