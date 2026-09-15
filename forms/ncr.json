@@ -1,22 +1,12 @@
-
 {
-  "logo": "/logos/voyix.png",
-  "formType": "voyix1",
-  "formGroup": "install",
-  "fields": [
-    { "label": "① Store No.", "type": "text", "bind": "txt1" },
-    { "label": "② Terminal No.", "type": "text", "bind": "txt2" },
-    { "label": "③ CE Name", "type": "text", "bind": "txt3" },
-
-    {
-      "label": "④ Type",
-      "type": "select",
-      "bind": "txt4",
-      "options": ["レーン", "据え置き", "その他"]
-    },
-
-    { "label": "⑤ POS写真_1", "type": "file", "bind": "img1" },
-    { "label": "⑥ POS写真_2", "type": "file", "bind": "img2" },
-    { "label": "⑦ 電源写真", "type": "file", "bind": "img3" }
-  ]
+"logo": "/logos/voyix.png",
+"formType": "t_sample",
+"formGroup": "",
+"fields": [
+{"label": "1. CE NAME","type": "text","bind": "txt1","required": true},
+{"label": "2. POS TYPE","type": "select","bind": "txt2","options": ["CX7","CX7_2","VOYIXPOS"],"required": false},
+{"label": "3. Other","type": "select","bind": "txt3","options": [],"required": true,"allowOther": true },
+{"label": "4. S/N Barcode","type": "text","bind": "txt4","enableScan":true,"required": true},
+{"label": "5. Photo","type": "file","bind": "img1","required": false}
+]
 }
