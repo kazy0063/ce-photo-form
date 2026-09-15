@@ -7,8 +7,8 @@
 {"label": "2. POS TYPE","type": "select","bind": "txt2","options": ["CX7","CX7_2","VOYIXPOS"],"required": false},
 {"label": "3. Other","type": "select","bind": "txt3","options": [],"required": true,"allowOther": true },
 {"label": "4. S/N Barcode","type": "text","bind": "txt4","enableScan":true,"required": true},
-{"label": "5. Photo","type": "file","bind": "img1","required": false},
-{"label": "6. Photo","type": "file","bind": "img1","required": false},
-{"label": "7. Photo","type": "file","bind": "img1","required": false}
+{"label": "5. Photo_1","type": "file","bind": "img1","required": false},
+{"label": "6. Photo_2","type": "file","bind": "img1","required": false},
+{"label": "7. Photo_3","type": "file","bind": "img1","required": false}
 ]
 }
