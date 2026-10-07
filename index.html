@@ -27,6 +27,30 @@ body {
   padding-bottom: 100px;
 }
 
+  <!-- スキャンモーダル -->
+<div id="scanModal">
+
+  <div class="scan-container">
+
+    <div class="scan-title">
+      バーコード / QRコード読取
+    </div>
+
+    <div id="reader"></div>
+
+    <button
+      id="cancelScanBtn"
+      type="button"
+      class="cancel-scan-btn"
+    >
+      ❌ スキャン中止
+    </button>
+
+  </div>
+
+</div>
+
+  
 #formArea div {
   background: #fff;
   border-radius: 12px;
@@ -34,6 +58,7 @@ body {
   margin-bottom: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
+
 
 label {
   display: block;
@@ -106,6 +131,76 @@ button.submit {
 @keyframes spin {
   100% { transform: rotate(360deg); }
 }
+
+/* =====================
+   SCAN MODAL
+===================== */
+
+#scanModal {
+  display: none;
+
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.75);
+
+  z-index: 9999;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.scan-container {
+
+  width: 90%;
+  max-width: 380px;
+
+  background: white;
+
+  border-radius: 16px;
+
+  padding: 16px;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.25);
+}
+
+.scan-title {
+
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  margin-bottom: 12px;
+}
+
+#reader {
+
+  width: 100%;
+}
+
+.cancel-scan-btn {
+
+  width: 100%;
+
+  margin-top: 12px;
+
+  padding: 12px;
+
+  background: #d83b01;
+
+  color: white;
+
+  border: none;
+
+  border-radius: 8px;
+
+  font-size: 16px;
+
+  cursor: pointer;
+}
+
 </style>
 </head>
 
@@ -128,6 +223,10 @@ button.submit {
 const formType = new URLSearchParams(location.search).get("form");
 const draftKey = "draft_" + formType;
 let draft = {};
+
+let html5QrCode = null;
+let scanRunning = false;
+
 
 // 下書き取得
 try {
@@ -162,26 +261,78 @@ function setLogo(logoPath) {
 
 function startBarcodeScanner(targetBind) {
 
-  const html5QrCode = new Html5Qrcode("reader");
+  if (scanRunning) {
+    return;
+  }
+
+  scanRunning = true;
+
+  document.getElementById(
+    "scanModal"
+  ).style.display = "flex";
+
+  html5QrCode =
+    new Html5Qrcode("reader");
 
   html5QrCode.start(
-    { facingMode: "environment" },
-    { fps: 10, qrbox: 250 },
+
+    {
+      facingMode: "environment"
+    },
+
+    {
+      fps: 10,
+      qrbox: 250
+    },
+
     (decodedText) => {
 
-      // ✅ 値をinputに反映
-      const input = document.querySelector(`[data-bind="${targetBind}"]`);
-      if (input) {
-        input.value = decodedText;
-        saveDraft(targetBind, decodedText);
+      const result = confirm(
+        `読み取り結果\n\n${decodedText}\n\nこの値を登録しますか？`
+      );
+
+      // 再スキャン
+      if (!result) {
+        return;
       }
 
-      html5QrCode.stop();
+      const input =
+        document.querySelector(
+          `[data-bind="${targetBind}"]`
+        );
+
+      if (input) {
+
+        input.value = decodedText;
+
+        saveDraft(
+          targetBind,
+          decodedText
+        );
+      }
+
+      closeScanner();
     },
+
     (error) => {
-      // 読取中エラー（無視でOK）
+      // 読取中エラーは無視
     }
-  );
+
+  ).catch(err => {
+
+    console.error(err);
+
+    alert(
+      "カメラを起動できませんでした"
+    );
+
+    scanRunning = false;
+
+    document.getElementById(
+      "scanModal"
+    ).style.display = "none";
+  });
+
 }
 
   
@@ -406,6 +557,41 @@ function readFile(file) {
 
 // 送信
 // 送信
+
+async function closeScanner() {
+
+  try {
+
+    if (
+      html5QrCode &&
+      scanRunning
+    ) {
+
+      await html5QrCode.stop();
+
+      await html5QrCode.clear();
+
+    }
+
+  } catch (e) {
+
+    console.log(e);
+
+  }
+
+  document.getElementById(
+    "scanModal"
+  ).style.display = "none";
+
+  document.getElementById(
+    "reader"
+  ).innerHTML = "";
+
+  html5QrCode = null;
+
+  scanRunning = false;
+}
+  
 async function submitForm() {
 
  // ====================
@@ -517,7 +703,12 @@ normalizePayload(payload);
     location.reload();
   }, 1500);
 }
-
+document
+  .getElementById("cancelScanBtn")
+  .addEventListener(
+    "click",
+    closeScanner
+  );
 </script>
 
 </body>
