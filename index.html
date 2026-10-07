@@ -27,28 +27,6 @@ body {
   padding-bottom: 100px;
 }
 
-  <!-- スキャンモーダル -->
-<div id="scanModal">
-
-  <div class="scan-container">
-
-    <div class="scan-title">
-      バーコード / QRコード読取
-    </div>
-
-    <div id="reader"></div>
-
-    <button
-      id="cancelScanBtn"
-      type="button"
-      class="cancel-scan-btn"
-    >
-      ❌ スキャン中止
-    </button>
-
-  </div>
-
-</div>
 
   
 #formArea div {
@@ -211,8 +189,30 @@ button.submit {
 </div>
 
 <div id="formArea"></div>
-<div id="reader" style="width:300px; margin:16px;"></div>
 
+<!-- スキャンモーダル -->
+<div id="scanModal">
+
+  <div class="scan-container">
+
+    <div class="scan-title">
+      バーコード / QRコード読取
+    </div>
+
+    <div id="reader"></div>
+
+    <button
+      id="cancelScanBtn"
+      type="button"
+      class="cancel-scan-btn"
+    >
+      ❌ スキャン中止
+    </button>
+
+  </div>
+
+</div>
+  
 <button id="submitBtn" class="submit" onclick="submitForm()">
   <span id="btnText">SEND</span>
   <span id="spinner" class="spinner"></span>
@@ -703,12 +703,16 @@ normalizePayload(payload);
     location.reload();
   }, 1500);
 }
-document
-  .getElementById("cancelScanBtn")
-  .addEventListener(
-    "click",
-    closeScanner
-  );
+window.addEventListener("load", () => {
+
+  document
+    .getElementById("cancelScanBtn")
+    ?.addEventListener(
+      "click",
+      closeScanner
+    );
+
+});
 </script>
 
 </body>
