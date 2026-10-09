@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/html5-qrcode"></script>
+<script srckg.com/@zxing/library@latestscript>
 <style>
 body {
   margin: 0;
@@ -409,7 +410,66 @@ function startBarcodeScanner(targetBind) {
     ).style.display = "none";
   });
 }
-  
+
+function scanImageFile(targetBind) {
+
+  const fileInput =
+    document.createElement("input");
+
+  fileInput.type = "file";
+  fileInput.accept = "image/*";
+  fileInput.capture = "environment";
+
+  fileInput.onchange = async (e) => {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    try {
+
+      const html5QrCode =
+        new Html5Qrcode("reader");
+
+      const result =
+        await html5QrCode.scanFile(
+          file,
+          true
+        );
+
+      const input =
+        document.querySelector(
+          `[data-bind="${targetBind}"]`
+        );
+
+      if (input) {
+
+        input.value = result;
+
+        saveDraft(
+          targetBind,
+          result
+        );
+
+        alert(
+          "読取成功\n\n" + result
+        );
+      }
+
+    } catch (err) {
+
+      console.error(err);
+
+      alert(
+        "バーコードを認識できませんでした"
+      );
+    }
+  };
+
+  fileInput.click();
+}
+
+
 // 下書き保存
 function saveDraft(key, value) {
   draft[key] = value;
@@ -446,16 +506,30 @@ if (item.type === "text") {
   div.appendChild(input);
 
   // ✅ バーコードボタン
-  if (item.enableScan) {
-    const btn = document.createElement("button");
-    btn.textContent = "📷SCAN";
-    btn.type = "button";
-    btn.style.marginTop = "8px";
+if (item.enableScan) {
 
-    btn.onclick = () => startBarcodeScanner(item.bind);
+  // リアルタイムスキャン
+  const scanBtn = document.createElement("button");
+  scanBtn.textContent = "📷SCAN";
+  scanBtn.type = "button";
+  scanBtn.style.marginTop = "8px";
+  scanBtn.style.marginRight = "8px";
 
-    div.appendChild(btn);
-  }
+  scanBtn.onclick =
+    () => startBarcodeScanner(item.bind);
+
+  div.appendChild(scanBtn);
+
+  // 写真から読取
+  const photoBtn = document.createElement("button");
+  photoBtn.textContent = "🖼️写真から読取";
+  photoBtn.type = "button";
+
+  photoBtn.onclick =
+    () => scanImageFile(item.bind);
+
+  div.appendChild(photoBtn);
+}
 }
 
 
