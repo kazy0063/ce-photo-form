@@ -1,10 +1,10 @@
 ﻿{
 "logo": "/logos/Baycrews.png",
-"formType": "t_sample",
-"formGroup": "",
+"title": "【旧AP撤去後】写真報告",
+"description": "新APの箱に梱包後、返却指示位置にて撮影",
 "fields": [
 {"label": "1. 旧AP撤去写真","type": "file","bind": "img1","required": true},
-{"label": "2. 旧AP撤去写真(予備1)","type": "file","bind": "img2","required": false},
-{"label": "3. 旧AP撤去写真(予備2)","type": "file","bind": "img3","required": false}
+{"label": "2. 写真予備1","type": "file","bind": "img2","required": false},
+{"label": "3. 写真予備2","type": "file","bind": "img3","required": false}
 ]
 }

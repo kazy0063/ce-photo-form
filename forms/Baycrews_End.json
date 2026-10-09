@@ -1,7 +1,7 @@
 ﻿{
 "logo": "/logos/Baycrews.png",
-"formType": "t_sample",
-"formGroup": "",
+"title": "退館連絡",
+"description": "特記事項があれば記載してください。なければそのまま送信してください。",
 "fields": [
 {"label": "1. 特記事項","type": "textarea","bind": "txt1","required": false}
 ]
