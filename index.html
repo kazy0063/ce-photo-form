@@ -252,6 +252,7 @@ let html5QrCode = null;
 let scanRunning = false;
 
 
+
 // 下書き取得
 try {
   draft = JSON.parse(localStorage.getItem(draftKey)) || {};
@@ -302,24 +303,28 @@ function startBarcodeScanner(targetBind) {
 
   scanRunning = true;
 
-  document.getElementById("scanModal").style.display = "flex";
+  document.getElementById(
+    "scanModal"
+  ).style.display = "flex";
 
   const isIOS =
     /iPhone|iPad|iPod/i.test(
       navigator.userAgent
     );
 
-  html5QrCode = new Html5Qrcode("reader");
+  html5QrCode =
+    new Html5Qrcode("reader");
 
   const config = {
 
     fps: isIOS ? 5 : 10,
 
     qrbox: isIOS
-      ? { width: 300, height: 300 }
-      : { width: 250, height: 250 },
+      ? { width: 350, height: 350 }
+      : { width: 300, height: 300 },
 
     aspectRatio: 1,
+
 
     experimentalFeatures: {
       useBarCodeDetectorIfSupported: true
@@ -328,31 +333,19 @@ function startBarcodeScanner(targetBind) {
 
   html5QrCode.start(
 
-    {
-      facingMode: "environment"
-    },
+{
+  facingMode: {
+    ideal: "environment"
+  }
+},
 
     config,
 
     async (decodedText) => {
 
-      // 多重読取防止
-      if (!scanRunning) return;
-
-      scanRunning = false;
-
-      try {
-
-        await html5QrCode.stop();
-        await html5QrCode.clear();
-
-      } catch (e) {
-
-        console.log(e);
-
+      if (!scanRunning) {
+        return;
       }
-
-      document.getElementById("scanModal").style.display = "none";
 
       const input =
         document.querySelector(
@@ -361,7 +354,8 @@ function startBarcodeScanner(targetBind) {
 
       if (input) {
 
-        input.value = decodedText;
+        input.value =
+          decodedText;
 
         saveDraft(
           targetBind,
@@ -373,24 +367,16 @@ function startBarcodeScanner(targetBind) {
         );
       }
 
-      setTimeout(() => {
+await closeScanner();
 
-        const result = confirm(
-          `読み取り結果\n\n${decodedText}\n\nこの値を登録しますか？`
-        );
+setTimeout(() => {
 
-        if (!result && input) {
+  alert(
+    "読取成功\n\n" +
+    decodedText
+  );
 
-          input.value = "";
-
-          saveDraft(
-            targetBind,
-            ""
-          );
-        }
-
-      }, 200);
-
+}, 100);
     },
 
     () => {}
@@ -400,7 +386,7 @@ function startBarcodeScanner(targetBind) {
     console.error(err);
 
     alert(
-      "カメラを起動できませんでした。手入力してください。"
+      "カメラを起動できませんでした。\n手入力してください。"
     );
 
     scanRunning = false;
@@ -410,64 +396,6 @@ function startBarcodeScanner(targetBind) {
     ).style.display = "none";
   });
 }
-
-function scanImageFile(targetBind) {
-
-  const fileInput =
-    document.createElement("input");
-
-  fileInput.type = "file";
-
-  fileInput.accept = "image/*";
-
-  fileInput.onchange = async (e) => {
-
-    const file = e.target.files[0];
-
-    if (!file) return;
-
-    try {
-
-      const result =
-        await Html5Qrcode.scanFile(
-          file,
-          true
-        );
-
-      const input =
-        document.querySelector(
-          `[data-bind="${targetBind}"]`
-        );
-
-      if (input) {
-
-        input.value = result;
-
-        saveDraft(
-          targetBind,
-          result
-        );
-
-        alert(
-          "読取成功\n\n" +
-          result
-        );
-      }
-
-    } catch (err) {
-
-      console.error(err);
-
-      alert(
-        "バーコードを認識できませんでした"
-      );
-    }
-  };
-
-  fileInput.click();
-}
-
-
 
 // 下書き保存
 function saveDraft(key, value) {
@@ -518,18 +446,6 @@ if (item.enableScan) {
     () => startBarcodeScanner(item.bind);
 
   div.appendChild(scanBtn);
-
-  // 写真から読取
-  const photoBtn = document.createElement("button");
-  photoBtn.textContent = "🖼️写真から読取";
-  photoBtn.type = "button";
-
-  photoBtn.style.marginTop = "8px";
-
-photoBtn.onclick =
-  () => scanImageFile(item.bind);
-
-div.appendChild(photoBtn);
 
 }
 }
@@ -712,17 +628,16 @@ async function closeScanner() {
 
   try {
 
-    if (
-      html5QrCode &&
-      scanRunning
-    ) {
+   if (html5QrCode) {
 
-      await html5QrCode.stop();
+  try {
+    await html5QrCode.stop();
+  } catch {}
 
-      await html5QrCode.clear();
-
-    }
-
+  try {
+    await html5QrCode.clear();
+  } catch {}
+}
   } catch (e) {
 
     console.log(e);
@@ -733,9 +648,12 @@ async function closeScanner() {
     "scanModal"
   ).style.display = "none";
 
-  document.getElementById(
-    "reader"
-  ).innerHTML = "";
+const reader =
+  document.getElementById("reader");
+
+if (reader) {
+  reader.innerHTML = "";
+}
 
   html5QrCode = null;
 
@@ -793,6 +711,7 @@ const payload = {
   timestamp: new Date().toISOString(),
   formType: formType,
   formGroup: window.currentConfig.formGroup,
+  userAgent: navigator.userAgent,
   images: []
 };
 
