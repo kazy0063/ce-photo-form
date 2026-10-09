@@ -1,7 +1,7 @@
 ﻿{
 "logo": "/logos/Baycrews.png",
-"formType": "t_sample",
-"formGroup": "",
+"title": "【旧AP_撤去前】写真報告",
+"description": "設置状況が分かるように写真を撮影してください。",
 "fields": [
 {"label": "1. 旧AP取外し前_1台目写真","type": "file","bind": "img1","required": true},
 {"label": "2. 旧AP取外し前_2台目写真","type": "file","bind": "img2","required": false},
