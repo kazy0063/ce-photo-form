@@ -332,56 +332,54 @@ html5QrCode =
 
   };
 
-  html5QrCode.start(
+html5QrCode.start(
 
-{
-  facingMode: "environment"
-},
+  {
+    facingMode: "environment"
+  },
 
-    config,
+  config,
 
-async (decodedText) => {
+  async (decodedText) => {
 
-  if (!scanRunning) {
-    return;
-  }
+    if (!scanRunning) return;
 
-  const input =
-    document.querySelector(
-      `[data-bind="${targetBind}"]`
-    );
+    const input =
+      document.querySelector(
+        `[data-bind="${targetBind}"]`
+      );
 
-  if (input) {
+    if (input) {
 
-    input.value = decodedText;
+      input.value = decodedText;
 
-    saveDraft(
-      targetBind,
-      decodedText
-    );
+      saveDraft(
+        targetBind,
+        decodedText
+      );
 
-    input.dispatchEvent(
-      new Event("input")
-    );
-  }
+      input.dispatchEvent(
+        new Event("input")
+      );
+    }
 
-  await closeScanner();
+    await closeScanner();
 
-  setTimeout(() => {
+    setTimeout(() => {
 
-    alert(
-      "読取成功\n\n" +
-      decodedText
-    );
+      alert(
+        "読取成功\n\n" +
+        decodedText
+      );
 
-  }, 100);
-},
+    }, 100);
 
+  },
 
-      () => {}
+  () => {}
+
 ).then(() => {
 
-  // iPhone Safari対策
   setTimeout(() => {
 
     window.dispatchEvent(
@@ -390,22 +388,22 @@ async (decodedText) => {
 
   }, 500);
 
+}).catch(err => {
+
+  console.error(err);
+
+  alert(
+    "カメラを起動できませんでした。\n" +
+    err
+  );
+
+  scanRunning = false;
+
+  document.getElementById(
+    "scanModal"
+  ).style.display = "none";
+
 });
-
-  ).catch(err => {
-
-    console.error(err);
-
-    alert(
-      "カメラを起動できませんでした。\n手入力してください。"
-    );
-
-    scanRunning = false;
-
-    document.getElementById(
-      "scanModal"
-    ).style.display = "none";
-  });
 }
 
 // 下書き保存
