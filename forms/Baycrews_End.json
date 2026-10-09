@@ -1,0 +1,8 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"formType": "t_sample",
+"formGroup": "",
+"fields": [
+{"label": "1. 特記事項","type": "text","bind": "txt1","required": true}
+]
+}

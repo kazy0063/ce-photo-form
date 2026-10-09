@@ -1,0 +1,17 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"formType": "t_sample",
+"formGroup": "",
+"fields": [
+{"label": "1. 新AP設置後_1台目写真","type": "file","bind": "img1","required": true},
+{"label": "2. 新AP設置後_2台目写真","type": "file","bind": "img2","required": false},
+{"label": "3. 新AP設置後_3台目写真","type": "file","bind": "img3","required": false},
+{"label": "4. 新AP設置後_4台目写真","type": "file","bind": "img4","required": false},
+{"label": "5. 新AP設置後_5台目写真","type": "file","bind": "img5","required": false},
+{"label": "6. 新AP設置後_6台目写真","type": "file","bind": "img6","required": false},
+{"label": "7. 新AP設置後_7台目写真","type": "","bind": "img7","required": },
+{"label": "8. 新AP設置後_8台目写真","type": "","bind": "img8","required": },
+{"label": "9. 新AP設置後_9台目写真","type": "","bind": "img9","required": },
+{"label": "10. 新AP設置後_10台目写真","type": "","bind": "img10","required": }
+]
+}
