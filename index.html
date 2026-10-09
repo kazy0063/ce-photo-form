@@ -297,23 +297,27 @@ function setDescription(description) {
 
 }
 
-function startBarcodeScanner(targetBind) {
+async function startBarcodeScanner(targetBind) {
 
   if (scanRunning) return;
 
   scanRunning = true;
 
-  document.getElementById(
-    "scanModal"
-  ).style.display = "flex";
+document.getElementById(
+  "scanModal"
+).style.display = "flex";
 
-  const isIOS =
-    /iPhone|iPad|iPod/i.test(
-      navigator.userAgent
-    );
+await new Promise(resolve =>
+  setTimeout(resolve, 300)
+);
 
-  html5QrCode =
-    new Html5Qrcode("reader");
+const isIOS =
+  /iPhone|iPad|iPod/i.test(
+    navigator.userAgent
+  );
+
+html5QrCode =
+  new Html5Qrcode("reader");
 
   const config = {
 
@@ -326,9 +330,6 @@ function startBarcodeScanner(targetBind) {
     aspectRatio: 1,
 
 
-    experimentalFeatures: {
-      useBarCodeDetectorIfSupported: true
-    }
   };
 
   html5QrCode.start(
