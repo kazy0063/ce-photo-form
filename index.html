@@ -22,6 +22,21 @@ body {
   max-height: 80px;
 }
 
+.form-title {
+  margin-top: 12px;
+  margin-bottom: 6px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-description {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+}
+
 #formArea {
   padding: 16px;
   padding-bottom: 100px;
@@ -186,6 +201,8 @@ button.submit {
 
 <div class="header">
   <img id="logo" class="logo">
+  <h1 id="formTitle" class="form-title"></h1>
+  <p id="formDescription" class="form-description"></p>
 </div>
 
 <div id="formArea"></div>
@@ -245,9 +262,12 @@ fetch(`./forms/${formType}.json`)
     console.log("currentConfig BEFORE:", window.currentConfig);
     console.log("config:", config);
 
-    setLogo(config.logo);
-    window.currentConfig = config;
-    renderForm(config.fields);
+setLogo(config.logo);
+setTitle(config.title);
+setDescription(config.description);
+
+window.currentConfig = config;
+renderForm(config.fields);
   })
   .catch(err => {
     console.error(err);
@@ -257,6 +277,16 @@ fetch(`./forms/${formType}.json`)
 
 function setLogo(logoPath) {
   document.getElementById("logo").src = logoPath || "/logo.png";
+}
+function setTitle(title) {
+  document.getElementById("formTitle").textContent =
+    title || "";
+}
+
+function setDescription(description) {
+  document.getElementById("formDescription").textContent =
+    description || "";
+
 }
 
 function startBarcodeScanner(targetBind) {
