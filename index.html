@@ -525,6 +525,13 @@ if (item.enableScan) {
   photoBtn.textContent = "🖼️写真から読取";
   photoBtn.type = "button";
 
+  photoBtn.style.marginTop = "8px";
+
+photoBtn.onclick =
+  () => scanImageFile(item.bind);
+
+div.appendChild(photoBtn);
+
   photoBtn.onclick =
     () => scanImageFile(item.bind);
 
