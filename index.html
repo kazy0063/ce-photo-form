@@ -177,7 +177,7 @@ button.submit {
 
 #reader {
   width: 100%;
-  min-height: 320px;
+  min-height: 400px;
 }
 
 .cancel-scan-btn {
@@ -314,10 +314,15 @@ async function startBarcodeScanner(targetBind) {
   video.innerHTML =
     '<video id="barcode-video" style="width:100%;"></video>';
 
-  const videoElement =
-    document.getElementById(
-      "barcode-video"
-    );
+const videoElement =
+  document.getElementById(
+    "barcode-video"
+  );
+
+videoElement.setAttribute(
+  "playsinline",
+  true
+);
 
   try {
 
