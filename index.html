@@ -297,18 +297,33 @@ function setDescription(description) {
 
 function startBarcodeScanner(targetBind) {
 
-  if (scanRunning) {
-    return;
-  }
+  if (scanRunning) return;
 
   scanRunning = true;
 
-  document.getElementById(
-    "scanModal"
-  ).style.display = "flex";
+  document.getElementById("scanModal").style.display = "flex";
 
-  html5QrCode =
-    new Html5Qrcode("reader");
+  const isIOS =
+    /iPhone|iPad|iPod/i.test(
+      navigator.userAgent
+    );
+
+  html5QrCode = new Html5Qrcode("reader");
+
+  const config = {
+
+    fps: isIOS ? 5 : 10,
+
+    qrbox: isIOS
+      ? { width: 300, height: 300 }
+      : { width: 250, height: 250 },
+
+    aspectRatio: 1,
+
+    experimentalFeatures: {
+      useBarCodeDetectorIfSupported: true
+    }
+  };
 
   html5QrCode.start(
 
@@ -316,21 +331,27 @@ function startBarcodeScanner(targetBind) {
       facingMode: "environment"
     },
 
-    {
-      fps: 5,
-      qrbox: 300
-    },
+    config,
 
-    (decodedText) => {
+    async (decodedText) => {
 
-      const result = confirm(
-        `読み取り結果\n\n${decodedText}\n\nこの値を登録しますか？`
-      );
+      // 多重読取防止
+      if (!scanRunning) return;
 
-      // 再スキャン
-      if (!result) {
-        return;
+      scanRunning = false;
+
+      try {
+
+        await html5QrCode.stop();
+        await html5QrCode.clear();
+
+      } catch (e) {
+
+        console.log(e);
+
       }
+
+      document.getElementById("scanModal").style.display = "none";
 
       const input =
         document.querySelector(
@@ -345,21 +366,40 @@ function startBarcodeScanner(targetBind) {
           targetBind,
           decodedText
         );
+
+        input.dispatchEvent(
+          new Event("input")
+        );
       }
 
-      closeScanner();
+      setTimeout(() => {
+
+        const result = confirm(
+          `読み取り結果\n\n${decodedText}\n\nこの値を登録しますか？`
+        );
+
+        if (!result && input) {
+
+          input.value = "";
+
+          saveDraft(
+            targetBind,
+            ""
+          );
+        }
+
+      }, 200);
+
     },
 
-    (error) => {
-      // 読取中エラーは無視
-    }
+    () => {}
 
   ).catch(err => {
 
     console.error(err);
 
     alert(
-      "カメラを起動できませんでした"
+      "カメラを起動できませんでした。手入力してください。"
     );
 
     scanRunning = false;
@@ -368,9 +408,7 @@ function startBarcodeScanner(targetBind) {
       "scanModal"
     ).style.display = "none";
   });
-
 }
-
   
 // 下書き保存
 function saveDraft(key, value) {
