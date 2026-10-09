@@ -367,16 +367,10 @@ function startBarcodeScanner(targetBind) {
         );
       }
 
-await closeScanner();
-
-setTimeout(() => {
-
-  alert(
-    "読取成功\n\n" +
-    decodedText
-  );
-
-}, 100);
+html5QrCode.start(
+  {
+    facingMode: "environment"
+  },
     },
 
     () => {}
