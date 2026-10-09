@@ -1,8 +1,8 @@
 ﻿{
 "logo": "/logos/Baycrews.png",
+"title": "入店連絡",
+"description": "入店時にお名前を記入して送信してください。",
 "formType": "t_sample",
-"formGroup": "",
-"fields": [
-{"label": "1. 作業員名","type": "text","bind": "txt1","required": true}
+{"label": "1. 作業者氏名","type": "text","bind": "txt1","required": true}
 ]
 }
