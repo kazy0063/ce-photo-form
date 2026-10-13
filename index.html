@@ -245,6 +245,7 @@ button.submit {
 <script>
 
 const formType = new URLSearchParams(location.search).get("form");
+const requestId =  new URLSearchParams(location.search).get("id");
 const draftKey = "draft_" + formType;
 let draft = {};
 
@@ -708,6 +709,12 @@ const payload = {
   timestamp: new Date().toISOString(),
   formType: formType,
   formGroup: window.currentConfig.formGroup,
+
+  parameter1: window.currentConfig.parameter1 || "",
+  parameter2: window.currentConfig.parameter2 || "",
+  parameter3: window.currentConfig.parameter3 || "",
+  parameter4: window.currentConfig.parameter4 || "",
+
   userAgent: navigator.userAgent,
   images: []
 };
