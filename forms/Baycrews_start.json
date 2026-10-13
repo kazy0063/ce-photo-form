@@ -2,6 +2,10 @@
 "logo": "/logos/Baycrews.png",
 "title": "入店連絡",
 "description": "入店時にお名前を記入して送信してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
 "fields": [
 {"label": "1. 作業者氏名","type": "text","bind": "txt1","required": true}
 ]

@@ -2,6 +2,10 @@
 "logo": "/logos/Baycrews.png",
 "title": "【新AP_設置前】シリアル/写真報告",
 "description": "S/Nはバーコード読取もしくは手入力が可能です。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
 "fields": [
 {"label": "1. 新AP設置前_1台目S/N","type": "text","bind": "txt1","enableScan":true,"required": true},
 {"label": "2. 新AP設置前_1台目写真","type": "file","bind": "img1","required": true},
