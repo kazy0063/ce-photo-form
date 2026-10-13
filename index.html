@@ -708,6 +708,9 @@ async function submitForm() {
 const payload = {
   timestamp: new Date().toISOString(),
   formType: formType,
+
+  requestId: requestId,
+  
   formGroup: window.currentConfig.formGroup,
 
   parameter1: window.currentConfig.parameter1 || "",
