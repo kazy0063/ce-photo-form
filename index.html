@@ -312,8 +312,8 @@ async function startBarcodeScanner(targetBind) {
   const video =
     document.getElementById("reader");
 
-  video.innerHTML =
-    '<video id="barcode-video" style="width:100%;"></video>';
+video.innerHTML =
+  '<video id="barcode-video" style="width:100%;"></video>';
 
 const videoElement =
   document.getElementById(
@@ -325,19 +325,35 @@ videoElement.setAttribute(
   true
 );
 
+// 高解像度要求
+const stream =
+  await navigator.mediaDevices.getUserMedia({
+    video: {
+      facingMode: {
+        ideal: "environment"
+      },
+      width: {
+        ideal: 1920
+      },
+      height: {
+        ideal: 1080
+      }
+    }
+  });
+
+videoElement.srcObject = stream;
+videoElement.play();
+``
+
   try {
 
-    codeReader =
-      new ZXingBrowser.BrowserMultiFormatReader();
+codeReader =
+  new ZXingBrowser.BrowserMultiFormatReader();
 
-    currentControls =
-      await codeReader.decodeFromVideoDevice(
-
-        null,
-
-        videoElement,
-
-        (result, err) => {
+currentControls =
+  await codeReader.decodeFromVideoElement(
+    videoElement,
+    (result, err) => {
 
           if (result) {
 
