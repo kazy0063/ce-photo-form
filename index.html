@@ -151,9 +151,15 @@ button.submit {
 }
 
 .scan-container {
+  width: 98%;
+  max-width: 900px;
+}
 
-  width: 90%;
-  max-width: 380px;
+#reader {
+  width: 100%;
+  min-height: 650px;
+}
+
 
   background: white;
 
@@ -276,10 +282,7 @@ const requestId =  new URLSearchParams(location.search).get("id");
 const draftKey = "draft_" + formType;
 let draft = {};
 
-let codeReader = null;
-let currentControls = null;
-let scanRunning = false;
-
+let currentTrack = null;
 
 
 // 下書き取得
@@ -397,30 +400,115 @@ currentControls =
               input.value =
                 decodedText;
 
-              saveDraft(
-                targetBind,
-                decodedText
-              );
+             const stream =
+  await navigator.mediaDevices.getUserMedia({
+    video: {
+      facingMode: {
+        ideal: "environment"
+      },
+      width: {
+        ideal: 1920
+      },
+      height: {
+        ideal: 1080
+      }
+    }
+  });
 
-              input.dispatchEvent(
-                new Event("input")
-              );
-            }
+videoElement.srcObject = stream;
 
-            closeScanner();
+await videoElement.play();
 
-            setTimeout(() => {
+currentTrack =
+  stream.getVideoTracks()[0];
 
-              alert(
-                "読取成功\n\n" +
-                decodedText
-              );
+const capabilities =
+  currentTrack.getCapabilities();
 
-            }, 100);
-          }
+const zoomSlider =
+  document.getElementById("zoomSlider");
+
+if (capabilities.zoom) {
+
+  zoomSlider.min =
+    capabilities.zoom.min;
+
+  zoomSlider.max =
+    capabilities.zoom.max;
+
+  zoomSlider.step =
+    capabilities.zoom.step || 0.1;
+
+  zoomSlider.value =
+    capabilities.zoom.min;
+
+  zoomSlider.oninput =
+    async function() {
+
+      try {
+
+        await currentTrack.applyConstraints({
+
+          advanced: [{
+            zoom: Number(this.value)
+          }]
+
+        });
+
+      } catch(e) {
+
+        console.log(e);
+
+      }
+    };
+}
+
+codeReader =
+  new ZXingBrowser.BrowserMultiFormatReader();
+
+currentControls =
+  await codeReader.decodeFromVideoElement(
+    videoElement,
+    (result, err) => {
+
+      if (result) {
+
+        const decodedText =
+          result.getText();
+
+        const input =
+          document.querySelector(
+            `[data-bind="${targetBind}"]`
+          );
+
+        if (input) {
+
+          input.value =
+            decodedText;
+
+          saveDraft(
+            targetBind,
+            decodedText
+          );
+
+          input.dispatchEvent(
+            new Event("input")
+          );
         }
-      );
 
+        closeScanner();
+
+        setTimeout(() => {
+
+          alert(
+            "読取成功\n\n" +
+            decodedText
+          );
+
+        }, 100);
+      }
+    }
+  );
   } catch (err) {
 
     console.error(err);
@@ -670,18 +758,18 @@ async function closeScanner() {
   try {
 
     if (currentControls) {
-
       currentControls.stop();
+    }
 
+    if (currentTrack) {
+      currentTrack.stop();
     }
 
     if (codeReader) {
-
       codeReader.reset();
-
     }
 
-  } catch (e) {
+  } catch(e) {
 
     console.log(e);
 
@@ -697,9 +785,9 @@ async function closeScanner() {
 
   codeReader = null;
   currentControls = null;
+  currentTrack = null;
   scanRunning = false;
 }
-
   
 async function submitForm() {
 
