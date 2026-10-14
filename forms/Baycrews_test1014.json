@@ -1,0 +1,12 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "【旧AP撤去後】写真報告",
+"description": "新APの箱に梱包後、返却指示位置にて撮影",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 店舗","type": "select","bind": "txt1","options": ["大阪","東京","名古屋","京都"],"required": true}
+]
+}
