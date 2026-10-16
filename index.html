@@ -661,8 +661,11 @@ const icon =
     : item.status === "draft"
     ? "💾"
     : "⏳";
+      
 const imageInfo =
-  item.payload?.images?.length
+  item.status === "sent"
+    ? "✅送信済み（復元不可）"
+    : item.payload?.images?.length
     ? "📷写真あり"
     : "";
 
@@ -680,25 +683,31 @@ div.innerHTML = `
   ${imageInfo}
 </div>
 
-  <div>
+<div>
 
-    <button
-      onclick="restoreSubmission('${item.id}')">
-      📂復元
-    </button>
+  ${
+    item.status !== "sent"
+    ? `
+      <button
+        onclick="restoreSubmission('${item.id}')">
+        📂復元
+      </button>
+    `
+    : ""
+  }
 
-    ${
-      item.status === "error"
-      ? `
-        <button
-          onclick="resendSubmission('${item.id}')">
-          🔄再送
-        </button>
-      `
-      : ""
-    }
+  ${
+    item.status === "error"
+    ? `
+      <button
+        onclick="resendSubmission('${item.id}')">
+        🔄再送
+      </button>
+    `
+    : ""
+  }
 
-  </div>
+</div>
 `;
 
       list.appendChild(div);
