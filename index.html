@@ -412,21 +412,40 @@ const capabilities =
     ? currentTrack.getCapabilities()
     : {};
     
-  if (capabilities.zoom) {
+if (
+  capabilities.zoom &&
+  capabilities.zoom.min != null &&
+  capabilities.zoom.max != null
+) {
 
-    zoomSlider.min =
-      capabilities.zoom.min;
+  zoomSlider.min =
+    capabilities.zoom.min;
 
-    zoomSlider.max =
-      capabilities.zoom.max;
+  zoomSlider.max =
+    capabilities.zoom.max;
 
-    zoomSlider.step =
-      capabilities.zoom.step || 0.1;
+  zoomSlider.step =
+    capabilities.zoom.step || 0.1;
 
-    zoomSlider.value = Math.min(
+  zoomSlider.value =
+    Math.min(
       1.5,
       capabilities.zoom.max
     );
+
+  await currentTrack.applyConstraints({
+    advanced: [{
+      zoom: Number(
+        zoomSlider.value
+      )
+    }]
+  });
+
+} else {
+
+  zoomSlider.style.display =
+    "none";
+}
 
     await currentTrack.applyConstraints({
       advanced: [{
