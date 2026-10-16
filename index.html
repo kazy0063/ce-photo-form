@@ -370,16 +370,7 @@ async function startBarcodeScanner(targetBind) {
 video.innerHTML =
   '<video id="barcode-video"></video>' +
   '<div id="scanGuide"></div>' +
-  '<canvas id="scanCanvas" style="' +
-'position:absolute;' +
-'top:10px;' +
-'left:10px;' +
-'width:200px;' +
-'height:100px;' +
-'z-index:999;' +
-'border:5px solid red;' +
-'background:red;' +
-'"></canvas>';
+'<canvas id="scanCanvas" style="display:none;"></canvas>';
 
 
 const videoElement =
@@ -401,10 +392,10 @@ videoElement.setAttribute(
           ideal: "environment"
         },
         width: {
-          ideal: 1920
+          ideal: 1280
         },
         height: {
-          ideal: 1080
+          ideal: 720
         }
       }
     });
@@ -533,12 +524,6 @@ async function scanGuideArea(
   videoElement,
   targetBind
 ) {
-console.log(
-  "scanGuideArea",
-  videoElement.videoWidth,
-  videoElement.videoHeight
-);
-
 
   if (!scanRunning) {
     return;
@@ -562,23 +547,23 @@ console.log(
   const vh =
     videoElement.videoHeight;
 
-  if (!vw || !vh) {
+if (!vw || !vh) {
 
-    requestAnimationFrame(() =>
-      scanGuideArea(
-        videoElement,
-        targetBind
-      )
+  setTimeout(() => {
+    scanGuideArea(
+      videoElement,
+      targetBind
     );
+  }, 100);
 
-    return;
-  }
+  return;
+}
 
-const cropX = 0;
-const cropY = 0;
+const cropX = vw * 0.1;
+const cropY = vh * 0.35;
 
-const cropWidth = vw;
-const cropHeight = vh;
+const cropWidth = vw * 0.8;
+const cropHeight = vh * 0.3;
 
   canvas.width =
     cropWidth;
@@ -608,24 +593,18 @@ const cropHeight = vh;
     cropWidth,
     cropHeight
   );
-requestAnimationFrame(() =>
+setTimeout(() => {
   scanGuideArea(
     videoElement,
     targetBind
-  )
-);
-  requestAnimationFrame(() =>
-    scanGuideArea(
-      videoElement,
-      targetBind
-    )
   );
+}, 100);
+
 }
 async function decodeCanvas(
   targetBind
 ) {
 
-  console.log("decodeCanvas start");
 
   if (!scanRunning) {
     return;
@@ -636,7 +615,7 @@ async function decodeCanvas(
       "scanCanvas"
     );
 
-  console.log(canvas);
+
 
   try {
 
@@ -645,48 +624,43 @@ async function decodeCanvas(
         canvas
       );
 
-    console.log(
-      "decode result",
-      result
+
+    
+
+if (result) {
+
+  const decodedText =
+    result.getText();
+
+  if (navigator.vibrate) {
+    navigator.vibrate([100, 50, 100]);
+  }
+
+  const input =
+    document.querySelector(
+      `[data-bind="${targetBind}"]`
     );
 
-    if (result) {
+  if (input) {
 
-      const decodedText =
-        result.getText();
+    input.value =
+      decodedText;
 
-      const input =
-        document.querySelector(
-          `[data-bind="${targetBind}"]`
-        );
+    saveDraft(
+      targetBind,
+      decodedText
+    );
+  }
 
-      if (input) {
+  await closeScanner();
 
-        input.value =
-          decodedText;
+await closeScanner();
+return;
 
-        saveDraft(
-          targetBind,
-          decodedText
-        );
-      }
-
-      await closeScanner();
-
-      alert(
-        "読取成功\n\n" +
-        decodedText
-      );
-
-      return;
-    }
+  return;
+}
 
   } catch (e) {
-
-    console.log(
-      "decode error",
-      e
-    );
 
   }
 
