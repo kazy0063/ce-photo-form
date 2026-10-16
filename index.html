@@ -222,71 +222,75 @@ box-shadow:
 
 #bottomBar {
 
-  position: sticky;
+  position: fixed;
 
-  bottom: 0;
+  left: 0;
+  right: 0;
 
-  display: flex;
+  bottom: 10px;
 
-  gap: 12px;
+  z-index: 9999;
 
-  justify-content: center;
+  opacity: 0;
 
-  align-items: center;
+  visibility: hidden;
 
-  padding: 10px;
+  transition: .3s;
+}
 
-  background: rgba(
-    244,
-    246,
-    248,
-    0.95
-  );
+#bottomBar.show {
 
-  backdrop-filter: blur(4px);
+  opacity: 1;
 
-  z-index: 1000;
+  visibility: visible;
 }
 
 button.submit {
 
+  position: absolute;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
   width: 60%;
 
-  max-width: 300px;
+  max-width: 400px;
 
   height: 56px;
-
-  border: none;
 
   border-radius: 28px;
 
+  border: none;
+
   background: #6264a7;
 
-  color: white;
+  color: #fff;
 
   font-size: 18px;
 }
+  
 #historyBtn {
 
-  width: 56px;
+  position: absolute;
 
+  right: 16px;
+
+  width: 56px;
   height: 56px;
 
-  border: none;
-
   border-radius: 50%;
+
+  border: none;
 
   background: #6264a7;
 
   color: white;
 
-  font-size: 26px;
-
-  flex-shrink: 0;
+  font-size: 24px;
 
   box-shadow:
-    0 4px 12px
-    rgba(0,0,0,.2);
+    0 4px 10px rgba(0,0,0,.2);
 }
 
 </style>
