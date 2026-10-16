@@ -661,7 +661,10 @@ const icon =
     : item.status === "draft"
     ? "💾"
     : "⏳";
-
+const imageInfo =
+  item.payload?.images?.length
+    ? "📷写真あり"
+    : "";
 
 div.innerHTML = `
   <div>
@@ -669,9 +672,13 @@ div.innerHTML = `
     ${new Date(item.createdAt).toLocaleString("ja-JP")}
   </div>
 
-  <div>
-    ${item.payload.formType || ""}
-  </div>
+<div>
+  ${item.payload.formType || ""}
+</div>
+
+<div>
+  ${imageInfo}
+</div>
 
   <div>
 
@@ -1894,10 +1901,12 @@ const record =
   );
 
 if (record) {
-
   record.status = "sent";
 
-  //record.payload.images = [];
+  // 送信済みは画像削除
+  if (record.payload) {
+    record.payload.images = [];
+  }
 
   const db =
     await openDB();
