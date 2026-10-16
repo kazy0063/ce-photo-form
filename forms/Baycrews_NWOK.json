@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "NWチームから通信テスト完了の連絡を確認",
+"description": "通信テストが問題ない旨連絡を受けたら送信してください。
+何か問題があった場合は特記事項に記載してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 通信テストが問題なく完了した旨連絡を受けました。","type": "select","bind": "txt1","options": ["Yes","No"],"required": true},
+{"label": "2. 特記事項","type": "textarea","bind": "txt2","required": false}
+]
+}
