@@ -220,9 +220,11 @@ button.submit {
   border-radius: 12px;
 
   pointer-events: none;
+  z-index: 10;
 
-  box-shadow:
-    0 0 15px rgba(0,255,100,0.8);
+box-shadow:
+  0 0 0 9999px rgba(0,0,0,0.45),
+  0 0 15px rgba(0,255,100,0.8);
 }
 
   #barcode-video {
@@ -254,6 +256,11 @@ button.submit {
 
 <div id="reader">
   <div id="scanGuide"></div>
+
+  <canvas
+    id="scanCanvas"
+    style="display:none;">
+  </canvas>
 </div>
 
     <div style="margin-top:10px;">
@@ -358,7 +365,8 @@ async function startBarcodeScanner(targetBind) {
 
 video.innerHTML =
   '<video id="barcode-video"></video>' +
-  '<div id="scanGuide"></div>';
+  '<div id="scanGuide"></div>' +
+  '<canvas id="scanCanvas" style="display:none;"></canvas>';
 
 const videoElement =
   document.getElementById(
