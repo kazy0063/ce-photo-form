@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "【AP交換作業】資料受領確認",
+"description": "資料受領と作業日確認の上、送信をお願いいたします。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 作業者氏名を入力してください。","type": "text","bind": "txt1","required": true},
+{"label": "2. 資料は受領しましたか？","type": "select","bind": "txt2","options": ["Yes","No"],"required": true},
+{"label": "3. 店舗名と作業日は確認できましたか？","type": "select","bind": "txt3","options": ["Yes","No"],"required": true}
+]
+}
