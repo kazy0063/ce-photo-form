@@ -344,6 +344,39 @@ button.submit {
   </div>
 </div>
 
+<div id="bottomBar">
+
+  <button
+    id="saveBtn"
+    type="button"
+    onclick="saveAsDraft()">
+    💾
+  </button>
+
+  <button
+    id="submitBtn"
+    class="submit"
+    onclick="submitForm()">
+
+    <span id="btnText">
+      送信
+    </span>
+
+    <span id="spinner"
+          class="spinner">
+    </span>
+
+  </button>
+
+  <button
+    id="historyBtn"
+    type="button"
+    onclick="showHistory()">
+    📋
+  </button>
+
+</div>
+
 <!-- スキャンモーダル -->
 <div id="scanModal">
 
@@ -389,18 +422,6 @@ button.submit {
   </div>
 
 </div>
-
-<button
-  id="historyBtn"
-  type="button"
-  onclick="showHistory()">
-  📋
-</button>
-
-<button id="submitBtn" class="submit" onclick="submitForm()">
-  <span id="btnText">送信</span>
-  <span id="spinner" class="spinner"></span>
-</button>
 
 <script>
 
@@ -551,12 +572,15 @@ async function showHistory() {
       div.style.marginBottom =
         "10px";
 
-      const icon =
-        item.status === "sent"
-          ? "✅"
-          : item.status === "error"
-          ? "❌"
-          : "⏳";
+const icon =
+  item.status === "sent"
+    ? "✅"
+    : item.status === "error"
+    ? "❌"
+    : item.status === "draft"
+    ? "💾"
+    : "⏳";
+
 
 div.innerHTML = `
   <div>
@@ -571,17 +595,31 @@ div.innerHTML = `
   ${
     item.status === "error"
       ? `
+      <div>
+  <button
+    onclick="
+      restoreSubmission(
+        '${item.id}'
+      )
+    ">
+    📂復元
+  </button>
+
+  ${
+    item.status === "error"
+      ? `
       <button
         onclick="
           resendSubmission(
             '${item.id}'
           )
         ">
-        再送
+        🔄再送
       </button>
       `
       : ""
   }
+</div>
 `;
 
       list.appendChild(div);
@@ -593,6 +631,10 @@ div.innerHTML = `
   ).style.display =
     "block";
 }
+
+async function restoreSubmission(
+  id
+)
 
 async function getSubmissionById(
   id
@@ -1024,7 +1066,68 @@ function saveDraft(key, value) {
   draft[key] = value;
   localStorage.setItem(draftKey, JSON.stringify(draft));
 }
+  
+async function saveAsDraft() {
 
+  const payload = {
+    timestamp:
+      new Date().toISOString(),
+
+    formType:
+      formType,
+
+    requestId:
+      requestId,
+
+    images:[]
+  };
+
+  for (
+    const field of
+    document.querySelectorAll(
+      "[data-bind]"
+    )
+  ) {
+
+    const key =
+      field.dataset.bind;
+
+    if (
+      field.type === "text" ||
+      field.tagName === "TEXTAREA" ||
+      field.tagName === "SELECT"
+    ) {
+
+      payload[key] =
+        field.value;
+    }
+
+    if (
+      field.type === "file" &&
+      draft[key]
+    ) {
+
+      payload.images.push({
+        name:key,
+        data:draft[key]
+      });
+    }
+  }
+
+  payload.backupId =
+    "draft_" +
+    Date.now();
+
+  await saveSubmission(
+    payload,
+    "draft"
+  );
+
+  alert(
+    "途中保存しました"
+  );
+}
+  
 async function saveSubmission(
   payload,
   status = "pending"
