@@ -370,7 +370,7 @@ async function startBarcodeScanner(targetBind) {
 video.innerHTML =
   '<video id="barcode-video"></video>' +
   '<div id="scanGuide"></div>' +
-  '<canvas id="scanCanvas" style="display:none;"></canvas>';
+  '<canvas id="scanCanvas" style="width:100%;border:2px solid red;"></canvas>';
 
 const videoElement =
   document.getElementById(
