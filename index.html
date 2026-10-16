@@ -331,6 +331,16 @@ button.submit {
 <div class="header">
   <img id="logo" class="logo">
   <h1 id="formTitle" class="form-title"></h1>
+
+  <p id="requestInfo"
+   style="
+     margin:6px 0;
+     font-size:14px;
+     color:#5c2d91;
+     font-weight:bold;
+   ">
+</p>
+  
   <p id="formDescription" class="form-description"></p>
 </div>
 
@@ -587,6 +597,7 @@ fetch(`./forms/${formType}.json`)
 
 setLogo(config.logo);
 setTitle(config.title);
+setRequestInfo();
 setDescription(config.description);
 
 window.currentConfig = config;
@@ -624,6 +635,25 @@ function setTitle(title) {
   document.getElementById("formTitle").textContent =
     title || "";
 }
+
+function setRequestInfo() {
+
+  const requestInfo =
+    document.getElementById(
+      "requestInfo"
+    );
+
+  if (requestId) {
+
+    requestInfo.textContent =
+      `このサイトは ${requestId} 用です。`;
+
+  } else {
+
+    requestInfo.textContent = "";
+  }
+}
+
 
 function setDescription(description) {
   document.getElementById("formDescription").textContent =
