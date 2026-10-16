@@ -232,6 +232,35 @@ box-shadow:
   height: 100%;
   object-fit: cover;
 }
+#historyBtn {
+
+  position: fixed;
+
+  right: 16px;
+
+  bottom: 80px;
+
+  width: 56px;
+  height: 56px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #6264a7;
+
+  color: white;
+
+  font-size: 24px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.25);
+
+  z-index: 9998;
+
+  cursor: pointer;
+}
+  
 </style>
 </head>
 
@@ -246,19 +275,6 @@ box-shadow:
 <div id="formArea"></div>
 
 <div id="historyArea"></div>
-
-<div style="padding:16px;">
-  <button
-    type="button"
-    onclick="showHistory()"
-    style="
-      width:100%;
-      padding:12px;
-      font-size:16px;
-    ">
-    📄送信履歴
-  </button>
-</div>
 
 <div id="historyModal"
      style="
@@ -341,7 +357,14 @@ box-shadow:
   </div>
 
 </div>
-  
+
+<button
+  id="historyBtn"
+  type="button"
+  onclick="showHistory()">
+  📋
+</button>
+
 <button id="submitBtn" class="submit" onclick="submitForm()">
   <span id="btnText">送信</span>
   <span id="spinner" class="spinner"></span>
