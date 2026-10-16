@@ -472,11 +472,12 @@ function toggleBottomBar() {
   const viewportHeight =
     window.innerHeight;
 
+  // スクロール不要なら常時表示
   if (
     pageHeight <= viewportHeight
   ) {
 
-    bottomBar.classList.remove(
+    bottomBar.classList.add(
       "show"
     );
 
