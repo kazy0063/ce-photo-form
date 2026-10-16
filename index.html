@@ -232,12 +232,19 @@ box-shadow:
   height: 60px;
 
   z-index: 9999;
+
+  opacity: 0;
+
+  visibility: hidden;
+
+  transition: .3s;
 }
 
 #bottomBar.show {
 
-opacity: 0;
-visibility: hidden;
+  opacity: 1;
+
+  visibility: visible;
 }
 
 button.submit {
@@ -452,6 +459,38 @@ const DB_NAME = "FieldFormDB";
 const DB_VERSION = 1;
 const STORE_NAME = "submissions";
 
+function toggleBottomBar() {
+
+  const bottomBar =
+    document.getElementById(
+      "bottomBar"
+    );
+
+  const scrollBottom =
+    window.innerHeight +
+    window.scrollY;
+
+  const pageHeight =
+    document.body.scrollHeight;
+
+  if (
+    scrollBottom >=
+    pageHeight - 300
+  ) {
+
+    bottomBar.classList.add(
+      "show"
+    );
+
+  } else {
+
+    bottomBar.classList.remove(
+      "show"
+    );
+  }
+}
+
+  
 function openDB() {
   return new Promise((resolve, reject) => {
 
@@ -1749,29 +1788,16 @@ await updateSubmissionStatus(
 
 
 }
-window.addEventListener("scroll", () => {
+window.addEventListener(
+  "scroll",
+  toggleBottomBar
+);
 
-  const bottomBar =
-    document.getElementById("bottomBar");
+window.addEventListener(
+  "load",
+  toggleBottomBar
+);
 
-  const scrollBottom =
-    window.innerHeight +
-    window.scrollY;
-
-  const pageHeight =
-    document.body.scrollHeight;
-
-  if (scrollBottom >= pageHeight - 100) {
-
-    bottomBar.style.opacity = "1";
-    bottomBar.style.visibility = "visible";
-
-  } else {
-
-    bottomBar.style.opacity = "0";
-    bottomBar.style.visibility = "hidden";
-  }
-});
 </script>
 
 </body>
