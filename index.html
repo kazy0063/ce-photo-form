@@ -843,8 +843,8 @@ if (currentTrack) {
   currentTrack.stop();
 }
 
-if (codeReader) {
-  codeReader.reset();
+if (codeReader?.stop) {
+  codeReader.stop();
 }
 
 
