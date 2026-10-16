@@ -231,9 +231,9 @@ box-shadow:
 
   z-index: 9999;
 
-  opacity: 0;
+  opacity: 1;
 
-  visibility: hidden;
+  visibility: visible;
 
   transition: .3s;
 }
@@ -268,6 +268,26 @@ button.submit {
   color: #fff;
 
   font-size: 18px;
+}
+
+#saveBtn {
+
+  position: absolute;
+
+  left: 16px;
+
+  width: 56px;
+  height: 56px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #6264a7;
+
+  color: white;
+
+  font-size: 24px;
 }
   
 #historyBtn {
@@ -585,41 +605,32 @@ const icon =
 div.innerHTML = `
   <div>
     ${icon}
-    ${item.createdAt}
+    ${new Date(item.createdAt).toLocaleString("ja-JP")}
   </div>
 
   <div>
-    ${item.payload.formType}
+    ${item.payload.formType || ""}
   </div>
 
-  ${
-    item.status === "error"
-      ? `
-      <div>
-  <button
-    onclick="
-      restoreSubmission(
-        '${item.id}'
-      )
-    ">
-    📂復元
-  </button>
+  <div>
 
-  ${
-    item.status === "error"
+    <button
+      onclick="restoreSubmission('${item.id}')">
+      📂復元
+    </button>
+
+    ${
+      item.status === "error"
       ? `
-      <button
-        onclick="
-          resendSubmission(
-            '${item.id}'
-          )
-        ">
-        🔄再送
-      </button>
+        <button
+          onclick="resendSubmission('${item.id}')">
+          🔄再送
+        </button>
       `
       : ""
-  }
-</div>
+    }
+
+  </div>
 `;
 
       list.appendChild(div);
@@ -632,9 +643,58 @@ div.innerHTML = `
     "block";
 }
 
-async function restoreSubmission(
-  id
-)
+async function restoreSubmission(id) {
+
+  const record =
+    await getSubmissionById(id);
+
+  if (!record) {
+
+    alert(
+      "データが見つかりません"
+    );
+
+    return;
+  }
+
+  const payload =
+    record.payload;
+
+  for (
+    const field of
+    document.querySelectorAll(
+      "[data-bind]"
+    )
+  ) {
+
+    const key =
+      field.dataset.bind;
+
+    if (
+      payload[key] !== undefined
+    ) {
+
+      field.value =
+        payload[key];
+
+      saveDraft(
+        key,
+        payload[key]
+      );
+    }
+  }
+
+  document
+    .getElementById(
+      "historyModal"
+    )
+    .style.display =
+      "none";
+
+  alert(
+    "復元しました"
+  );
+}
 
 async function getSubmissionById(
   id
