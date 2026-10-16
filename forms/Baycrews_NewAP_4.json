@@ -8,6 +8,6 @@
 "parameter4": "",
 "fields": [
 {"label": "1. 付箋の番号を選択してください","type": "select","bind": "txt1","options": ["1","2","3","4","5","6","7","8","9","10"],"required": true},
-{"label": "2. 新AP設置後_1台目写真","type": "file","bind": "img1","required": true}
+{"label": "2. 新AP設置後の写真","type": "file","bind": "img1","required": true}
 ]
 }
