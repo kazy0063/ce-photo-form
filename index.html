@@ -466,12 +466,26 @@ function toggleBottomBar() {
       "bottomBar"
     );
 
-  const scrollBottom =
-    window.innerHeight +
-    window.scrollY;
-
   const pageHeight =
-    document.body.scrollHeight;
+    document.documentElement.scrollHeight;
+
+  const viewportHeight =
+    window.innerHeight;
+
+  if (
+    pageHeight <= viewportHeight
+  ) {
+
+    bottomBar.classList.remove(
+      "show"
+    );
+
+    return;
+  }
+
+  const scrollBottom =
+    window.scrollY +
+    viewportHeight;
 
   if (
     scrollBottom >=
@@ -575,6 +589,11 @@ setDescription(config.description);
 
 window.currentConfig = config;
 renderForm(config.fields);
+
+setTimeout(
+  toggleBottomBar,
+  100
+);
   })
   .catch(err => {
     console.error(err);
