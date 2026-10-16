@@ -616,10 +616,12 @@ const cropHeight = vh;
     )
   );
 }
- async function decodeCanvas(
+async function decodeCanvas(
   targetBind
 ) {
-console.log("decodeCanvas start");
+
+  console.log("decodeCanvas start");
+
   if (!scanRunning) {
     return;
   }
@@ -628,17 +630,21 @@ console.log("decodeCanvas start");
     document.getElementById(
       "scanCanvas"
     );
-console.log(canvas);
+
+  console.log(canvas);
+
   try {
 
     const result =
       await codeReader.decodeFromCanvas(
         canvas
       );
+
     console.log(
       "decode result",
       result
     );
+
     if (result) {
 
       const decodedText =
@@ -670,14 +676,14 @@ console.log(canvas);
       return;
     }
 
-catch (e) {
+  } catch (e) {
 
-  console.log(
-    "decode error",
-    e
-  );
+    console.log(
+      "decode error",
+      e
+    );
 
-}
+  }
 
   setTimeout(
     () =>
@@ -686,6 +692,7 @@ catch (e) {
       ),
     200
   );
+
 }
 // 下書き保存
 function saveDraft(key, value) {
