@@ -298,6 +298,59 @@ box-shadow:
 
 <script>
 
+const DB_NAME = "FieldFormDB";
+const DB_VERSION = 1;
+const STORE_NAME = "submissions";
+
+function openDB() {
+  return new Promise((resolve, reject) => {
+
+    const request =
+      indexedDB.open(
+        DB_NAME,
+        DB_VERSION
+      );
+
+    request.onupgradeneeded = e => {
+
+      const db =
+        e.target.result;
+
+      if (
+        !db.objectStoreNames.contains(
+          STORE_NAME
+        )
+      ) {
+
+        const store =
+          db.createObjectStore(
+            STORE_NAME,
+            {
+              keyPath: "id"
+            }
+          );
+
+        store.createIndex(
+          "status",
+          "status"
+        );
+
+        store.createIndex(
+          "createdAt",
+          "createdAt"
+        );
+      }
+    };
+
+    request.onsuccess =
+      () => resolve(request.result);
+
+    request.onerror =
+      () => reject(request.error);
+
+  });
+}
+
 const formType = new URLSearchParams(location.search).get("form");
 const requestId =  new URLSearchParams(location.search).get("id");
 const draftKey = "draft_" + formType;
@@ -654,8 +707,6 @@ if (result) {
 
   await closeScanner();
 
-await closeScanner();
-return;
 
   return;
 }
@@ -679,6 +730,90 @@ function saveDraft(key, value) {
   localStorage.setItem(draftKey, JSON.stringify(draft));
 }
 
+async function saveSubmission(
+  payload,
+  status = "pending"
+) {
+
+  const db =
+    await openDB();
+
+  const tx =
+    db.transaction(
+      STORE_NAME,
+      "readwrite"
+    );
+
+  const store =
+    tx.objectStore(
+      STORE_NAME
+    );
+
+  const record = {
+
+    id:
+      payload.backupId,
+
+    createdAt:
+      new Date().toISOString(),
+
+    status,
+
+    payload
+  };
+
+  store.put(record);
+
+  return new Promise(resolve => {
+    tx.oncomplete = resolve;
+  });
+}
+
+async function updateSubmissionStatus(
+  id,
+  status
+) {
+
+  const db =
+    await openDB();
+
+  const tx =
+    db.transaction(
+      STORE_NAME,
+      "readwrite"
+    );
+
+  const store =
+    tx.objectStore(
+      STORE_NAME
+    );
+
+  const req =
+    store.get(id);
+
+req.onsuccess = () => {
+
+  const item =
+    req.result;
+
+  if (!item) {
+
+    console.warn(
+      "backup not found",
+      id
+    );
+
+    return;
+  }
+
+  item.status = status;
+
+  item.updatedAt =
+    new Date().toISOString();
+
+  store.put(item);
+};
+  
 // フォーム生成
 function renderForm(fields) {
   const area = document.getElementById("formArea");
@@ -898,7 +1033,7 @@ function readFile(file) {
 }
 
 // 送信
-// 送信
+
 
 async function closeScanner() {
 
@@ -1041,6 +1176,16 @@ function normalizePayload(payload) {
 
 normalizePayload(payload);
 
+const backupId =
+  Date.now().toString();
+
+payload.backupId =
+  backupId;
+
+await saveSubmission(
+  payload,
+  "pending"
+);
 
   try {
 
@@ -1061,6 +1206,11 @@ normalizePayload(payload);
     );
   }
 
+  await updateSubmissionStatus(
+  backupId,
+  "sent"
+);
+
   localStorage.removeItem(draftKey);
 
   text.textContent = "送信完了 ✅";
@@ -1073,7 +1223,10 @@ normalizePayload(payload);
   }, 1500);
 
 } catch (e) {
-
+await updateSubmissionStatus(
+  backupId,
+  "error"
+  );
   console.error(e);
 
   alert(
