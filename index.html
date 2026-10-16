@@ -557,7 +557,8 @@ function openDB() {
 
 const formType = new URLSearchParams(location.search).get("form");
 const requestId =  new URLSearchParams(location.search).get("id");
-const draftKey = "draft_" + formType;
+const draftKey =
+  `draft_${formType}_${requestId || "default"}`;
 let draft = {};
 
 
@@ -590,7 +591,21 @@ setDescription(config.description);
 
 window.currentConfig = config;
 renderForm(config.fields);
+const restoreId =
+  localStorage.getItem(
+    "restoreSubmissionId"
+  );
 
+if (restoreId) {
+
+  localStorage.removeItem(
+    "restoreSubmissionId"
+  );
+
+  restoreSubmission(
+    restoreId
+  );
+}
 setTimeout(
   toggleBottomBar,
   100
@@ -677,7 +692,9 @@ div.innerHTML = `
   </div>
 
 <div>
-  ${item.payload.formType || ""}
+ ${item.payload.formType || ""}
+<br>
+ID: ${item.payload.requestId || ""}
 </div>
 
 <div>
@@ -723,6 +740,7 @@ div.innerHTML = `
 
 async function restoreSubmission(id) {
 
+ 
   const record =
     await getSubmissionById(id);
 
@@ -735,8 +753,24 @@ async function restoreSubmission(id) {
     return;
   }
 
-  const payload =
-    record.payload;
+const payload =
+  record.payload;
+
+if (
+  payload.pageUrl &&
+  payload.pageUrl !== location.href
+) {
+
+  localStorage.setItem(
+    "restoreSubmissionId",
+    id
+  );
+
+  location.href =
+    payload.pageUrl;
+
+  return;
+}
 
   for (
     const field of
@@ -1239,18 +1273,15 @@ function saveDraft(key, value) {
   
 async function saveAsDraft() {
 
-  const payload = {
-    timestamp:
-      new Date().toISOString(),
+const payload = {
+  timestamp: new Date().toISOString(),
+  formType: formType,
+  requestId: requestId,
 
-    formType:
-      formType,
+  pageUrl: location.href,
 
-    requestId:
-      requestId,
-
-    images:[]
-  };
+  images:[]
+};
 
   for (
     const field of
@@ -1824,6 +1855,8 @@ const payload = {
   formType: formType,
 
   requestId: requestId,
+
+  pageUrl: location.href,
   
   formGroup: window.currentConfig.formGroup,
 
