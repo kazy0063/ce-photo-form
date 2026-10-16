@@ -1586,7 +1586,32 @@ input.onchange = async () => {
     return;
   }
 
-  const base64 = await readFile(file);
+  let base64;
+
+if (ext === "pdf") {
+
+  base64 =
+    await readFile(file);
+
+} else {
+
+try {
+
+  base64 =
+    await compressImage(file);
+
+} catch (e) {
+
+  console.warn(
+    "画像圧縮失敗",
+    e
+  );
+
+  base64 =
+    await readFile(file);
+}
+
+}
 
   // PDFはプレビューしない
   if (ext !== "pdf") {
@@ -1634,6 +1659,63 @@ function readFile(file) {
 
 // 送信
 
+async function compressImage(file) {
+
+  const img =
+    await createImageBitmap(file);
+
+  const canvas =
+    document.createElement("canvas");
+
+  let width = img.width;
+  let height = img.height;
+
+  const maxSize = 1600;
+
+  if (
+    width > maxSize ||
+    height > maxSize
+  ) {
+
+    if (width > height) {
+
+      height =
+        height *
+        (maxSize / width);
+
+      width =
+        maxSize;
+
+    } else {
+
+      width =
+        width *
+        (maxSize / height);
+
+      height =
+        maxSize;
+    }
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  ctx.drawImage(
+    img,
+    0,
+    0,
+    width,
+    height
+  );
+
+  return canvas.toDataURL(
+    "image/jpeg",
+    0.7
+  );
+}
 
 async function closeScanner() {
 
@@ -1806,10 +1888,30 @@ await saveSubmission(
     );
   }
 
-  await updateSubmissionStatus(
-  backupId,
-  "sent"
-);
+const record =
+  await getSubmissionById(
+    backupId
+  );
+
+if (record) {
+
+  record.status = "sent";
+
+  //record.payload.images = [];
+
+  const db =
+    await openDB();
+
+  const tx =
+    db.transaction(
+      STORE_NAME,
+      "readwrite"
+    );
+
+  tx
+    .objectStore(STORE_NAME)
+    .put(record);
+}
 
   localStorage.removeItem(draftKey);
 
