@@ -533,6 +533,12 @@ async function scanGuideArea(
   videoElement,
   targetBind
 ) {
+console.log(
+  "scanGuideArea",
+  videoElement.videoWidth,
+  videoElement.videoHeight
+);
+
 
   if (!scanRunning) {
     return;
@@ -628,14 +634,17 @@ async function scanGuideArea(
     document.getElementById(
       "scanCanvas"
     );
-
+console.log(canvas);
   try {
 
     const result =
       await codeReader.decodeFromCanvas(
         canvas
       );
-
+    console.log(
+      "decode result",
+      result
+    );
     if (result) {
 
       const decodedText =
