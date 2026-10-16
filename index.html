@@ -455,8 +455,15 @@ const capabilities =
       };
   }
 
+
+
   codeReader =
     new ZXingBrowser.BrowserMultiFormatReader();
+
+    scanGuideArea(
+  videoElement,
+  targetBind
+);
 
 currentControls =
   await codeReader.decodeFromVideoElement(
@@ -490,6 +497,8 @@ if (result) {
           );
         }
 
+ 
+
         await closeScanner();
 
         setTimeout(() => {
@@ -515,7 +524,86 @@ if (result) {
   );
 }
 }
+ async function scanGuideArea(
+  videoElement,
+  targetBind
+) {
 
+  if (!scanRunning) {
+    return;
+  }
+
+  const canvas =
+    document.getElementById(
+      "scanCanvas"
+    );
+
+  const ctx =
+    canvas.getContext("2d");
+
+  const vw =
+    videoElement.videoWidth;
+
+  const vh =
+    videoElement.videoHeight;
+
+  if (!vw || !vh) {
+
+    requestAnimationFrame(() =>
+      scanGuideArea(
+        videoElement,
+        targetBind
+      )
+    );
+
+    return;
+  }
+
+  const cropX =
+    vw * 0.1;
+
+  const cropY =
+    vh * 0.44;
+
+  const cropWidth =
+    vw * 0.8;
+
+  const cropHeight =
+    vh * 0.12;
+
+  canvas.width =
+    cropWidth;
+
+  canvas.height =
+    cropHeight;
+
+  ctx.drawImage(
+    videoElement,
+
+    cropX,
+    cropY,
+
+    cropWidth,
+    cropHeight,
+
+    0,
+    0,
+
+    cropWidth,
+    cropHeight
+  );
+
+  console.log(
+    "Canvas updated"
+  );
+
+  requestAnimationFrame(() =>
+    scanGuideArea(
+      videoElement,
+      targetBind
+    )
+  );
+}
 // 下書き保存
 function saveDraft(key, value) {
   draft[key] = value;
