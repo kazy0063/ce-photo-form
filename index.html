@@ -574,17 +574,11 @@ console.log(
     return;
   }
 
-  const cropX =
-    vw * 0.45;
+const cropX = 0;
+const cropY = 0;
 
-  const cropY =
-    vh * 0.45;
-
-  const cropWidth =
-    vw * 0.10;
-
-  const cropHeight =
-    vh * 0.10;
+const cropWidth = vw;
+const cropHeight = vh;
 
   canvas.width =
     cropWidth;
@@ -676,10 +670,14 @@ console.log(canvas);
       return;
     }
 
-  } catch (e) {
+catch (e) {
 
-    // 読取失敗は無視
-  }
+  console.log(
+    "decode error",
+    e
+  );
+
+}
 
   setTimeout(
     () =>
