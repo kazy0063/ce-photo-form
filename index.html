@@ -160,6 +160,7 @@ button.submit {
 
   box-shadow:
     0 10px 30px rgba(0,0,0,0.25);
+  position: relative;
 }
 
 .scan-title {
@@ -197,6 +198,28 @@ button.submit {
 
   cursor: pointer;
 }
+#scanGuide {
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 80%;
+  height: 100px;
+
+  transform: translate(-50%, -50%);
+
+  border: 3px solid #00ff66;
+
+  border-radius: 12px;
+
+  pointer-events: none;
+
+  box-shadow:
+    0 0 15px rgba(0,255,100,0.8);
+
+}
 
 </style>
 </head>
@@ -221,6 +244,8 @@ button.submit {
     </div>
 
     <div id="reader"></div>
+
+<div id="scanGuide"></div>
 
     <div style="margin-top:10px;">
   🔍ズーム
