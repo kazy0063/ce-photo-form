@@ -229,13 +229,9 @@ box-shadow:
 
   bottom: 10px;
 
+  height: 60px;
+
   z-index: 9999;
-
-  opacity: 1;
-
-  visibility: visible;
-
-  transition: .3s;
 }
 
 #bottomBar.show {
@@ -247,21 +243,17 @@ box-shadow:
 
 button.submit {
 
-  width: 60%;
+  position: absolute;
 
-  max-width: 400px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 320px;
 
   height: 56px;
 
   border-radius: 28px;
-
-  border: none;
-
-  background: #6264a7;
-
-  color: #fff;
-
-  font-size: 18px;
 }
 
 #saveBtn {
@@ -272,31 +264,16 @@ button.submit {
 
   width: 56px;
   height: 56px;
-
-  border: none;
-
-  border-radius: 50%;
-
-  background: #6264a7;
-
-  color: white;
-
-  font-size: 24px;
 }
   
 #historyBtn {
 
+  position: absolute;
+
+  right: 16px;
+
   width: 56px;
   height: 56px;
-
-  border-radius: 50%;
-  border: none;
-
-  background: #6264a7;
-
-  color: white;
-
-  font-size: 24px;
 }
 
 </style>
