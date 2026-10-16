@@ -608,7 +608,12 @@ const cropHeight = vh;
     cropWidth,
     cropHeight
   );
-
+requestAnimationFrame(() =>
+  scanGuideArea(
+    videoElement,
+    targetBind
+  )
+);
   requestAnimationFrame(() =>
     scanGuideArea(
       videoElement,
