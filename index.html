@@ -645,8 +645,12 @@ function setRequestInfo() {
 
   if (requestId) {
 
-    requestInfo.textContent =
-      `このサイトは ${requestId} 用です。`;
+      requestInfo.innerHTML =
+  `このサイトは
+   <span style="color:red">
+     ${requestId}
+   </span>
+   用です。`;
 
   } else {
 
