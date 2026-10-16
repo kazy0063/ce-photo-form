@@ -175,7 +175,10 @@ button.submit {
 
 #reader {
   width: 100%;
-  min-height: 600px;
+  height: 45vh;
+  min-height: 300px;
+  max-height: 450px;
+  overflow: hidden;
 }
 
 .cancel-scan-btn {
@@ -218,6 +221,12 @@ button.submit {
 
   box-shadow:
     0 0 15px rgba(0,255,100,0.8);
+
+  #barcode-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
 }
 
@@ -347,8 +356,8 @@ async function startBarcodeScanner(targetBind) {
   const video =
     document.getElementById("reader");
 
-  video.innerHTML =
-    '<video id="barcode-video" style="width:100%;"></video>';
+video.innerHTML =
+  '<video id="barcode-video"></video>';
 
 const videoElement =
   document.getElementById(
