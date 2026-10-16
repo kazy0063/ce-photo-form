@@ -478,6 +478,12 @@ if (
   targetBind
 );
 
+decodeCanvas(
+  targetBind
+);
+
+
+/*
 currentControls =
   await codeReader.decodeFromVideoElement(
     videoElement,
@@ -509,22 +515,8 @@ if (result) {
             new Event("input")
           );
         }
-
+*/
  
-
-        await closeScanner();
-
-        setTimeout(() => {
-
-          alert(
-            "読取成功\n\n" +
-            decodedText
-          );
-
-        }, 100);
-      }
-    }
-  );
 } catch (err) {
 
   console.error(err);
@@ -537,10 +529,158 @@ if (result) {
   );
 }
 }
- async function scanGuideArea(
+async function scanGuideArea(
   videoElement,
   targetBind
 ) {
+
+  if (!scanRunning) {
+    return;
+  }
+
+  const canvas =
+    document.getElementById(
+      "scanCanvas"
+    );
+
+  if (!canvas) {
+    return;
+  }
+
+  const ctx =
+    canvas.getContext("2d");
+
+  const vw =
+    videoElement.videoWidth;
+
+  const vh =
+    videoElement.videoHeight;
+
+  if (!vw || !vh) {
+
+    requestAnimationFrame(() =>
+      scanGuideArea(
+        videoElement,
+        targetBind
+      )
+    );
+
+    return;
+  }
+
+  const cropX =
+    vw * 0.45;
+
+  const cropY =
+    vh * 0.45;
+
+  const cropWidth =
+    vw * 0.10;
+
+  const cropHeight =
+    vh * 0.10;
+
+  canvas.width =
+    cropWidth;
+
+  canvas.height =
+    cropHeight;
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  ctx.drawImage(
+    videoElement,
+
+    cropX,
+    cropY,
+
+    cropWidth,
+    cropHeight,
+
+    0,
+    0,
+
+    cropWidth,
+    cropHeight
+  );
+
+  requestAnimationFrame(() =>
+    scanGuideArea(
+      videoElement,
+      targetBind
+    )
+  );
+}
+ async function decodeCanvas(
+  targetBind
+) {
+
+  if (!scanRunning) {
+    return;
+  }
+
+  const canvas =
+    document.getElementById(
+      "scanCanvas"
+    );
+
+  try {
+
+    const result =
+      await codeReader.decodeFromCanvas(
+        canvas
+      );
+
+    if (result) {
+
+      const decodedText =
+        result.getText();
+
+      const input =
+        document.querySelector(
+          `[data-bind="${targetBind}"]`
+        );
+
+      if (input) {
+
+        input.value =
+          decodedText;
+
+        saveDraft(
+          targetBind,
+          decodedText
+        );
+      }
+
+      await closeScanner();
+
+      alert(
+        "読取成功\n\n" +
+        decodedText
+      );
+
+      return;
+    }
+
+  } catch (e) {
+
+    // 読取失敗は無視
+  }
+
+  setTimeout(
+    () =>
+      decodeCanvas(
+        targetBind
+      ),
+    200
+  );
+}
+ {
 
   if (!scanRunning) {
     return;
