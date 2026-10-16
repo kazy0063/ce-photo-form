@@ -236,9 +236,8 @@ box-shadow:
 
 #bottomBar.show {
 
-  opacity: 1;
-
-  visibility: visible;
+opacity: 0;
+visibility: hidden;
 }
 
 button.submit {
@@ -249,19 +248,26 @@ button.submit {
 
   transform: translateX(-50%);
 
-  max-width: 280px;
+  width: 200px;
 
   height: 56px;
 
   border-radius: 28px;
-    background: #4b3fb3;
 
-  color: #ffffff;
+  border: none;
+
+  background: #5c2d91;
+
+  color: #fff;
 
   font-weight: 700;
 
-  border: none;
+  font-size: 20px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.25);
 }
+
 
 #saveBtn {
 
@@ -271,13 +277,19 @@ button.submit {
 
   width: 56px;
   height: 56px;
-    background: #4b3fb3;
 
-  color: #ffffff;
-
-  font-weight: 700;
+  border-radius: 50%;
 
   border: none;
+
+  background: #5c2d91;
+
+  color: #fff;
+
+  font-size: 24px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.25);
 }
   
 #historyBtn {
@@ -288,14 +300,21 @@ button.submit {
 
   width: 56px;
   height: 56px;
-    background: #4b3fb3;
 
-  color: #ffffff;
-
-  font-weight: 700;
+  border-radius: 50%;
 
   border: none;
+
+  background: #5c2d91;
+
+  color: #fff;
+
+  font-size: 24px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,.25);
 }
+
 
 </style>
 </head>
@@ -1730,15 +1749,28 @@ await updateSubmissionStatus(
 
 
 }
-window.addEventListener("load", () => {
+window.addEventListener("scroll", () => {
 
-  document
-    .getElementById("cancelScanBtn")
-    ?.addEventListener(
-      "click",
-      closeScanner
-    );
+  const bottomBar =
+    document.getElementById("bottomBar");
 
+  const scrollBottom =
+    window.innerHeight +
+    window.scrollY;
+
+  const pageHeight =
+    document.body.scrollHeight;
+
+  if (scrollBottom >= pageHeight - 100) {
+
+    bottomBar.style.opacity = "1";
+    bottomBar.style.visibility = "visible";
+
+  } else {
+
+    bottomBar.style.opacity = "0";
+    bottomBar.style.visibility = "hidden";
+  }
 });
 </script>
 
