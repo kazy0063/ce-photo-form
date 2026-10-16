@@ -744,7 +744,39 @@ async function restoreSubmission(id) {
       );
     }
   }
+if (payload.images) {
 
+  payload.images.forEach(img => {
+
+    draft[img.name] =
+      img.data;
+
+    const preview =
+      document.querySelector(
+        `[data-preview="${img.name}"]`
+      );
+
+    if (
+      preview &&
+      img.data.startsWith(
+        "data:image"
+      )
+    ) {
+
+      preview.src =
+        img.data;
+
+      preview.style.display =
+        "block";
+    }
+
+  });
+
+  localStorage.setItem(
+    draftKey,
+    JSON.stringify(draft)
+  );
+}
   document
     .getElementById(
       "historyModal"
@@ -1513,6 +1545,7 @@ if (item.enableScan) {
 
       const preview = document.createElement("img");
       preview.className = "preview";
+      preview.dataset.preview  = item.bind;
 
       // 復元
 if (
