@@ -1904,8 +1904,6 @@ if (codeReader?.stop) {
     "scanModal"
   ).style.display = "none";
 
-  await closeScanner();
-
   document.getElementById(
     "reader"
   ).innerHTML = "";
@@ -2146,7 +2144,7 @@ document
     document.getElementById(
       "scanResultModal"
     ).style.display = "none";
-
+await closeScanner();
   };
 
 document
