@@ -2153,22 +2153,17 @@ document
   .getElementById(
     "scanRetryBtn"
   )
-  .onclick = () => {
+  .onclick = async () => {
 
     document.getElementById(
       "scanResultModal"
     ).style.display = "none";
 
-    scanRunning = true;
+    await closeScanner();
 
-    setTimeout(() => {
-
-      decodeCanvas(
-        scannedTarget
-      );
-
-    }, 300);
-
+    startBarcodeScanner(
+      scannedTarget
+    );
   };
 </script>
 
