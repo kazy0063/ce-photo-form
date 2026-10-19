@@ -1263,6 +1263,8 @@ async function decodeCanvas(
 
 if (result) {
 
+  scanRunning = false;
+
   const decodedText =
     result.getText();
 
@@ -1276,11 +1278,15 @@ if (result) {
 
   if (!ok) {
 
-    // 読み直し
-    setTimeout(
-      () => decodeCanvas(targetBind),
-      500
-    );
+    scanRunning = true;
+
+    setTimeout(() => {
+
+      if (scanRunning) {
+        decodeCanvas(targetBind);
+      }
+
+    }, 300);
 
     return;
   }
