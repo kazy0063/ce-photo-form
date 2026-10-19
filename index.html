@@ -992,6 +992,12 @@ async function startBarcodeScanner(targetBind) {
     "scanModal"
   ).style.display = "flex";
 
+  document.getElementById(
+    "cancelScanBtn"
+  ).onclick = async () => {
+    await closeScanner();
+  };
+  
   const video =
     document.getElementById("reader");
 
