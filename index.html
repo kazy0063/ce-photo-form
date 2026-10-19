@@ -528,8 +528,38 @@ button.submit {
   
 <script>
 
+// ======================================
+// Custom FORM
+// 作成者 : Masakazu Ikeda
+//
+// 目的
+// ・JSON定義からフォーム生成
+// ・写真添付
+// ・QR / バーコード読取
+// ・IndexedDBによる保存
+// ・送信履歴管理
+// ・再送処理
+//
+// 構成
+// 1. 初期化
+// 2. IndexedDB
+// 3. 下書き
+// 4. 履歴
+// 5. スキャナ
+// 6. フォーム生成
+// 7. 送信
+// ======================================
+
+
 const DB_NAME = "FieldFormDB";
 const DB_VERSION = 1;
+
+// ======================================
+// グローバル変数
+// ======================================
+
+const formType = new URLSearchParams(location.search).get("form");
+const requestId =  new URLSearchParams(location.search).get("id");
 const STORE_NAME = "submissions";
 
 function toggleBottomBar() {
@@ -578,6 +608,10 @@ function toggleBottomBar() {
   }
 }
 
+// ======================================
+// IndexedDB
+// ローカル履歴管理
+// ======================================
   
 function openDB() {
   return new Promise((resolve, reject) => {
@@ -628,8 +662,6 @@ function openDB() {
   });
 }
 
-const formType = new URLSearchParams(location.search).get("form");
-const requestId =  new URLSearchParams(location.search).get("id");
 const draftKey =
   `draft_${formType}_${requestId || "default"}`;
 let draft = {};
@@ -642,6 +674,9 @@ let scanRunning = false;
 let scannedValue = "";
 let scannedTarget = "";
 
+// ======================================
+// グローバル変数
+// ======================================
 
 // 下書き取得
 try {
@@ -649,6 +684,13 @@ try {
 } catch {
   draft = {};
 }
+
+// ======================================
+// 初期化処理
+// JSON読込
+// タイトル表示
+// 下書き復元
+// ======================================
 
 // JSON読み込み
 fetch(`./forms/${formType}.json`)
@@ -729,6 +771,11 @@ function setDescription(description) {
     description || "";
 
 }
+
+// ======================================
+// 送信履歴管理
+// IndexedDBから取得
+// ======================================
 
 async function showHistory() {
 
@@ -1047,6 +1094,11 @@ async function resendSubmission(
   }
 }
 
+
+// ======================================
+// QR / バーコードスキャン
+// ZXing利用
+// ======================================
 async function startBarcodeScanner(targetBind) {
 
   if (scanRunning) return;
@@ -1359,7 +1411,11 @@ return;
   );
 
 }
-// 下書き保存
+
+// ======================================
+// 下書き管理
+// localStorage利用
+// ======================================
 function saveDraft(key, value) {
   draft[key] = value;
   localStorage.setItem(draftKey, JSON.stringify(draft));
@@ -1555,7 +1611,10 @@ async function getAllSubmissions() {
 }
 
 
+// ======================================
 // フォーム生成
+// JSON定義から生成
+// ======================================
 function renderForm(fields) {
   const area = document.getElementById("formArea");
 
@@ -1914,7 +1973,13 @@ currentTrack = null;
 scanRunning = false;
 }
 
-  
+// ======================================
+// Power Automate送信
+// ・必須チェック
+// ・バックアップ保存
+// ・送信
+// ・送信済更新
+// ======================================
 async function submitForm() {
 
  // ====================
@@ -2106,6 +2171,11 @@ await updateSubmissionStatus(
 
 
 }
+
+// ======================================
+// イベント登録
+// ======================================
+
 window.addEventListener(
   "scroll",
   toggleBottomBar
