@@ -1904,6 +1904,8 @@ if (codeReader?.stop) {
     "scanModal"
   ).style.display = "none";
 
+  await closeScanner();
+
   document.getElementById(
     "reader"
   ).innerHTML = "";
@@ -2159,9 +2161,14 @@ document
 
     scanRunning = true;
 
-    decodeCanvas(
-      scannedTarget
-    );
+    setTimeout(() => {
+
+      decodeCanvas(
+        scannedTarget
+      );
+
+    }, 300);
+
   };
 </script>
 
