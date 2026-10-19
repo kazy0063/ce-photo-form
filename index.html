@@ -463,6 +463,69 @@ button.submit {
 
 </div>
 
+<!-- 読取結果確認 -->
+<div id="scanResultModal"
+     style="
+       display:none;
+       position:fixed;
+       inset:0;
+       background:rgba(0,0,0,.75);
+       z-index:10000;
+       justify-content:center;
+       align-items:center;
+     ">
+
+  <div style="
+       width:90%;
+       max-width:500px;
+       background:#fff;
+       border-radius:16px;
+       padding:20px;
+       text-align:center;
+  ">
+
+    <h3>読取結果確認</h3>
+
+    <div id="scanResultText"
+         style="
+           font-size:24px;
+           font-weight:bold;
+           color:#5c2d91;
+           margin:20px 0;
+           word-break:break-all;
+         ">
+    </div>
+
+    <div style="display:flex; gap:10px;">
+
+      <button id="scanRetryBtn"
+              style="
+                flex:1;
+                height:50px;
+                background:#d83b01;
+                color:#fff;
+                border:none;
+                border-radius:10px;">
+        🔄再読取
+      </button>
+
+      <button id="scanUseBtn"
+              style="
+                flex:1;
+                height:50px;
+                background:#5c2d91;
+                color:#fff;
+                border:none;
+                border-radius:10px;">
+        ✅使用する
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+  
 <script>
 
 const DB_NAME = "FieldFormDB";
@@ -576,6 +639,8 @@ let codeReader = null;
 let currentControls = null;
 let currentTrack = null;
 let scanRunning = false;
+let scannedValue = "";
+let scannedTarget = "";
 
 
 // 下書き取得
@@ -1272,47 +1337,12 @@ if (result) {
     navigator.vibrate([100,50,100]);
   }
 
-  const ok = confirm(
-    `読み取り結果\n\n${decodedText}\n\nこの値を使用しますか？`
-  );
+showScanResult(
+  decodedText,
+  targetBind
+);
 
-  if (!ok) {
-
-    scanRunning = true;
-
-    setTimeout(() => {
-
-      if (scanRunning) {
-        decodeCanvas(targetBind);
-      }
-
-    }, 300);
-
-    return;
-  }
-
-  const input =
-    document.querySelector(
-      `[data-bind="${targetBind}"]`
-    );
-
-  if (input) {
-
-    input.value = decodedText;
-
-    saveDraft(
-      targetBind,
-      decodedText
-    );
-
-    input.dispatchEvent(
-      new Event("input")
-    );
-  }
-
-  await closeScanner();
-
-  return;
+return;
 }
 
 
@@ -1829,6 +1859,24 @@ async function compressImage(file) {
   );
 }
 
+function showScanResult(
+  value,
+  targetBind
+) {
+
+  scannedValue = value;
+  scannedTarget = targetBind;
+
+  document.getElementById(
+    "scanResultText"
+  ).textContent = value;
+
+  document.getElementById(
+    "scanResultModal"
+  ).style.display = "flex";
+}
+
+  
 async function closeScanner() {
 
   try {
@@ -2067,7 +2115,54 @@ window.addEventListener(
   "load",
   toggleBottomBar
 );
+document
+  .getElementById(
+    "scanUseBtn"
+  )
+  .onclick = async () => {
 
+    const input =
+      document.querySelector(
+        `[data-bind="${scannedTarget}"]`
+      );
+
+    if (input) {
+
+      input.value =
+        scannedValue;
+
+      saveDraft(
+        scannedTarget,
+        scannedValue
+      );
+
+      input.dispatchEvent(
+        new Event("input")
+      );
+    }
+
+    document.getElementById(
+      "scanResultModal"
+    ).style.display = "none";
+
+  };
+
+document
+  .getElementById(
+    "scanRetryBtn"
+  )
+  .onclick = () => {
+
+    document.getElementById(
+      "scanResultModal"
+    ).style.display = "none";
+
+    scanRunning = true;
+
+    decodeCanvas(
+      scannedTarget
+    );
+  };
 </script>
 
 </body>
