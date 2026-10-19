@@ -1267,7 +1267,22 @@ if (result) {
     result.getText();
 
   if (navigator.vibrate) {
-    navigator.vibrate([100, 50, 100]);
+    navigator.vibrate([100,50,100]);
+  }
+
+  const ok = confirm(
+    `読み取り結果\n\n${decodedText}\n\nこの値を使用しますか？`
+  );
+
+  if (!ok) {
+
+    // 読み直し
+    setTimeout(
+      () => decodeCanvas(targetBind),
+      500
+    );
+
+    return;
   }
 
   const input =
@@ -1277,20 +1292,23 @@ if (result) {
 
   if (input) {
 
-    input.value =
-      decodedText;
+    input.value = decodedText;
 
     saveDraft(
       targetBind,
       decodedText
     );
+
+    input.dispatchEvent(
+      new Event("input")
+    );
   }
 
   await closeScanner();
 
-
   return;
 }
+
 
   } catch (e) {
 
