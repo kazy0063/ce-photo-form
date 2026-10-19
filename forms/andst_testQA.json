@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/andst.png",
+"title": "QAフォームです。",
+"description": "問い合わせ内容と、必要に応じて写真を送ってください",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 問い合わせ内容","type": "textarea","bind": "txt1","required": true},
+{"label": "2. 写真1","type": "file","bind": "img1","required": false},
+{"label": "3. 写真2","type": "file","bind": "img2","required": false}
+]
+}
