@@ -1,0 +1,13 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "5.新AP写真報告(遠影)",
+"description": "設置状況が分かるように/n写真を撮影してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 新AP番号を選択してください","type": "select","bind": "txt1","options": ["1","2","3","4","5","6","7","8","9","10"],"required": true},
+{"label": "2. 新AP設置後の写真　※遠影","type": "file","bind": "img1","required": true}
+]
+}
