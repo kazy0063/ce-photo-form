@@ -1390,16 +1390,14 @@ if (result) {
     navigator.vibrate([100,50,100]);
   }
 
-showScanResult(
-  decodedText,
-  targetBind
-);
+  await closeScanner();
 
-document.getElementById(
-  "scanModal"
-).style.display = "none";
+  showScanResult(
+    decodedText,
+    targetBind
+  );
 
-return;
+  return;
 }
 
 
