@@ -1,0 +1,13 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "4.新AP写真報告（近影）",
+"description": "必要項目を確認して入力してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 交換後、新APの番号を選択","type": "select","bind": "txt1","options": ["AP1","AP2","AP3","AP4","AP5","AP6","AP7","AP8","AP9","AP10"],"required": true},
+{"label": "2. 交換後、新AP設置後の写真","type": "file","bind": "img1","required": true}
+]
+}
