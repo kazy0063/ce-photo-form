@@ -2149,35 +2149,73 @@ if (record) {
     .put(record);
 }
 
-  localStorage.removeItem(draftKey);
+localStorage.removeItem(draftKey);
 
-  text.textContent = "送信完了 ✅";
-  spinner.style.display = "none";
+spinner.style.display = "none";
 
-  setTimeout(() => {
-    text.textContent = "送信";
-    btn.disabled = false;
-    location.reload();
-  }, 1500);
+let resultHtml = "";
 
-} catch (e) {
-await updateSubmissionStatus(
-  backupId,
-  "error"
-  );
-  console.error(e);
+Object.keys(payload)
+  .filter(key => key.startsWith("txt"))
+  .forEach(key => {
 
-  alert(
-    "送信に失敗しました\n\n" + e
-  );
+    resultHtml += `
+      <p>
+        <b>${key}</b><br>
+        ${payload[key] || "-"}
+      </p>
+    `;
+  });
 
-  text.textContent = "送信";
-  spinner.style.display = "none";
-  btn.disabled = false;
-}
+document.body.innerHTML = `
+<div style="
+  display:flex;
+  min-height:100vh;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  padding:20px;
+  background:#f4f6f8;
+">
 
+  <h1 style="color:#28a745;">
+    ✅送信完了
+  </h1>
 
-}
+  <div style="
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    width:90%;
+    max-width:500px;
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
+  ">
+
+    <p><b>店舗番号</b><br>
+      ${requestId || "-"}
+    </p>
+
+    <p><b>写真枚数</b><br>
+      ${payload.images.length}枚
+    </p>
+
+    <p><b>送信時刻</b><br>
+      ${new Date().toLocaleString("ja-JP")}
+    </p>
+
+    ${resultHtml}
+
+  </div>
+
+  <p style="margin-top:20px;">
+    この画面を閉じてください
+  </p>
+
+</div>
+`;
+
+return;
 
 // ======================================
 // イベント登録
