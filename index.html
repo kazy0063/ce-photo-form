@@ -2241,20 +2241,6 @@ return;
 // イベント登録
 // ======================================
 
-window.addEventListener(...)
-
-document
-  .getElementById("scanUseBtn")
-  .onclick = ...
-
-document
-  .getElementById("scanRetryBtn")
-  .onclick = ...
-
-// ======================================
-// イベント登録
-// ======================================
-
 window.addEventListener(
   "scroll",
   toggleBottomBar
@@ -2264,6 +2250,7 @@ window.addEventListener(
   "load",
   toggleBottomBar
 );
+
 document
   .getElementById(
     "scanUseBtn"
@@ -2293,7 +2280,8 @@ document
     document.getElementById(
       "scanResultModal"
     ).style.display = "none";
-await closeScanner();
+
+    await closeScanner();
   };
 
 document
@@ -2312,7 +2300,6 @@ document
       scannedTarget
     );
   };
-}
 </script>
 
 </body>
