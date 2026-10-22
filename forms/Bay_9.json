@@ -1,12 +1,13 @@
 ﻿{
 "logo": "/logos/Baycrews.png",
-"title": "10.退店報告",
+"title": "9.確認テスト報告",
 "description": "必要項目を確認して入力してください。",
 "parameter1": "AP_REPLACE",
 "parameter2": "",
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. 特記事項がある場合は記入してください。特記事項がない場合はそのまま送信してください。","type": "textarea","bind": "txt1","required": false}
+{"label": "1. 通信テストが問題なく完了した旨連絡を受けました。","type": "select","bind": "txt1","options": ["YES","NO"],"required": true},
+{"label": "2. 特記事項","type": "textarea","bind": "txt2","required": false}
 ]
 }
