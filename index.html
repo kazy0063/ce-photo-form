@@ -1737,6 +1737,8 @@ if (item.enableScan) {
       input.accept = "image/*,.pdf";
       input.dataset.bind = item.bind;
       input.required = item.required || false;
+      // 非表示
+input.style.display = "none";
 
       // カメラボタン
       const cameraBtn = document.createElement("button");
