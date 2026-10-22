@@ -2217,6 +2217,24 @@ document.body.innerHTML = `
 
 return;
 
+} catch (e) {
+
+  await updateSubmissionStatus(
+    backupId,
+    "error"
+  );
+
+  console.error(e);
+
+  alert(
+    "送信に失敗しました\n\n" + e
+  );
+
+  text.textContent = "送信";
+  spinner.style.display = "none";
+  btn.disabled = false;
+}
+
 // ======================================
 // イベント登録
 // ======================================
