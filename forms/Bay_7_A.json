@@ -10,7 +10,7 @@
 {"label": "1. 【1台目】既存AP設置前シリアル番号　","type": "text","bind": "txt1","enableScan":true,"required": true},
 {"label": "2. 【2台目】既存AP設置前シリアル番号　","type": "text","bind": "txt2","enableScan":true,"required": false},
 {"label": "3. 【3台目】既存AP設置前シリアル番号　","type": "text","bind": "txt3","enableScan":true,"required": false},
-{"label": "4. 【4台目】既存AP設置前シリアル番号　","type": "text","bind": "txt4","enableScan":true,"required": true},
+{"label": "4. 【4台目】既存AP設置前シリアル番号　","type": "text","bind": "txt4","enableScan":true,"required": false},
 {"label": "5. 【5台目】既存AP設置前シリアル番号　","type": "text","bind": "txt5","enableScan":true,"required": false}
 ]
 }
