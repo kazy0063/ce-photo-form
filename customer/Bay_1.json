@@ -1,0 +1,13 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "0.事前連絡",
+"description": "必要項目を確認して入力してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 作業者名を入力して下さい","type": "text","bind": "txt1","required": true},
+{"label": "2. 店舗名と作業日は確認出来ましたか？","type": "select","bind": "txt2","options": ["YES","NO"],"required": true}
+]
+}
