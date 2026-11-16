@@ -1703,6 +1703,38 @@ if (item.enableScan) {
     }
 
     // SELECT
+
+  if (item.type === "scSelect") {
+
+    const select =
+      document.createElement("select");
+
+    select.dataset.bind =
+      item.bind;
+
+    const scList =
+      [...new Set(
+        storeMaster.map(
+          x => x.sc
+        )
+      )];
+
+    scList.forEach(sc => {
+
+      const option =
+        document.createElement("option");
+
+      option.value = sc;
+      option.text = sc;
+
+      select.appendChild(option);
+
+    });
+
+    div.appendChild(select);
+
+}
+
     if (item.type === "select") {
   const select = document.createElement("select");
   select.dataset.bind = item.bind;
