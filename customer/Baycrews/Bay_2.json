@@ -1,0 +1,13 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "1.入店連絡",
+"description": "必要項目を確認して入力してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 作業者氏名","type": "text","bind": "txt1","required": true},
+{"label": "2. 作業者電話番号","type": "text","bind": "txt2","required": true}
+]
+}

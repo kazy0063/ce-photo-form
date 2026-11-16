@@ -1,0 +1,12 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "8.既設AP引渡報告",
+"description": "必要項目を確認して入力してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 撤去後APの梱包写真","type": "file","bind": "img1","required": true}
+]
+}

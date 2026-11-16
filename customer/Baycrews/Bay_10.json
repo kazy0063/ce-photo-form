@@ -1,0 +1,12 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "10.退店報告",
+"description": "必要項目を確認して入力してください。",
+"parameter1": "AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 特記事項がある場合は入力してください。特記事項がない場合は送信ボタンを押してください。","type": "textarea","bind": "txt1","required": false}
+]
+}
