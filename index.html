@@ -559,7 +559,7 @@ const DB_VERSION = 1;
 // グローバル変数
 // ======================================
 
-const formType = new URLSearchParams(location.search).get("form");
+const formType = new URLSearchParams(location.search).get("customer");
 const requestId =  new URLSearchParams(location.search).get("id");
 const STORE_NAME = "submissions";
 
@@ -694,7 +694,9 @@ try {
 // ======================================
 
 // JSON読み込み
-fetch(`./forms/${formType}.json`)
+fetch(
+  `./forms/${customer}/${formType}.json`
+)
   .then(res => res.json())
   .then(config => {
 
