@@ -8,7 +8,7 @@
 "parameter4": "",
 "fields": [
 {"label": "1. SCを選択してください","type": "scSelect","bind": "txt1","required": true},
-{"label": "2. 店舗名を選択してください","type": "storeSelect","bind": "txt2","required": false},
+{"label": "2. 店舗名を選択してください","type": "storeSelect","bind": "txt99","required": false},
 {"label": "3. 作業者名","type": "text","bind": "txt3","required": true},
 {"label": "4. 作業者連絡先","type": "text","bind": "txt4","required": true},
 {"label": "5. 特記事項(任意)","type": "textarea","bind": "txt5","required": false},
