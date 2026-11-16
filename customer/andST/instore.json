@@ -1,0 +1,16 @@
+﻿{
+"logo": "/logos/andst.png",
+"title": "入店用フォームです",
+"description": "必要事項を記載してください。",
+"parameter1": "andst_regular",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "2. 店舗名を選択してください","type": "text","bind": "txt1","required": false},
+{"label": "3. 作業者名","type": "text","bind": "txt2","required": true},
+{"label": "4. 作業者連絡先","type": "text","bind": "txt3","required": true},
+{"label": "5. 店舗名(上記選択肢になかった場合のみ)","type": "text","bind": "txt4","required": false},
+{"label": "6. 店舗番号(上記選択肢になかった場合のみ)","type": "text","bind": "txt5","required": false}
+]
+}
