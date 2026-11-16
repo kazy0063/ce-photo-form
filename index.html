@@ -559,16 +559,7 @@ const DB_VERSION = 1;
 // グローバル変数
 // ======================================
 
-const customer =
-  new URLSearchParams(location.search)
-    .get("customer");
-
-const formType =
-  new URLSearchParams(location.search)
-    .get("form");
-  
-let storeMaster = [];
-  
+const formType = new URLSearchParams(location.search).get("form");
 const requestId =  new URLSearchParams(location.search).get("id");
 const STORE_NAME = "submissions";
 
@@ -702,71 +693,47 @@ try {
 // 下書き復元
 // ======================================
 
-// stores.json読込
-fetch(
-  `./customer/${customer}/stores.json`
-)
-.then(res => res.json())
-.then(data => {
+// JSON読み込み
+fetch(`./forms/${formType}.json`)
+  .then(res => res.json())
+  .then(config => {
 
-  storeMaster = data;
+    
+    console.log("formType:", formType);
+    console.log("currentConfig BEFORE:", window.currentConfig);
+    console.log("config:", config);
 
-  console.log("stores");
-  console.log(storeMaster);
+setLogo(config.logo);
+setTitle(config.title);
+setRequestInfo();
+setDescription(config.description);
 
-  // form.json読込
-  return fetch(
-    `./customer/${customer}/${formType}.json`
+window.currentConfig = config;
+renderForm(config.fields);
+const restoreId =
+  localStorage.getItem(
+    "restoreSubmissionId"
   );
 
-})
-.then(res => res.json())
-.then(config => {
+if (restoreId) {
 
-  console.log("formType:", formType);
-  console.log("currentConfig BEFORE:", window.currentConfig);
-  console.log("config:", config);
-
-  setLogo(config.logo);
-  setTitle(config.title);
-  setRequestInfo();
-  setDescription(config.description);
-
-  window.currentConfig = config;
-
-  renderForm(config.fields);
-
-  const restoreId =
-    localStorage.getItem(
-      "restoreSubmissionId"
-    );
-
-  if (restoreId) {
-
-    localStorage.removeItem(
-      "restoreSubmissionId"
-    );
-
-    restoreSubmission(
-      restoreId
-    );
-  }
-
-  setTimeout(
-    toggleBottomBar,
-    100
+  localStorage.removeItem(
+    "restoreSubmissionId"
   );
 
-})
-.catch(err => {
-
-  console.error(err);
-
-  alert(
-    "フォーム読み込みエラー"
+  restoreSubmission(
+    restoreId
   );
-
-});
+}
+setTimeout(
+  toggleBottomBar,
+  100
+);
+  })
+  .catch(err => {
+    console.error(err);
+    alert("フォーム読み込みエラー");
+  });
 
 
 function setLogo(logoPath) {
@@ -1711,107 +1678,6 @@ if (item.enableScan) {
     }
 
     // SELECT
-
-  if (item.type === "scSelect") {
-
-    const select =
-      document.createElement("select");
-
-    select.dataset.bind =
-      item.bind;
-
-    const firstOption =
-  document.createElement("option");
-
-firstOption.value = "";
-firstOption.text = "SCを選択してください";
-
-select.appendChild(firstOption);
-    
-    const scList =
-      [...new Set(
-        storeMaster.map(
-          x => x.sc
-        )
-      )];
-
-    scList.forEach(sc => {
-
-      const option =
-        document.createElement("option");
-
-      option.value = sc;
-      option.text = sc;
-
-
-      select.appendChild(option);
-
-    });
-select.onchange = () => {
-
-  const storeSelect =
-    document.querySelector(
-      '[data-bind="txt99"]'
-    );
-
-  if (!storeSelect) {
-    return;
-  }
-
-  storeSelect.innerHTML = "";
-
-  const stores =
-    storeMaster.filter(
-      x => x.sc === select.value
-    );
-
-  stores.forEach(store => {
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value =
-      store.storeno;
-
-    option.text =
-      `${store.storeno} ${store.storename}`;
-
-    storeSelect.appendChild(
-      option
-    );
-
-  });
-
-};
-    div.appendChild(select);
-
-}
-
-if (item.type === "storeSelect") {
-
-  const select =
-    document.createElement("select");
-
-  select.dataset.bind =
-    item.bind;
-
-  const option =
-    document.createElement("option");
-
-  option.value = "";
-
-  option.text =
-    "最初にSCを選択してください";
-
-  select.appendChild(option);
-
-  div.appendChild(select);
-
-}
-
-
     if (item.type === "select") {
   const select = document.createElement("select");
   select.dataset.bind = item.bind;
