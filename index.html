@@ -1738,10 +1738,70 @@ if (item.enableScan) {
       select.appendChild(option);
 
     });
+select.onchange = () => {
 
+  const storeSelect =
+    document.querySelector(
+      '[data-bind="txt10"]'
+    );
+
+  if (!storeSelect) {
+    return;
+  }
+
+  storeSelect.innerHTML = "";
+
+  const stores =
+    storeMaster.filter(
+      x => x.sc === select.value
+    );
+
+  stores.forEach(store => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value =
+      store.storeno;
+
+    option.text =
+      `${store.storeno} ${store.storename}`;
+
+    storeSelect.appendChild(
+      option
+    );
+
+  });
+
+};
     div.appendChild(select);
 
 }
+
+if (item.type === "storeSelect") {
+
+  const select =
+    document.createElement("select");
+
+  select.dataset.bind =
+    item.bind;
+
+  const option =
+    document.createElement("option");
+
+  option.value = "";
+
+  option.text =
+    "SCを選択してください";
+
+  select.appendChild(option);
+
+  div.appendChild(select);
+
+}
+
 
     if (item.type === "select") {
   const select = document.createElement("select");
