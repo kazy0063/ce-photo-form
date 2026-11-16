@@ -702,7 +702,7 @@ try {
 // 下書き復元
 // ======================================
 
-// JSON読み込み_store.json
+// stores.json読込
 fetch(
   `./customer/${customer}/stores.json`
 )
@@ -714,51 +714,59 @@ fetch(
   console.log("stores");
   console.log(storeMaster);
 
+  // form.json読込
+  return fetch(
+    `./customer/${customer}/${formType}.json`
+  );
+
+})
+.then(res => res.json())
+.then(config => {
+
+  console.log("formType:", formType);
+  console.log("currentConfig BEFORE:", window.currentConfig);
+  console.log("config:", config);
+
+  setLogo(config.logo);
+  setTitle(config.title);
+  setRequestInfo();
+  setDescription(config.description);
+
+  window.currentConfig = config;
+
+  renderForm(config.fields);
+
+  const restoreId =
+    localStorage.getItem(
+      "restoreSubmissionId"
+    );
+
+  if (restoreId) {
+
+    localStorage.removeItem(
+      "restoreSubmissionId"
+    );
+
+    restoreSubmission(
+      restoreId
+    );
+  }
+
+  setTimeout(
+    toggleBottomBar,
+    100
+  );
+
+})
+.catch(err => {
+
+  console.error(err);
+
+  alert(
+    "フォーム読み込みエラー"
+  );
+
 });
-
-// JSON読み込み_form.json
-fetch(
-  `./customer/${customer}/${formType}.json`
-)
-  .then(res => res.json())
-  .then(config => {
-
-    
-    console.log("formType:", formType);
-    console.log("currentConfig BEFORE:", window.currentConfig);
-    console.log("config:", config);
-
-setLogo(config.logo);
-setTitle(config.title);
-setRequestInfo();
-setDescription(config.description);
-
-window.currentConfig = config;
-renderForm(config.fields);
-const restoreId =
-  localStorage.getItem(
-    "restoreSubmissionId"
-  );
-
-if (restoreId) {
-
-  localStorage.removeItem(
-    "restoreSubmissionId"
-  );
-
-  restoreSubmission(
-    restoreId
-  );
-}
-setTimeout(
-  toggleBottomBar,
-  100
-);
-  })
-  .catch(err => {
-    console.error(err);
-    alert("フォーム読み込みエラー");
-  });
 
 
 function setLogo(logoPath) {
