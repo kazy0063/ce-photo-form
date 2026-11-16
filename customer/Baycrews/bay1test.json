@@ -25,6 +25,12 @@
     "type":"scSelect",
     "bind":"txt9",
     "required":true
-  }
+  },
+  {
+  "label":"店舗",
+  "type":"storeSelect",
+  "bind":"txt10",
+  "required":true
+}
 ]
 }
