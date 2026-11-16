@@ -1,0 +1,19 @@
+﻿{
+"logo": "/logos/andst.png",
+"title": "退店時報告フォームです",
+"description": "必要事項を記載してください。",
+"parameter1": "andst_regular",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. SCを選択してください","type": "scSelect","bind": "txt1","required": true},
+{"label": "2. 店舗名を選択してください","type": "storeSelect","bind": "txt99","required": false},
+{"label": "3. パラメータ設定写真 ","type": "file","bind": "img1","required": true},
+{"label": "4. 納品機器チェックリスト","type": "file","bind": "img2","required": true},
+{"label": "5. CAT連動ケーブル接続","type": "select","bind": "txt3","options": ["接続","未接続","ケーブル無し"],"required": true},
+{"label": "6. 電話番号確認","type": "select","bind": "txt4","options": ["確認した","設置のみ","未確認"],"required": true},
+{"label": "7. 店舗番号(上記選択肢になかった場合のみ)","type": "text","bind": "txt5","required": false},
+{"label": "8. 特記事項(任意)","type": "textarea","bind": "txt6","required": false}
+]
+}
