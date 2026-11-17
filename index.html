@@ -1851,10 +1851,12 @@ select.onchange = () => {
   });
 storeSelect.onchange = () => {
 
-  const selectedStore =
-    storeMaster.find(
-      x => x.storeno === storeSelect.value
-    );
+const selectedStore =
+  storeMaster.find(
+    x =>
+      String(x.storeno) ===
+      String(storeSelect.value)
+  );
 
   if (!selectedStore) {
     return;
