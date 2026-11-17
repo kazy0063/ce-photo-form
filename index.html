@@ -1014,7 +1014,25 @@ if (payload.images) {
     )
     .style.display =
       "none";
+window.currentConfig.fields
+  .filter(x => x.type === "select")
+  .forEach(item => {
 
+    const control =
+      document.querySelector(
+        `[data-bind="${item.bind}"]`
+      );
+
+    if (control) {
+
+      applyShowWhen(
+        item.bind,
+        control.value
+      );
+
+    }
+
+  });
   alert(
     "復元しました"
   );
@@ -1645,7 +1663,48 @@ async function getAllSubmissions() {
     }
   );
 }
+// ======================================
+// フォーム生成 共通処理
+// ======================================
 
+function applyShowWhen(
+  sourceBind,
+  value
+) {
+
+  document
+    .querySelectorAll(
+      "[data-bind-container]"
+    )
+    .forEach(container => {
+
+      const targetBind =
+        container.dataset.bindContainer;
+
+      const targetItem =
+        window.currentConfig.fields.find(
+          x => x.bind === targetBind
+        );
+
+      if (!targetItem?.showWhen) {
+        return;
+      }
+
+      if (
+        targetItem.showWhen.bind ===
+        sourceBind
+      ) {
+
+        container.style.display =
+          targetItem.showWhen.value === value
+            ? "block"
+            : "none";
+
+      }
+
+    });
+
+}
 
 // ======================================
 // フォーム生成
@@ -1656,6 +1715,14 @@ function renderForm(fields) {
 
   fields.forEach(item => {
     const div = document.createElement("div");
+    div.dataset.bindContainer =
+  item.bind;
+
+if(item.showWhen){
+
+    div.style.display = "none";
+
+}
 
 const label = document.createElement("label");
 
@@ -1782,6 +1849,7 @@ select.onchange = () => {
       option
     );
 
+
   });
 
 };
@@ -1824,7 +1892,11 @@ if (item.type === "storeSelect") {
     select.appendChild(option);
   });
 
+
+
   select.value = draft[item.bind] || "";
+
+
 
   div.appendChild(select);
 
@@ -1848,15 +1920,28 @@ if (item.type === "storeSelect") {
     div.appendChild(otherInput);
   }
 
-  // ✅ 選択変更時
-  select.onchange = () => {
-    saveDraft(item.bind, select.value);
+// ✅ 選択変更時
+select.onchange = () => {
 
-    if (item.allowOther && otherInput) {
-      otherInput.style.display =
-        select.value === "その他" ? "block" : "none";
-    }
-  };
+  saveDraft(
+    item.bind,
+    select.value
+  );
+
+  applyShowWhen(
+    item.bind,
+    select.value
+  );
+
+  if (item.allowOther && otherInput) {
+
+    otherInput.style.display =
+      select.value === "その他"
+        ? "block"
+        : "none";
+  }
+
+};
 }
     // ✅ FILE（カメラボタン付き）
     if (item.type === "file") {
@@ -1971,7 +2056,29 @@ try {
       div.appendChild(preview);
     }
 
-    area.appendChild(div);
+area.appendChild(div);
+
+
+
+});
+fields
+  .filter(x => x.type === "select")
+  .forEach(item => {
+
+    const control =
+      document.querySelector(
+        `[data-bind="${item.bind}"]`
+      );
+
+    if (control) {
+
+      applyShowWhen(
+        item.bind,
+        control.value
+      );
+
+    }
+
   });
 }
 
@@ -2126,9 +2233,23 @@ async function submitForm() {
   // ====================
   for (const item of window.currentConfig.fields) {
 
-    if (!item.required) {
-      continue;
-    }
+  // 必須でない項目はスキップ
+  if (!item.required) {
+    continue;
+  }
+
+  // 非表示項目はスキップ
+  const container =
+    document.querySelector(
+      `[data-bind-container="${item.bind}"]`
+    );
+
+  if (
+    container &&
+    container.style.display === "none"
+  ) {
+    continue;
+  }
 
     // ファイル
     if (item.type === "file") {
