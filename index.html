@@ -1861,38 +1861,25 @@ const selectedStore =
   if (!selectedStore) {
     return;
   }
+console.log(
+  "selectedStore",
+  selectedStore
+);
 
-  const txt103 =
-    document.querySelector(
-      '[data-bind="txt103"]'
-    );
+saveDraft(
+  "txt103",
+  selectedStore.storeno
+);
 
-  const txt104 =
-    document.querySelector(
-      '[data-bind="txt104"]'
-    );
+saveDraft(
+  "txt104",
+  selectedStore.storename
+);
 
-  if (txt103) {
-    txt103.value =
-      selectedStore.storeno;
-
-    saveDraft(
-      "txt103",
-      selectedStore.storeno
-    );
-  }
-
-  if (txt104) {
-    txt104.value =
-      selectedStore.storename;
-
-    saveDraft(
-      "txt104",
-      selectedStore.storename
-    );
-  }
-
-};
+console.log(
+  "draft",
+  draft
+);};
 
 if (storeSelect.options.length > 0) {
   storeSelect.selectedIndex = 0;
@@ -2275,6 +2262,7 @@ scanRunning = false;
 // ======================================
 async function submitForm() {
 
+  console.log("submit draft", draft);
  // ====================
   // 必須チェック
   // ====================
