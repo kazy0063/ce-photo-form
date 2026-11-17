@@ -1848,10 +1848,55 @@ select.onchange = () => {
     storeSelect.appendChild(
       option
     );
-
-
   });
+storeSelect.onchange = () => {
 
+  const selectedStore =
+    storeMaster.find(
+      x => x.storeno === storeSelect.value
+    );
+
+  if (!selectedStore) {
+    return;
+  }
+
+  const txt103 =
+    document.querySelector(
+      '[data-bind="txt103"]'
+    );
+
+  const txt104 =
+    document.querySelector(
+      '[data-bind="txt104"]'
+    );
+
+  if (txt103) {
+    txt103.value =
+      selectedStore.storeno;
+
+    saveDraft(
+      "txt103",
+      selectedStore.storeno
+    );
+  }
+
+  if (txt104) {
+    txt104.value =
+      selectedStore.storename;
+
+    saveDraft(
+      "txt104",
+      selectedStore.storename
+    );
+  }
+
+};
+
+if (storeSelect.options.length > 0) {
+  storeSelect.selectedIndex = 0;
+  storeSelect.onchange();
+}
+  
 };
     div.appendChild(select);
 
