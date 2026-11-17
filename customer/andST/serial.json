@@ -51,7 +51,7 @@
     "bind":"txt100",
     "value":"手入力"
   }
-}
+},
 {"label": "6. 店舗番号(上記選択肢になかった場合のみ)","type": "text","bind": "txt3","required": false}
 ]
 }
