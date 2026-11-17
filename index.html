@@ -1850,7 +1850,7 @@ select.onchange = () => {
     );
   });
 storeSelect.onchange = () => {
-console.log("店舗変更イベント発火");
+//console.log("店舗変更イベント発火");
 const selectedStore =
   storeMaster.find(
     x =>
@@ -1861,10 +1861,10 @@ const selectedStore =
   if (!selectedStore) {
     return;
   }
-console.log(
-  "selectedStore",
-  selectedStore
-);
+//console.log(
+//  "selectedStore",
+//  selectedStore
+//);
 
 saveDraft(
   "txt103",
@@ -1876,10 +1876,11 @@ saveDraft(
   selectedStore.storename
 );
 
-console.log(
-  "draft",
-  draft
-);};
+//console.log(
+//  "draft",
+//  draft
+//);
+};
 
 if (storeSelect.options.length > 0) {
   storeSelect.selectedIndex = 0;
