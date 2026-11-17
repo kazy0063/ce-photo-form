@@ -2350,7 +2350,9 @@ const payload = {
   userAgent: navigator.userAgent,
   images: []
 };
-
+payload.txt103 = draft.txt103 || "";
+payload.txt104 = draft.txt104 || "";
+  
  for (const field of document.querySelectorAll("[data-bind]")) {
 
   const key = field.dataset.bind;
