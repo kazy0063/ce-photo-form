@@ -1927,7 +1927,17 @@ if (item.type === "storeSelect") {
     select.appendChild(option);
   });
 
+if (item.allowOther) {
 
+  const option =
+    document.createElement("option");
+
+  option.value = "その他";
+  option.text = "その他";
+
+  select.appendChild(option);
+
+}
 
   select.value = draft[item.bind] || "";
 
