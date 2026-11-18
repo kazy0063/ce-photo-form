@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/voyix.png",
+"title": "写真テストフォームです",
+"description": "必要事項を記載してください。",
+"parameter1": "serialtest_ncr",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. メールアドレスを入力してください","type": "text","bind": "txt1","required": false},
+{"label": "2. 写真テスト①","type": "file","bind": "img1","required": false},
+{"label": "3. 写真テスト②","type": "file","bind": "img2","required": false}
+]
+}
