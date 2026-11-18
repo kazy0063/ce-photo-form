@@ -1927,6 +1927,18 @@ if (item.type === "storeSelect") {
     select.appendChild(option);
   });
 
+  if (item.allowOther) {
+
+  const option =
+    document.createElement("option");
+
+  option.value = "その他";
+  option.text = "その他";
+
+  select.appendChild(option);
+
+}
+
   select.value = draft[item.bind] || "";
 
 
@@ -1936,21 +1948,54 @@ if (item.type === "storeSelect") {
   // ✅ その他入力欄（自動生成）
   let otherInput = null;
 
-  if (item.allowOther) {
-    otherInput = document.createElement("input");
-    otherInput.type = "text";
-    otherInput.placeholder = "具体的に入力";
-    otherInput.dataset.bind = item.bind + "_other";
-    otherInput.value = draft[item.bind + "_other"] || "";
+if (item.allowOther) {
 
-    // 初期表示制御
+  otherInput = document.createElement("input");
+
+  otherInput.type = "text";
+
+  otherInput.placeholder = "具体的に入力";
+
+  otherInput.dataset.bind =
+    item.bind + "_other";
+
+  otherInput.value =
+    draft[item.bind + "_other"] || "";
+
+  otherInput.style.display =
+    select.value === "その他"
+      ? "block"
+      : "none";
+
+  otherInput.oninput = () => {
+
+    saveDraft(
+      otherInput.dataset.bind,
+      otherInput.value
+    );
+
+  };
+
+  div.appendChild(otherInput);
+
+  // 復元時対応
+  if (
+    draft[item.bind] &&
+    draft[item.bind].startsWith("その他(")
+  ) {
+
+    select.value = "その他";
+
     otherInput.style.display =
-      select.value === "その他" ? "block" : "none";
+      "block";
 
-    otherInput.oninput = () =>
-      saveDraft(otherInput.dataset.bind, otherInput.value);
+    otherInput.value =
+      draft[item.bind]
+        .replace("その他(", "")
+        .replace(")", "");
 
-    div.appendChild(otherInput);
+  }
+
   }
 
 // ✅ 選択変更時
@@ -2302,6 +2347,32 @@ async function submitForm() {
           `[data-bind="${item.bind}"]`
         );
 
+      if (
+  item.allowOther &&
+  field?.value === "その他"
+) {
+
+  const other =
+    document.querySelector(
+      `[data-bind="${item.bind}_other"]`
+    );
+
+  if (
+    !other ||
+    !other.value.trim()
+  ) {
+
+    alert(
+      item.label +
+      " の内容を入力してください"
+    );
+
+    other?.focus();
+
+    return;
+  }
+}
+
       if (!field || !field.value.trim()) {
 
         alert(item.label + " は必須です");
@@ -2309,9 +2380,10 @@ async function submitForm() {
         field?.focus();
 
         return;
-      }
+      
     }
   }
+}
 
   const btn = document.getElementById("submitBtn");
   const text = document.getElementById("btnText");
@@ -2381,6 +2453,11 @@ function normalizePayload(payload) {
 
 normalizePayload(payload);
 
+console.log(
+  "payload before send",
+  payload
+);
+  
 const backupId =
   Date.now().toString();
 
