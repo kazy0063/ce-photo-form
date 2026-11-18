@@ -9,7 +9,7 @@
 "fields": [
 {"label": "1. SCを選択してください","type": "scSelect","bind": "txt1","required": true},
 {"label": "2. 店舗名を選択してください","type": "storeSelect","bind": "txt99","required": false},
-{"label": "3. 機種名","type": "select","bind": "txt3","options": ["CX7","CX7ⅱ","Printer","その他"],"required": true,"allowOther": true },
+{"label": "3. 機種名","type": "select","bind": "txt3","options": ["CX7","CX7ⅱ","Printer"],"required": true,"allowOther": true },
 {
   "label":"シリアル報告形式",
   "type":"select",
