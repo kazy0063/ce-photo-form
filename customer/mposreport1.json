@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/mybasket.png",
+"title": "シリアルテストフォームです",
+"description": "必要事項を記載してください。",
+"parameter1": "mybasket_1",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 店舗番号を入力","type": "text","bind": "txt1","required": true},
+{"label": "2. MPOSの日時設定写真の報告","type": "file","bind": "img1","required": true},
+{"label": "3. かんたんPOS設定写真の報告","type": "file","bind": "img2","required": true}
+]
+}
