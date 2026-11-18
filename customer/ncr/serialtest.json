@@ -7,7 +7,7 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. メールアドレスを入力してください","type": "scSelect","bind": "txt1","required": false},
+{"label": "1. メールアドレスを入力してください","type": "text","bind": "txt1","required": false},
 {"label": "2. 写真テスト①","type": "file","bind": "img1","required": false},
 {"label": "3. 写真テスト②","type": "file","bind": "img2","required": false},
 {"label": "4. 機種を選択してください","type": "select","bind": "txt2","options": ["CX7","CX7ⅱ","Printer"],"required": true,"allowOther": true },
