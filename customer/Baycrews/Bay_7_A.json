@@ -7,10 +7,10 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. 【1台目】既存AP設置前シリアル番号　","type": "text","bind": "txt1","enableScan":true,"required": false},
-{"label": "2. 【2台目】既存AP設置前シリアル番号　","type": "text","bind": "txt2","enableScan":true,"required": false},
-{"label": "3. 【3台目】既存AP設置前シリアル番号　","type": "text","bind": "txt3","enableScan":true,"required": false},
-{"label": "4. 【4台目】既存AP設置前シリアル番号　","type": "text","bind": "txt4","enableScan":true,"required": false},
-{"label": "5. 【5台目】既存AP設置前シリアル番号　","type": "text","bind": "txt5","enableScan":true,"required": false}
+{"label": "1. 【AP1】既存AP設置前シリアル番号　","type": "text","bind": "txt1","enableScan":true,"required": false},
+{"label": "2. 【AP2】既存AP設置前シリアル番号　","type": "text","bind": "txt2","enableScan":true,"required": false},
+{"label": "3. 【AP3】既存AP設置前シリアル番号　","type": "text","bind": "txt3","enableScan":true,"required": false},
+{"label": "4. 【AP4】既存AP設置前シリアル番号　","type": "text","bind": "txt4","enableScan":true,"required": false},
+{"label": "5. 【AP5】既存AP設置前シリアル番号　","type": "text","bind": "txt5","enableScan":true,"required": false}
 ]
 }

@@ -7,15 +7,15 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. 【1台目】既存AP設置前シリアル番号","type": "text","bind": "txt1","enableScan":true,"required": false},
-{"label": "2. 【2台目】既存AP設置前シリアル番号","type": "text","bind": "txt2","enableScan":true,"required": false},
-{"label": "3. 【3台目】既存AP設置前シリアル番号","type": "text","bind": "txt3","enableScan":true,"required": false},
-{"label": "4. 【4台目】既存AP設置前シリアル番号","type": "text","bind": "txt4","enableScan":true,"required": false},
-{"label": "5. 【5台目】既存AP設置前シリアル番号","type": "text","bind": "txt5","enableScan":true,"required": false},
-{"label": "6. 【6台目】既存AP設置前シリアル番号","type": "text","bind": "txt6","enableScan":true,"required": false},
-{"label": "7. 【7台目】既存AP設置前シリアル番号","type": "text","bind": "txt7","enableScan":true,"required": false},
-{"label": "8. 【8台目】既存AP設置前シリアル番号","type": "text","bind": "txt8","enableScan":true,"required": false},
-{"label": "9. 【9台目】既存AP設置前シリアル番号","type": "text","bind": "txt9","enableScan":true,"required": false},
-{"label": "10. 【10台目】既存AP設置前シリアル番号","type": "text","bind": "txt10","enableScan":true,"required": false}
+{"label": "1. 【AP1】既存AP設置前シリアル番号","type": "text","bind": "txt1","enableScan":true,"required": false},
+{"label": "2. 【AP2】既存AP設置前シリアル番号","type": "text","bind": "txt2","enableScan":true,"required": false},
+{"label": "3. 【AP3】既存AP設置前シリアル番号","type": "text","bind": "txt3","enableScan":true,"required": false},
+{"label": "4. 【AP4】既存AP設置前シリアル番号","type": "text","bind": "txt4","enableScan":true,"required": false},
+{"label": "5. 【AP5】既存AP設置前シリアル番号","type": "text","bind": "txt5","enableScan":true,"required": false},
+{"label": "6. 【AP6】既存AP設置前シリアル番号","type": "text","bind": "txt6","enableScan":true,"required": false},
+{"label": "7. 【AP7】既存AP設置前シリアル番号","type": "text","bind": "txt7","enableScan":true,"required": false},
+{"label": "8. 【AP8】既存AP設置前シリアル番号","type": "text","bind": "txt8","enableScan":true,"required": false},
+{"label": "9. 【AP9】既存AP設置前シリアル番号","type": "text","bind": "txt9","enableScan":true,"required": false},
+{"label": "10. 【AP10】既存AP設置前シリアル番号","type": "text","bind": "txt10","enableScan":true,"required": false}
 ]
 }

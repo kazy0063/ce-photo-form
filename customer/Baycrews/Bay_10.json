@@ -7,6 +7,9 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. 特記事項がある場合は入力してください。特記事項がない場合は送信ボタンを押してください。","type": "textarea","bind": "txt1","required": false}
+{"label": "1. 特記事項がある場合は入力してください。特記事項がない場合は送信ボタンを押してください。","type": "text","bind": "txt1","required": false},
+{"label": "2. 特記事項画像１","type": "file","bind": "img1","required": false},
+{"label": "3. 特記事項画像２","type": "file","bind": "img2","required": false},
+{"label": "4. 特記事項画像３","type": "file","bind": "img3","required": false}
 ]
 }
