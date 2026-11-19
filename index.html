@@ -458,6 +458,24 @@ button.submit {
     value="1"
     style="width:100%;">
 </div>
+
+<button
+  id="capturePhotoBtn"
+  type="button"
+  class="cancel-scan-btn"
+  style="
+    background:#28a745;
+    margin-bottom:10px;
+  ">
+  📸 撮影
+</button>
+
+<button
+  id="cancelScanBtn"
+  type="button"
+  class="cancel-scan-btn">
+  ❌ スキャン中止
+</button>
     
     <button
       id="cancelScanBtn"
@@ -690,6 +708,7 @@ let currentTrack = null;
 let scanRunning = false;
 let scannedValue = "";
 let scannedTarget = "";
+let serialPhotoTarget = "";
 
 // ======================================
 // グローバル変数
@@ -1160,6 +1179,9 @@ async function resendSubmission(
 async function startSerialPhoto(
   targetBind
 ) {
+
+  serialPhotoTarget =
+  targetBind;
 
   if (scanRunning) return;
 
@@ -2375,6 +2397,55 @@ function showScanResult(
   ).style.display = "flex";
 }
 
+document
+  .getElementById(
+    "capturePhotoBtn"
+  )
+  .onclick = async () => {
+
+    const video =
+      document.getElementById(
+        "barcode-video"
+      );
+
+    const canvas =
+      document.createElement(
+        "canvas"
+      );
+
+    canvas.width =
+      video.videoWidth;
+
+    canvas.height =
+      video.videoHeight;
+
+    const ctx =
+      canvas.getContext("2d");
+
+    ctx.drawImage(
+      video,
+      0,
+      0
+    );
+
+    const base64 =
+      canvas.toDataURL(
+        "image/jpeg",
+        0.8
+      );
+
+    saveDraft(
+      serialPhotoTarget,
+      base64
+    );
+
+    alert(
+      "撮影完了"
+    );
+
+    await closeScanner();
+
+  };
   
 async function closeScanner() {
 
