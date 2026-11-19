@@ -35,7 +35,7 @@
 
 {
   "label":"シリアル写真",
-  "type":"file",
+  "type":"serialPhoto",
   "bind":"img101",
   "showWhen":{
     "bind":"txt100",
