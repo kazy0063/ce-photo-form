@@ -1228,6 +1228,58 @@ async function startSerialPhoto(
 
     await videoElement.play();
 
+  const zoomSlider =
+  document.getElementById("zoomSlider");
+
+const capabilities =
+  currentTrack.getCapabilities
+    ? currentTrack.getCapabilities()
+    : {};
+
+if (
+  capabilities.zoom &&
+  capabilities.zoom.min != null &&
+  capabilities.zoom.max != null
+) {
+
+  zoomSlider.style.display = "block";
+
+  zoomSlider.min = capabilities.zoom.min;
+  zoomSlider.max = capabilities.zoom.max;
+  zoomSlider.step = capabilities.zoom.step || 0.1;
+
+  zoomSlider.value = Math.min(
+    3,
+    capabilities.zoom.max
+  );
+
+  await currentTrack.applyConstraints({
+    advanced: [{
+      zoom: Number(zoomSlider.value)
+    }]
+  });
+
+  zoomSlider.oninput = async function () {
+
+    try {
+
+      await currentTrack.applyConstraints({
+        advanced: [{
+          zoom: Number(this.value)
+        }]
+      });
+
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+} else {
+
+  zoomSlider.style.display = "none";
+
+}
+
   } catch (err) {
 
     console.error(err);
@@ -1326,7 +1378,7 @@ if (
   zoomSlider.step = capabilities.zoom.step || 0.1;
 
   zoomSlider.value = Math.min(
-    1.5,
+    3,
     capabilities.zoom.max
   );
 
