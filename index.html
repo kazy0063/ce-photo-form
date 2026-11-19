@@ -1374,39 +1374,7 @@ decodeCanvas(
 );
 
 
-/*
-currentControls =
-  await codeReader.decodeFromVideoElement(
-    videoElement,
-    async (result, err) => {
 
-if (result) {
-
-  if (!scanRunning) return;
-  scanRunning = false;
-
-  const decodedText =
-    result.getText();
-
-        const input =
-          document.querySelector(
-            `[data-bind="${targetBind}"]`
-          );
-
-        if (input) {
-
-          input.value = decodedText;
-
-          saveDraft(
-            targetBind,
-            decodedText
-          );
-
-          input.dispatchEvent(
-            new Event("input")
-          );
-        }
-*/
  
 } catch (err) {
 
