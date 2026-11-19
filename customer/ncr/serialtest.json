@@ -7,7 +7,7 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. メールアドレスを入力してください","type": "text","bind": "txt1","required": false},
+{"label": "1. メールアドレスを入力してください","description":"結果をメールで返します。","type": "text","bind": "txt1","required": false},
 {"label": "2. 機種を選択してください","description":"","type": "select","bind": "txt2","options": ["CX7","CX7ⅱ","Printer"],"required": true,"allowOther": true },
 {"label": "3. シリアル報告形式","description":"","type":"select","bind":"txt100",
 "options":["バーコード","写真","手入力"],"required":true},
