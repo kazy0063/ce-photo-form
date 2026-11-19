@@ -8,14 +8,14 @@
 "parameter4": "",
 "fields": [
 {"label": "1. メールアドレスを入力してください","type": "text","bind": "txt1","required": false},
-{"label": "2. 機種を選択してください","type": "select","bind": "txt2","options": ["CX7","CX7ⅱ","Printer"],"required": true,"allowOther": true },
-{"label": "3. シリアル報告形式","type":"select","bind":"txt100",
+{"label": "2. 機種を選択してください","description":"","type": "select","bind": "txt2","options": ["CX7","CX7ⅱ","Printer"],"required": true,"allowOther": true },
+{"label": "3. シリアル報告形式","description":"","type":"select","bind":"txt100",
 "options":["バーコード","写真","手入力"],"required":true},
-{"label":"シリアル番号","type":"text","bind":"txt101","enableScan":true,
+{"label":"シリアル番号","description":"バーコードを読み取ってください","type":"text","bind":"txt101","enableScan":true,
 "showWhen":{"bind":"txt100","value":"バーコード"}},
-{"label":"シリアル写真","type":"file","bind":"img101",
+{"label":"シリアル写真","description":"複数行あると読取精度が下がります。シリアル1行のみを撮影してください。","type":"file","bind":"img101",
 "showWhen":{"bind":"txt100","value":"写真"}},
-{"label":"シリアル番号","type":"text","bind":"txt102",
+{"label":"シリアル番号","description":"そのまま入力してください","type":"text","bind":"txt102",
 "showWhen":{"bind":"txt100","value":"手入力"}}
 ]
 }
