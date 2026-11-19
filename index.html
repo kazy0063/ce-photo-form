@@ -2433,25 +2433,42 @@ document
         "barcode-video"
       );
 
-    const canvas =
-      document.createElement(
-        "canvas"
-      );
+    const vw = video.videoWidth;
+const vh = video.videoHeight;
 
-    canvas.width =
-      video.videoWidth;
+// scanGuide と同じ範囲
+const cropX = vw * 0.1;
+const cropY = vh * 0.35;
 
-    canvas.height =
-      video.videoHeight;
+const cropWidth = vw * 0.8;
+const cropHeight = vh * 0.3;
 
-    const ctx =
-      canvas.getContext("2d");
+const canvas =
+  document.createElement(
+    "canvas"
+  );
 
-    ctx.drawImage(
-      video,
-      0,
-      0
-    );
+canvas.width = cropWidth;
+canvas.height = cropHeight;
+
+const ctx =
+  canvas.getContext("2d");
+
+ctx.drawImage(
+  video,
+
+  cropX,
+  cropY,
+
+  cropWidth,
+  cropHeight,
+
+  0,
+  0,
+
+  cropWidth,
+  cropHeight
+);
 
     const base64 =
       canvas.toDataURL(
