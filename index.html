@@ -2141,6 +2141,9 @@ if (item.type === "serialPhoto") {
     document.createElement("button");
 
   btn.type = "button";
+  btn.dataset.bind =
+  item.bind;
+  
   btn.textContent = "📷 撮影";
 
   btn.onclick = () => {
@@ -2163,7 +2166,7 @@ if (item.type === "serialPhoto") {
 
     
     // ✅ FILE（カメラボタン付き）
-    if (item.type === "file") {
+if (item.type === "file")
 
       const wrapper = document.createElement("div");
       wrapper.className = "file-row";
@@ -2535,58 +2538,65 @@ async function submitForm() {
   }
 
     // ファイル
-    if (item.type === "file") {
+if (item.type === "file") {
+  
+  if (!draft[item.bind]) {
 
-      if (!draft[item.bind]) {
+    alert(
+      item.label + " は必須です"
+    );
 
-        alert(item.label + " は必須です");
+    return;
+  }
 
-        return;
-      }
+} else {
 
-    } else {
-
-      const field =
-        document.querySelector(
-          `[data-bind="${item.bind}"]`
-        );
-
-      if (
-  item.allowOther &&
-  field?.value === "その他"
-) {
-
-  const other =
+  const field =
     document.querySelector(
-      `[data-bind="${item.bind}_other"]`
+      `[data-bind="${item.bind}"]`
     );
 
   if (
-    !other ||
-    !other.value.trim()
+    item.allowOther &&
+    field?.value === "その他"
+  ) {
+
+    const other =
+      document.querySelector(
+        `[data-bind="${item.bind}_other"]`
+      );
+
+    if (
+      !other ||
+      !other.value.trim()
+    ) {
+
+      alert(
+        item.label +
+        " の内容を入力してください"
+      );
+
+      other?.focus();
+
+      return;
+    }
+  }
+
+  if (
+    !field ||
+    !field.value.trim()
   ) {
 
     alert(
       item.label +
-      " の内容を入力してください"
+      " は必須です"
     );
 
-    other?.focus();
+    field?.focus();
 
     return;
   }
-}
 
-      if (!field || !field.value.trim()) {
-
-        alert(item.label + " は必須です");
-
-        field?.focus();
-
-        return;
-      
-    }
-  }
 }
 
   const btn = document.getElementById("submitBtn");
@@ -2630,13 +2640,17 @@ payload.txt104 = draft.txt104 || "";
     payload[key] = field.value;
   }
 
-  if (field.type === "file") {
-    if (draft[key]) {
-      payload.images.push({
-        name: key,
-        data: draft[key]
-      });
-    }
+if (
+  key.startsWith("img") &&
+  draft[key]
+) {
+
+  payload.images.push({
+    name: key,
+    data: draft[key]
+  });
+
+    
   }
 }  
 
