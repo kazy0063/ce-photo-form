@@ -1153,7 +1153,89 @@ async function resendSubmission(
   }
 }
 
+// ======================================
+// シリアル写真撮影
+// ======================================
 
+async function startSerialPhoto(
+  targetBind
+) {
+
+  if (scanRunning) return;
+
+  scanRunning = true;
+
+  document.getElementById(
+    "scanModal"
+  ).style.display = "flex";
+
+  document.getElementById(
+    "cancelScanBtn"
+  ).onclick = async () => {
+    await closeScanner();
+  };
+
+  const video =
+    document.getElementById(
+      "reader"
+    );
+
+  video.innerHTML =
+    '<video id="barcode-video"></video>' +
+    '<div id="scanGuide"></div>';
+
+  const videoElement =
+    document.getElementById(
+      "barcode-video"
+    );
+
+  videoElement.setAttribute(
+    "playsinline",
+    true
+  );
+
+  try {
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: {
+            ideal: "environment"
+          }
+        }
+      });
+
+    currentTrack =
+      stream.getVideoTracks()[0];
+
+    videoElement.srcObject =
+      stream;
+
+    await videoElement.play();
+
+  } catch (err) {
+
+    console.error(err);
+
+    await closeScanner();
+
+    alert(
+      "カメラ起動失敗\n\n" +
+      err
+    );
+
+  }
+
+}
+
+// ======================================
+// QR / バーコードスキャン
+// ZXing利用
+// ======================================
+
+async function startBarcodeScanner(targetBind) {
+
+  
 // ======================================
 // QR / バーコードスキャン
 // ZXing利用
@@ -2043,6 +2125,25 @@ select.onchange = () => {
 
 };
 }
+
+// serialPhoto
+if (item.type === "serialPhoto") {
+
+  const btn =
+    document.createElement("button");
+
+  btn.type = "button";
+  btn.textContent = "📷 撮影";
+
+  btn.onclick = () => {
+    startSerialPhoto(item.bind);
+  };
+
+  div.appendChild(btn);
+
+}
+
+    
     // ✅ FILE（カメラボタン付き）
     if (item.type === "file") {
 
