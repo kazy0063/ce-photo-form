@@ -469,14 +469,7 @@ button.submit {
   ">
   📸 撮影
 </button>
-
-<button
-  id="cancelScanBtn"
-  type="button"
-  class="cancel-scan-btn">
-  ❌ スキャン中止
-</button>
-    
+   
     <button
       id="cancelScanBtn"
       type="button"
@@ -2154,7 +2147,17 @@ if (item.type === "serialPhoto") {
     startSerialPhoto(item.bind);
   };
 
+  const preview =
+    document.createElement("img");
+
+  preview.className =
+    "preview";
+
+  preview.dataset.preview =
+    item.bind;
+
   div.appendChild(btn);
+  div.appendChild(preview);
 
 }
 
@@ -2439,6 +2442,20 @@ document
       base64
     );
 
+    const preview =
+  document.querySelector(
+    `[data-preview="${serialPhotoTarget}"]`
+  );
+
+if (preview) {
+
+  preview.src =
+    base64;
+
+  preview.style.display =
+    "block";
+
+}
     alert(
       "撮影完了"
     );
