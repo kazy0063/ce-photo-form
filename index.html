@@ -62,12 +62,19 @@ body {
 
 label {
   display: block;
-  font-size: 14px;
+  font-size: 18px;
   margin-bottom: 6px;
   color: #444;
   white-space: pre-line;
 }
-
+ .question-description {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+  
 input, select, textarea {
   width: 100%;
   padding: 10px;
@@ -1733,6 +1740,21 @@ label.innerHTML =
     : '');
 
 div.appendChild(label);
+
+if (item.description) {
+
+  const desc =
+    document.createElement("p");
+
+  desc.className =
+    "question-description";
+
+  desc.textContent =
+    item.description;
+
+  div.appendChild(desc);
+
+}
 
     // TEXT
    
