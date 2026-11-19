@@ -2166,13 +2166,13 @@ if (item.type === "serialPhoto") {
 
     
     // ✅ FILE（カメラボタン付き）
-if (item.type === "file")
+if (item.type === "file") {
 
-      const wrapper = document.createElement("div");
-      wrapper.className = "file-row";
+  const wrapper = document.createElement("div");
+  wrapper.className = "file-row";
 
-      const input = document.createElement("input");
-      input.type = "file";
+  const input = document.createElement("input");
+  input.type = "file";
       input.accept = "image/*,.pdf";
       input.dataset.bind = item.bind;
       input.required = item.required || false;
@@ -2281,6 +2281,7 @@ try {
 area.appendChild(div);
 
 
+}
 
 });
 fields
