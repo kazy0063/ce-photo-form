@@ -11,11 +11,47 @@
 {"label": "2. 機種を選択してください","description":"","type": "select","bind": "txt2","options": ["CX7","CX7ⅱ","Printer"],"required": true,"allowOther": true },
 {"label": "3. シリアル報告形式","description":"","type":"select","bind":"txt100",
 "options":["バーコード","写真","手入力"],"required":true},
-{"label":"シリアル番号","description":"バーコードを読み取ってください","type":"text","bind":"txt101","enableScan":true,
-"showWhen":{"bind":"txt100","value":"バーコード"}},
-{"label":"シリアル写真","description":"※調整中　複数行あると読取精度が下がります。シリアル1行のみを撮影してください。","type":"serialPhoto","bind":"img101","ocrTarget":"txt101",
-"showWhen":{"bind":"txt100","value":"写真"}},
-{"label":"シリアル番号","description":"そのまま入力してください","type":"text","bind":"txt102",
-"showWhen":{"bind":"txt100","value":"手入力"}}
+{
+  "label":"シリアル番号",
+  "description":"バーコードを読み取ってください",
+  "type":"text",
+  "bind":"txt101",
+  "enableScan":true,
+  "showWhen":{
+    "bind":"txt100",
+    "value":"バーコード"
+  }
+},
+{
+  "label":"シリアル番号(OCR結果)",
+  "description":"OCR結果です。必要に応じて修正してください。",
+  "type":"text",
+  "bind":"txt103",
+  "showWhen":{
+    "bind":"txt100",
+    "value":"写真"
+  }
+},
+{
+  "label":"シリアル写真",
+  "description":"※調整中　複数行あると読取精度が下がります。シリアル1行のみを撮影してください。",
+  "type":"serialPhoto",
+  "bind":"img101",
+  "ocrTarget":"txt103",
+  "showWhen":{
+    "bind":"txt100",
+    "value":"写真"
+  }
+},
+{
+  "label":"シリアル番号",
+  "description":"そのまま入力してください",
+  "type":"text",
+  "bind":"txt102",
+  "showWhen":{
+    "bind":"txt100",
+    "value":"手入力"
+  }
+}
 ]
 }
