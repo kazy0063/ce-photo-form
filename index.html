@@ -2554,10 +2554,25 @@ console.log(
   serial
 );
 
-alert(
-  "OCR結果\n\n" +
-  serial
-);
+const useOcr =
+  confirm(
+    "OCR結果\n\n" +
+    serial +
+    "\n\nこの結果を使用しますか？"
+  );
+
+if (!useOcr) {
+
+  ocrStatus.style.display =
+    "none";
+
+  alert(
+    "再撮影してください"
+  );
+
+  return;
+
+}
 
 const field =
   window.currentConfig.fields.find(
