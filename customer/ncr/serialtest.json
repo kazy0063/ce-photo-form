@@ -24,20 +24,11 @@
 },
 {
   "label":"シリアル番号(OCR結果)",
-  "description":"OCR結果です。必要に応じて修正してください。",
+  "description":"※シリアル1行のみを撮影してください",
   "type":"text",
   "bind":"txt103",
-  "showWhen":{
-    "bind":"txt100",
-    "value":"写真"
-  }
-},
-{
-  "label":"シリアル写真",
-  "description":"※調整中　複数行あると読取精度が下がります。シリアル1行のみを撮影してください。",
-  "type":"serialPhoto",
-  "bind":"img101",
-  "ocrTarget":"txt103",
+  "enableSerialPhoto":true,
+  "photoBind":"img101",
   "showWhen":{
     "bind":"txt100",
     "value":"写真"
