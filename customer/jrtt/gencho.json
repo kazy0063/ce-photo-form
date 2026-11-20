@@ -27,7 +27,7 @@
       "bind": "txt2",
       "required": true,
       "showWhen": {
-        "bind": "txt100",
+        "bind": "txt1",
         "value": "百貨店"
       },
       "options": [
@@ -57,7 +57,7 @@
       "bind": "txt2",
       "required": true,
       "showWhen": {
-        "bind": "txt100",
+        "bind": "txt1",
         "value": "TGM"
       },
       "options": [
@@ -80,7 +80,7 @@
       "bind": "txt2",
       "required": true,
       "showWhen": {
-        "bind": "txt100",
+        "bind": "txt1",
         "value": "WM"
       },
       "options": [
@@ -95,7 +95,7 @@
       "bind": "txt2",
       "required": true,
       "showWhen": {
-        "bind": "txt100",
+        "bind": "txt1",
         "value": "岡崎FM"
       },
       "options": [
