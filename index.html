@@ -207,7 +207,7 @@ input, select, textarea {
   top: 50%;
 
   width: 80%;
-  height: 100px;
+  height: 50px;
 
   transform: translate(-50%, -50%);
 
@@ -1496,10 +1496,10 @@ if (!vw || !vh) {
 }
 
 const cropX = vw * 0.1;
-const cropY = vh * 0.35;
+const cropY = vh * 0.425;
 
 const cropWidth = vw * 0.8;
-const cropHeight = vh * 0.3;
+const cropHeight = vh * 0.15;
 
   canvas.width =
     cropWidth;
@@ -2638,10 +2638,6 @@ if (
       base64
     );
 
-
-    alert(
-      "撮影完了"
-    );
 
     await closeScanner();
 
