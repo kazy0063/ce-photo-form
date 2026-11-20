@@ -2589,11 +2589,28 @@ if (!useOcr) {
 
 const field =
   window.currentConfig.fields.find(
-    x => x.bind === serialPhotoTarget
+    x =>
+      x.photoBind ===
+      serialPhotoTarget
   );
 
 const target =
-  field?.ocrTarget;
+  field?.bind;
+
+console.log(
+  "serialPhotoTarget",
+  serialPhotoTarget
+);
+
+console.log(
+  "field",
+  field
+);
+
+console.log(
+  "target",
+  target
+);
 
 const serialInput =
   document.querySelector(
