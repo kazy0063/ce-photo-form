@@ -1993,6 +1993,10 @@ if (item.type === "date") {
 
   input.type = "date";
 
+  input.style.width = "100%";
+  input.style.maxWidth = "100%";
+  input.style.boxSizing = "border-box";
+
   input.dataset.bind =
     item.bind;
 
