@@ -1894,6 +1894,31 @@ if (item.type === "text") {
   input.oninput = () => saveDraft(item.bind, input.value);
   div.appendChild(input);
 
+  if (item.enableSerialPhoto) {
+
+  const photoBtn =
+    document.createElement("button");
+
+  photoBtn.type =
+    "button";
+
+  photoBtn.textContent =
+    "📷撮影";
+
+  photoBtn.style.marginTop =
+    "8px";
+
+  photoBtn.onclick =
+    () => startSerialPhoto(
+      item.photoBind
+    );
+
+  div.appendChild(
+    photoBtn
+  );
+
+}
+
   // ✅ バーコードボタン
 if (item.enableScan) {
 
