@@ -207,7 +207,7 @@ input, select, textarea {
   top: 50%;
 
   width: 80%;
-  height: 50px;
+  height: 100px;
 
   transform: translate(-50%, -50%);
 
@@ -602,7 +602,8 @@ const formType =
     .get("form");
   
 let storeMaster = [];
-  
+let scanMode = "";
+
 const requestId =  new URLSearchParams(location.search).get("id");
 const STORE_NAME = "submissions";
 
@@ -1188,7 +1189,7 @@ async function resendSubmission(
 async function startSerialPhoto(
   targetBind
 ) {
-
+scanMode = "serial";
   serialPhotoTarget =
   targetBind;
 
@@ -1243,6 +1244,10 @@ async function startSerialPhoto(
       stream;
 
     await videoElement.play();
+
+  document.getElementById(
+  "scanGuide"
+).style.height = "50px";
 
   const zoomSlider =
   document.getElementById("zoomSlider");
@@ -1316,8 +1321,10 @@ if (
 // QR / バーコードスキャン
 // ZXing利用
 // ======================================
-async function startBarcodeScanner(targetBind) {
 
+async function startBarcodeScanner(targetBind) {
+scanMode = "barcode";
+  
   if (scanRunning) return;
 
   scanRunning = true;
@@ -1374,6 +1381,10 @@ videoElement.setAttribute(
   videoElement.srcObject = stream;
 
   await videoElement.play();
+
+  document.getElementById(
+  "scanGuide"
+).style.height = "100px";
 
   const zoomSlider =
     document.getElementById("zoomSlider");
@@ -1496,10 +1507,22 @@ if (!vw || !vh) {
 }
 
 const cropX = vw * 0.1;
-const cropY = vh * 0.425;
-
 const cropWidth = vw * 0.8;
-const cropHeight = vh * 0.15;
+
+let cropY;
+let cropHeight;
+
+if (scanMode === "serial") {
+
+  cropY = vh * 0.425;
+  cropHeight = vh * 0.15;
+
+} else {
+
+  cropY = vh * 0.35;
+  cropHeight = vh * 0.3;
+
+}
 
   canvas.width =
     cropWidth;
@@ -2471,10 +2494,22 @@ const vh = video.videoHeight;
 
 // scanGuide と同じ範囲
 const cropX = vw * 0.1;
-const cropY = vh * 0.35;
-
 const cropWidth = vw * 0.8;
-const cropHeight = vh * 0.3;
+
+let cropY;
+let cropHeight;
+
+if (scanMode === "serial") {
+
+  cropY = vh * 0.425;
+  cropHeight = vh * 0.15;
+
+} else {
+
+  cropY = vh * 0.35;
+  cropHeight = vh * 0.3;
+
+}
 
 const canvas =
   document.createElement(
@@ -2556,8 +2591,11 @@ ocrStatus.innerText =
 
   console.error(e);
 
-  ocrStatus.innerText =
-    "❌ OCR失敗";
+  alert("OCRに失敗しました");
+
+  ocrStatus.style.display = "none";
+  ocrStatus.innerText = "OCR待機中";
+
   return;
 }
   
@@ -2579,8 +2617,10 @@ const useOcr =
 
 if (!useOcr) {
 
-  ocrStatus.style.display =
-    "none";
+  ocrStatus.style.display = "none";
+  ocrStatus.innerText = "OCR待機中";
+
+  await closeScanner();
 
   return;
 
@@ -2638,6 +2678,8 @@ if (
       base64
     );
 
+ocrStatus.style.display = "none";
+ocrStatus.innerText = "OCR待機中";
 
     await closeScanner();
 
