@@ -24,6 +24,7 @@
 
 {
   "label":"シリアル番号",
+  "description":"バーコードを読み取ってください",
   "type":"text",
   "bind":"txt101",
   "enableScan":true,
@@ -32,19 +33,21 @@
     "value":"バーコード"
   }
 },
-
 {
-  "label":"シリアル写真",
-  "type":"serialPhoto",
-  "bind":"img101",
+  "label":"シリアル番号(OCR結果)",
+  "description":"※シリアル1行のみを撮影してください",
+  "type":"text",
+  "bind":"txt103",
+  "enableSerialPhoto":true,
+  "photoBind":"img101",
   "showWhen":{
     "bind":"txt100",
     "value":"写真"
   }
 },
-
 {
   "label":"シリアル番号",
+  "description":"そのまま入力してください",
   "type":"text",
   "bind":"txt102",
   "showWhen":{
