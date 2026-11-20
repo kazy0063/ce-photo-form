@@ -1979,6 +1979,34 @@ if (item.enableScan) {
 }
 }
 
+// DATE
+if (item.type === "date") {
+
+  const input =
+    document.createElement("input");
+
+  input.type = "date";
+
+  input.dataset.bind =
+    item.bind;
+
+  input.required =
+    item.required || false;
+
+  input.value =
+    draft[item.bind] ||
+    new Date()
+      .toISOString()
+      .split("T")[0];
+
+  input.oninput = () =>
+    saveDraft(
+      item.bind,
+      input.value
+    );
+
+  div.appendChild(input);
+}
 
   // ✅ TEXTAREA
     if (item.type === "textarea") {
