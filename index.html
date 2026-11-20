@@ -2507,7 +2507,7 @@ ocrStatus.innerText =
 let result;
 
 try {
-const result =
+result =
   await Tesseract.recognize(
     canvas,
     "eng",
@@ -2541,7 +2541,7 @@ ocrStatus.innerText =
 
   ocrStatus.innerText =
     "❌ OCR失敗";
-
+  return;
 }
   
 const serial =
