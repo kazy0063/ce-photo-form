@@ -112,7 +112,7 @@
 
     {
       "label": "4.作業日",
-      "type": "date",
+      "type": "text",
       "bind": "txt4",
       "required": true
     },
