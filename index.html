@@ -431,9 +431,11 @@ button.submit {
 
   <div class="scan-container">
 
-    <div class="scan-title">
-      バーコード / QRコード読取
-    </div>
+<div
+  id="scanTitle"
+  class="scan-title">
+  バーコード / QRコード読取
+</div>
 
 <div id="reader">
   <div id="scanGuide"></div>
@@ -1190,6 +1192,10 @@ async function startSerialPhoto(
   targetBind
 ) {
 scanMode = "serial";
+  document.getElementById(
+    "scanTitle"
+  ).textContent =
+    "シリアル撮影_OCR";
   serialPhotoTarget =
   targetBind;
 
@@ -1324,6 +1330,11 @@ if (
 
 async function startBarcodeScanner(targetBind) {
 scanMode = "barcode";
+
+  document.getElementById(
+    "scanTitle"
+  ).textContent =
+    "バーコード / QRコード読取";
   
   if (scanRunning) return;
 
