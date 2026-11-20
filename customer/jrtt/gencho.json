@@ -125,9 +125,9 @@
 
     {
       "label": "5a.写真①コメント",
-      "type": "text",
+      "type": "textarea",
       "bind": "txt5",
-      "required": true
+      "required": false
     },
 
 
@@ -140,9 +140,9 @@
 
     {
       "label": "6a.写真②コメント",
-      "type": "text",
+      "type": "textarea",
       "bind": "txt6",
-      "required": true
+      "required": false
     },
 
 
@@ -155,9 +155,9 @@
 
     {
       "label": "7a.写真③コメント",
-      "type": "text",
+      "type": "textarea",
       "bind": "txt7",
-      "required": true
+      "required": false
     },
 
 
@@ -170,9 +170,9 @@
 
     {
       "label": "8a.写真④コメント",
-      "type": "text",
+      "type": "textarea",
       "bind": "txt8",
-      "required": true
+      "required": false
     }
 
 
