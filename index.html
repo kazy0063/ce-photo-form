@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://unpkg.com/@zxing/browser@latest"></script>
-
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+  
 <style>
 body {
   margin: 0;
@@ -458,6 +459,21 @@ button.submit {
     value="1"
     style="width:100%;">
 </div>
+
+<div id="ocrStatus"
+     style="
+       display:none;
+       margin:10px 0;
+       padding:10px;
+       background:#f4f6f8;
+       border-radius:8px;
+       text-align:center;
+       font-size:14px;
+       color:#333;
+     ">
+  OCR待機中
+</div>
+    
 
 <button
   id="capturePhotoBtn"
@@ -2475,6 +2491,101 @@ ctx.drawImage(
         "image/jpeg",
         0.8
       );
+    
+  const ocrStatus =
+  document.getElementById(
+    "ocrStatus"
+  );
+
+ocrStatus.style.display =
+  "block";
+
+ocrStatus.innerText =
+  "🔍 OCR実行中...";
+
+  // ===== OCR開始 =====
+try {
+const result =
+  await Tesseract.recognize(
+    canvas,
+    "eng",
+    {
+      logger: m => {
+
+        console.log(m);
+
+        if (
+          m.status ===
+          "recognizing text"
+        ) {
+
+          ocrStatus.innerText =
+            `🔍 OCR実行中 ${
+              Math.round(
+                m.progress * 100
+              )
+            } %`;
+        }
+      }
+    }
+  );
+
+ocrStatus.innerText =
+  "✅ OCR完了";
+
+} catch(e) {
+
+  console.error(e);
+
+  ocrStatus.innerText =
+    "❌ OCR失敗";
+
+}
+  
+const serial =
+  result.data.text
+    .replace(/\s/g, "")
+    .replace(/[^A-Za-z0-9-]/g, "");
+
+console.log(
+  "OCR:",
+  serial
+);
+
+alert(
+  "OCR結果\n\n" +
+  serial
+);
+
+const field =
+  window.currentConfig.fields.find(
+    x => x.bind === serialPhotoTarget
+  );
+
+const target =
+  field?.ocrTarget;
+
+const serialInput =
+  document.querySelector(
+    `[data-bind="${target}"]`
+  );
+
+if (
+  target &&
+  serialInput
+) {
+
+  serialInput.value =
+    serial;
+
+  saveDraft(
+    target,
+    serial
+  );
+
+}
+
+// ===== OCR終了 =====
 
     saveDraft(
       serialPhotoTarget,
