@@ -2504,6 +2504,8 @@ ocrStatus.innerText =
   "🔍 OCR実行中...";
 
   // ===== OCR開始 =====
+let result;
+
 try {
 const result =
   await Tesseract.recognize(
