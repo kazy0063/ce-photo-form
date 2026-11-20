@@ -2503,6 +2503,10 @@ document
   )
   .onclick = async () => {
 
+    if (scanMode !== "serial") {
+      return;
+    }
+
     const video =
       document.getElementById(
         "barcode-video"
@@ -2739,6 +2743,9 @@ codeReader = null;
 currentControls = null;
 currentTrack = null;
 scanRunning = false;
+document.getElementById(
+  "capturePhotoBtn"
+).style.display = "none";
 }
 
 // ======================================
