@@ -24,7 +24,7 @@
     {
       "label": "2.フロア",
       "type": "select",
-      "bind": "txt2",
+      "bind": "txt21",
       "required": true,
       "showWhen": {
         "bind": "txt1",
@@ -54,7 +54,7 @@
     {
       "label": "2.フロア",
       "type": "select",
-      "bind": "txt2",
+      "bind": "txt22",
       "required": true,
       "showWhen": {
         "bind": "txt1",
@@ -77,7 +77,7 @@
     {
       "label": "2.フロア",
       "type": "select",
-      "bind": "txt2",
+      "bind": "txt23",
       "required": true,
       "showWhen": {
         "bind": "txt1",
@@ -92,7 +92,7 @@
     {
       "label": "2.フロア",
       "type": "select",
-      "bind": "txt2",
+      "bind": "txt24",
       "required": true,
       "showWhen": {
         "bind": "txt1",
