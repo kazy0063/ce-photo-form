@@ -1,0 +1,148 @@
+{
+  "logo": "/logos/jrtt.png",
+  "title": "現地調査報告フォーム",
+  "description": "必要事項を記載してください。",
+  "parameter1": "jrtt",
+  "parameter2": "",
+  "parameter3": "",
+  "parameter4": "",
+  "fields": [
+
+    {
+      "label": "1.館名",
+      "type": "select",
+      "bind": "txt1",
+      "required": true,
+      "options": [
+        "百貨店",
+        "TGM",
+        "WM",
+        "岡崎FM"
+      ]
+    },
+
+    {
+      "label": "2.フロア",
+      "type": "select",
+      "bind": "txt2",
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "百貨店"
+      },
+      "options": [
+        "B2F",
+        "B1F",
+        "1F",
+        "2F",
+        "3F",
+        "4F",
+        "5F",
+        "6F",
+        "7F",
+        "8F",
+        "9F",
+        "10F",
+        "11F",
+        "12F",
+        "13F",
+        "14F",
+        "15F"
+      ]
+    },
+
+    {
+      "label": "2.フロア",
+      "type": "select",
+      "bind": "txt2",
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "TGM"
+      },
+      "options": [
+        "1F",
+        "2F",
+        "3F",
+        "4F",
+        "5F",
+        "6F",
+        "7F",
+        "8F",
+        "9F",
+        "10F"
+      ]
+    },
+
+    {
+      "label": "2.フロア",
+      "type": "select",
+      "bind": "txt2",
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "WM"
+      },
+      "options": [
+        "1F",
+        "2F"
+      ]
+    },
+
+    {
+      "label": "2.フロア",
+      "type": "select",
+      "bind": "txt2",
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "岡崎FM"
+      },
+      "options": [
+        "1F"
+      ]
+    },
+
+    {
+      "label": "3.端末ID",
+      "type": "text",
+      "bind": "txt3",
+      "required": true
+    },
+
+    {
+      "label": "4.作業日",
+      "type": "text",
+      "bind": "txt4",
+      "required": true
+    },
+ {
+      "label": "5.写真①",
+      "type": "file",
+      "bind": "img101",
+      "required": true
+    },
+
+    {
+      "label": "6.写真②",
+      "type": "file",
+      "bind": "img102",
+      "required": false
+    },
+
+    {
+      "label": "7.写真③",
+      "type": "file",
+      "bind": "img103",
+      "required": false
+    },
+
+    {
+      "label": "8.写真④",
+      "type": "file",
+      "bind": "img104",
+      "required": false
+    }
+
+  ]
+}
