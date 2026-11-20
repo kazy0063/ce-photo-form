@@ -2177,26 +2177,18 @@ if (item.type === "serialPhoto") {
     document.createElement("button");
 
   btn.type = "button";
+
   btn.dataset.bind =
-  item.bind;
-  
-  btn.textContent = "📷 撮影";
+    item.bind;
+
+  btn.textContent =
+    "📷 撮影";
 
   btn.onclick = () => {
     startSerialPhoto(item.bind);
   };
 
-  const preview =
-    document.createElement("img");
-
-  preview.className =
-    "preview";
-
-  preview.dataset.preview =
-    item.bind;
-
   div.appendChild(btn);
-  div.appendChild(preview);
 
 }
 
@@ -2566,10 +2558,6 @@ if (!useOcr) {
   ocrStatus.style.display =
     "none";
 
-  alert(
-    "再撮影してください"
-  );
-
   return;
 
 }
@@ -2609,20 +2597,7 @@ if (
       base64
     );
 
-    const preview =
-  document.querySelector(
-    `[data-preview="${serialPhotoTarget}"]`
-  );
 
-if (preview) {
-
-  preview.src =
-    base64;
-
-  preview.style.display =
-    "block";
-
-}
     alert(
       "撮影完了"
     );
