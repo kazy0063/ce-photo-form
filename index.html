@@ -1196,6 +1196,11 @@ scanMode = "serial";
     "scanTitle"
   ).textContent =
     "シリアル撮影_OCR";
+
+  document.getElementById(
+  "capturePhotoBtn"
+).style.display = "block";
+  
   serialPhotoTarget =
   targetBind;
 
@@ -1335,6 +1340,9 @@ scanMode = "barcode";
     "scanTitle"
   ).textContent =
     "バーコード / QRコード読取";
+  document.getElementById(
+  "capturePhotoBtn"
+).style.display = "none";
   
   if (scanRunning) return;
 
