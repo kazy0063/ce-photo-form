@@ -1,0 +1,13 @@
+﻿{
+"logo": "/logos/Baycrews.png",
+"title": "8.確認テスト報告",
+"description": "必要項目を確認して入力してください。",
+"parameter1": "TEST_AP_REPLACE",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 通信テストが問題なく完了した旨連絡を受けました。","type": "select","bind": "txt1","options": ["YES","NO"],"required": true},
+{"label": "2. 特記事項","type": "textarea","bind": "txt2","required": false}
+]
+}
