@@ -1,131 +1,173 @@
-﻿{
-"logo": "/logos/ogino.png",
-"title": "オギノ様_Mex化作業の報告フォームです",
-"description": "必要事項を記載して送信してください。",
-"parameter1": "ogino_mex",
-"parameter2": "",
-"parameter3": "",
-"parameter4": "",
-"fields": [
-
 {
-  "label": "1. 報告種別",
-  "type": "select",
-  "bind": "txt0",
-  "required": true,
-  "options": [
-    "",
-    "入店",
-    "１台目開始",
-    "１台目起動完了（動作確認前）",
-    "１台目動作確認終了",
-    "全台動作確認終了",
-    "退店",
-    "翌日入店",
-    "翌日退店",
-    "シリアル報告",
-    "問い合わせ"
+  "logo": "/logos/ogino.png",
+  "title": "オギノ様_Mex化作業の報告フォームです",
+  "description": "必要事項を記載して送信してください。",
+  "parameter1": "ogino_mex",
+  "parameter2": "",
+  "parameter3": "",
+  "parameter4": "",
+  "fields": [
+    {
+      "label": "1. 報告種別",
+      "type": "select",
+      "bind": "txt0",
+      "required": true,
+      "options": [
+        "",
+        "入店",
+        "１台目開始",
+        "１台目起動完了（動作確認前）",
+        "１台目動作確認終了",
+        "全台動作確認終了",
+        "退店",
+        "翌日入店",
+        "翌日退店",
+        "シリアル報告",
+        "問い合わせ"
+      ]
+    },
+
+    {
+      "label": "2. 店番",
+      "type": "select",
+      "bind": "txt1",
+      "required": true,
+      "allowOther": true,
+      "options": [
+        "",
+        "1111",
+        "2222",
+        "3333"
+      ]
+    },
+
+    {
+      "label": "3. CE氏名",
+      "type": "text",
+      "bind": "txt10",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "入店"
+      }
+    },
+
+    {
+      "label": "4. CE連絡先",
+      "type": "text",
+      "bind": "txt11",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "入店"
+      }
+    },
+
+    {
+      "label": "3. CE氏名",
+      "type": "text",
+      "bind": "txt12",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "翌日入店"
+      }
+    },
+
+    {
+      "label": "4. CE連絡先",
+      "type": "text",
+      "bind": "txt13",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "翌日入店"
+      }
+    },
+
+    {
+      "label": "5. シリアル報告形式",
+      "description": "報告方法を選択してください",
+      "type": "select",
+      "bind": "txt100",
+      "options": [
+        "",
+        "バーコード",
+        "写真",
+        "手入力"
+      ],
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "シリアル報告"
+      }
+    },
+
+    {
+      "label": "シリアル番号",
+      "description": "バーコードを読み取ってください",
+      "type": "text",
+      "bind": "txt101",
+      "enableScan": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "バーコード"
+      }
+    },
+
+    {
+      "label": "シリアル番号(OCR結果)",
+      "description": "※シリアル1行のみを撮影してください",
+      "type": "text",
+      "bind": "txt103",
+      "enableSerialPhoto": true,
+      "photoBind": "img101",
+      "showWhen": {
+        "bind": "txt100",
+        "value": "写真"
+      }
+    },
+
+    {
+      "label": "シリアル番号",
+      "description": "そのまま入力してください",
+      "type": "text",
+      "bind": "txt102",
+      "showWhen": {
+        "bind": "txt100",
+        "value": "手入力"
+      }
+    },
+
+    {
+      "label": "問い合わせ内容",
+      "type": "textarea",
+      "bind": "txt2",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "問い合わせ"
+      }
+    },
+
+    {
+      "label": "写真①",
+      "type": "file",
+      "bind": "img1",
+      "showWhen": {
+        "bind": "txt0",
+        "value": "問い合わせ"
+      }
+    },
+
+    {
+      "label": "写真②",
+      "type": "file",
+      "bind": "img2",
+      "showWhen": {
+        "bind": "txt0",
+        "value": "問い合わせ"
+      }
+    }
   ]
-},
-
-{
-  "label": "2. 店番",
-  "type": "select",
-  "bind": "txt1",
-  "required": true,
-  "allowOther": true,
-  "options": [
-    "",
-    "1111",
-    "2222",
-    "3333"
-  ]
-},
-
-{
-  "label": "3. シリアル報告形式",
-  "description": "報告方法を選択してください",
-  "type": "select",
-  "bind": "txt100",
-  "options": [
-    "",
-    "バーコード",
-    "写真",
-    "手入力"
-  ],
-  "required": true,
-  "showWhen": {
-    "bind": "txt0",
-    "value": "シリアル報告"
-  }
-},
-
-{
-  "label": "シリアル番号",
-  "description": "バーコードを読み取ってください",
-  "type": "text",
-  "bind": "txt101",
-  "enableScan": true,
-  "showWhen": {
-    "bind": "txt100",
-    "value": "バーコード"
-  }
-},
-
-{
-  "label": "シリアル番号(OCR結果)",
-  "description": "※シリアル1行のみを撮影してください",
-  "type": "text",
-  "bind": "txt103",
-  "enableSerialPhoto": true,
-  "photoBind": "img101",
-  "showWhen": {
-    "bind": "txt100",
-    "value": "写真"
-  }
-},
-
-{
-  "label": "シリアル番号",
-  "description": "そのまま入力してください",
-  "type": "text",
-  "bind": "txt102",
-  "showWhen": {
-    "bind": "txt100",
-    "value": "手入力"
-  }
-},
-
-{
-  "label": "問い合わせ内容",
-  "type": "textarea",
-  "bind": "txt2",
-  "required": true,
-  "showWhen": {
-    "bind": "txt0",
-    "value": "問い合わせ"
-  }
-},
-
-{
-  "label": "写真①",
-  "type": "file",
-  "bind": "img1",
-  "showWhen": {
-    "bind": "txt0",
-    "value": "問い合わせ"
-  }
-},
-
-{
-  "label": "写真②",
-  "type": "file",
-  "bind": "img2",
-  "showWhen": {
-    "bind": "txt0",
-    "value": "問い合わせ"
-  }
 }
-
-]
- }
