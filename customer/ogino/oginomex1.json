@@ -29,11 +29,26 @@
 },
 
 {
-  "label": "2. シリアル報告形式",
-  "description": "",
+  "label": "2. 店番",
+  "type": "select",
+  "bind": "txt1",
+  "required": true,
+  "allowOther": true,
+  "options": [
+    "",
+    "1111",
+    "2222",
+    "3333"
+  ]
+},
+
+{
+  "label": "3. シリアル報告形式",
+  "description": "報告方法を選択してください",
   "type": "select",
   "bind": "txt100",
   "options": [
+    "",
     "バーコード",
     "写真",
     "手入力"
@@ -84,7 +99,7 @@
 {
   "label": "問い合わせ内容",
   "type": "textarea",
-  "bind": "txt1",
+  "bind": "txt2",
   "required": true,
   "showWhen": {
     "bind": "txt0",
@@ -96,7 +111,6 @@
   "label": "写真①",
   "type": "file",
   "bind": "img1",
-  "required": false,
   "showWhen": {
     "bind": "txt0",
     "value": "問い合わせ"
@@ -107,7 +121,6 @@
   "label": "写真②",
   "type": "file",
   "bind": "img2",
-  "required": false,
   "showWhen": {
     "bind": "txt0",
     "value": "問い合わせ"
@@ -115,4 +128,3 @@
 }
 
 ]
-}
