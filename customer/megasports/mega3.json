@@ -8,6 +8,6 @@
 "parameter4": "",
 "fields": [
 {"label": "1. 写真①　ハッシュ値","type": "file","bind": "img1","required": true},
-{"label": "2. 特記事項","type": "textarea","bind": "txt1","required": false}
+{"label": "2. 特記事項","type": "textarea","bind": "txt3","required": false}
 ]
 }
