@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/megasports.png",
+"title": "データ移行作業 ",
+"description": "指定された写真を送信してください。",
+"parameter1": "megasports",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 写真①　実施ログ","type": "file","bind": "img1","required": true},
+{"label": "2. 写真②　IPコンフィグの画面","type": "file","bind": "img2","required": true},
+{"label": "3. 特記事項","type": "textarea","bind": "txt1","required": false}
+]
+}

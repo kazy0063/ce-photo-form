@@ -1,0 +1,65 @@
+﻿{
+  "logo": "/logos/megasports.png",
+  "title": "メガスポーツ作業連絡フォーム",
+  "description": "種別を選択してください。",
+  "parameter1": "megasports",
+  "parameter2": "",
+  "parameter3": "",
+  "parameter4": "",
+  "fields": [
+
+    {
+      "label": "連絡種別",
+      "type": "select",
+      "bind": "txt0",
+      "required": true,
+      "options": [
+        "",
+        "事前連絡",
+        "移動連絡"
+      ]
+    },
+
+    {
+      "label": "1. 当日の出発予定時刻",
+      "type": "select",
+      "bind": "txt1",
+      "options": [
+        "17:00",
+        "17:15",
+        "17:30",
+        "17:45",
+        "18:00"
+      ],
+      "required": true,
+      "allowOther": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "事前連絡"
+      }
+    },
+
+    {
+      "label": "2. 作業員変更の場合は氏名を記載",
+      "type": "text",
+      "bind": "txt2",
+      "required": false,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "事前連絡"
+      }
+    },
+
+    {
+      "label": "1. 特記事項",
+      "type": "textarea",
+      "bind": "txt3",
+      "required": false,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "移動連絡"
+      }
+    }
+
+  ]
+}

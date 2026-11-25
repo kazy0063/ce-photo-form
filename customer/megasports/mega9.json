@@ -1,0 +1,12 @@
+﻿{
+"logo": "/logos/megasports.png",
+"title": "退店連絡",
+"description": "何もなければそのまま送信してください。",
+"parameter1": "megasports",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 特記事項","type": "textarea","bind": "txt1","required": false}
+]
+}

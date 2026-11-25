@@ -1,0 +1,22 @@
+﻿{
+"logo": "/logos/megasports.png",
+"title": "【SPOS】動作確認後、引き渡し",
+"description": "シリアルと写真を送信してください。",
+"parameter1": "megasports",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 写真①　設置状況が分かる写真","type": "file","bind": "img1","required": true},
+{"label": "2. 写真②　レシート","type": "file","bind": "img2","required": true},
+{"label": "3. 写真③　領収書","type": "file","bind": "img3","required": true},
+{"label": "4. シリアル報告形式","type":"select","bind":"txt100",
+"options":["バーコード","写真","手入力"],"required":true},
+{"label":"シリアル番号","type":"text","bind":"txt101","enableScan":true,
+"showWhen":{"bind":"txt100","value":"バーコード"}},
+{"label":"シリアル写真","type":"file","bind":"img101",
+"showWhen":{"bind":"txt100","value":"写真"}},
+{"label":"シリアル番号","type":"text","bind":"txt102",
+"showWhen":{"bind":"txt100","value":"手入力"}}
+]
+}

@@ -1,0 +1,13 @@
+﻿{
+"logo": "/logos/megasports.png",
+"title": "データ移行事後作業 ",
+"description": "指定された写真を送信してください。",
+"parameter1": "megasports",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 写真①　DB件数確認ツールの実施ログ","type": "file","bind": "img1","required": true},
+{"label": "2. 特記事項","type": "textarea","bind": "txt1","required": false}
+]
+}

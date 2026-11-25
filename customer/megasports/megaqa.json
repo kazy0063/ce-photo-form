@@ -1,0 +1,14 @@
+﻿{
+"logo": "/logos/megasports.png",
+"title": "QA連絡フォームです",
+"description": "必要事項を記載して送信してください。",
+"parameter1": "megasports",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 問い合わせ内容","type": "textarea","bind": "txt1","required": true},
+{"label": "2. 写真①","type": "file","bind": "img1","required": false},
+{"label": "3. 写真②","type": "file","bind": "img2","required": false}
+]
+}
