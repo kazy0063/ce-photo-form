@@ -10,6 +10,7 @@
 
     {
       "label": "連絡種別",
+      "description": "「事前連絡」は必要事項を記入して送信。「移動連絡」はそのまま送信してください。",
       "type": "select",
       "bind": "txt0",
       "required": true,
