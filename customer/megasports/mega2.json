@@ -7,6 +7,9 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. 特記事項","type": "textarea","bind": "txt3","required": false}
+  {
+    "type": "message",
+    "label": "入力不要です。送信ボタンを押すと現在時刻が報告されます。"
+  }
 ]
 }
