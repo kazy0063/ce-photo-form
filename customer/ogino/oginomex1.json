@@ -11,6 +11,6 @@
 {"label": "2. 作業項目","description":"項目を選択し、必要に応じて下記報告事項・写真を追加して送信してください。","type": "select","bind": "txt2","options": ["入店","途中経過1","途中経過2","退店","問い合わせ"],"required": true,"allowOther": true },
 {"label": "3. 報告事項","description":"任意項目です。","type": "textarea","bind": "txt3","required": false},
 {"label": "4. 写真1","description":"任意項目です。問い合わせや現地設置状況の報告で利用してください。","type": "file","bind": "img1","required": false},
-{"label": "5. 写真2","description":"任意項目です。問い合わせや現地設置状況の報告で利用してください。""type": "file","bind": "img2","required": false}
+{"label": "5. 写真2","description":"任意項目です。問い合わせや現地設置状況の報告で利用してください。","type": "file","bind": "img2","required": false}
 ]
 }
