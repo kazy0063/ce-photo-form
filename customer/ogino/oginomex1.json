@@ -22,7 +22,6 @@
         "退店",
         "翌日入店",
         "翌日退店",
-        "シリアル報告",
         "問い合わせ"
       ]
     },
@@ -82,60 +81,6 @@
       "showWhen": {
         "bind": "txt0",
         "value": "翌日入店"
-      }
-    },
-
-    {
-      "label": "5. シリアル報告形式",
-      "description": "報告方法を選択してください",
-      "type": "select",
-      "bind": "txt100",
-      "options": [
-        "",
-        "バーコード",
-        "写真",
-        "手入力"
-      ],
-      "required": true,
-      "showWhen": {
-        "bind": "txt0",
-        "value": "シリアル報告"
-      }
-    },
-
-    {
-      "label": "シリアル番号",
-      "description": "バーコードを読み取ってください",
-      "type": "text",
-      "bind": "txt101",
-      "enableScan": true,
-      "showWhen": {
-        "bind": "txt100",
-        "value": "バーコード"
-      }
-    },
-
-    {
-      "label": "シリアル番号(OCR結果)",
-      "description": "※シリアル1行のみを撮影してください",
-      "type": "text",
-      "bind": "txt103",
-      "enableSerialPhoto": true,
-      "photoBind": "img101",
-      "showWhen": {
-        "bind": "txt100",
-        "value": "写真"
-      }
-    },
-
-    {
-      "label": "シリアル番号",
-      "description": "そのまま入力してください",
-      "type": "text",
-      "bind": "txt102",
-      "showWhen": {
-        "bind": "txt100",
-        "value": "手入力"
       }
     },
 
