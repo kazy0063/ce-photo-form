@@ -7,10 +7,112 @@
 "parameter3": "",
 "parameter4": "",
 "fields": [
-{"label": "1. 店舗番号を入力","type": "select","bind": "txt1","options": ["1111","1112","1113","9999"],"required": true,"allowOther": true },
-{"label": "2. 作業項目","description":"項目を選択し、必要に応じて下記報告事項・写真を追加して送信してください。","type": "select","bind": "txt2","options": ["入店","途中経過1","途中経過2","退店","問い合わせ"],"required": true,"allowOther": true },
-{"label": "3. 報告事項","description":"任意項目です。","type": "textarea","bind": "txt3","required": false},
-{"label": "4. 写真1","description":"任意項目です。問い合わせや現地設置状況の報告で利用してください。","type": "file","bind": "img1","required": false},
-{"label": "5. 写真2","description":"任意項目です。問い合わせや現地設置状況の報告で利用してください。","type": "file","bind": "img2","required": false}
+
+{
+  "label": "1. 報告種別",
+  "type": "select",
+  "bind": "txt0",
+  "required": true,
+  "options": [
+    "",
+    "入店",
+    "１台目開始",
+    "１台目起動完了（動作確認前）",
+    "１台目動作確認終了",
+    "全台動作確認終了",
+    "退店",
+    "翌日入店",
+    "翌日退店",
+    "シリアル報告",
+    "問い合わせ"
+  ]
+},
+
+{
+  "label": "2. シリアル報告形式",
+  "description": "",
+  "type": "select",
+  "bind": "txt100",
+  "options": [
+    "バーコード",
+    "写真",
+    "手入力"
+  ],
+  "required": true,
+  "showWhen": {
+    "bind": "txt0",
+    "value": "シリアル報告"
+  }
+},
+
+{
+  "label": "シリアル番号",
+  "description": "バーコードを読み取ってください",
+  "type": "text",
+  "bind": "txt101",
+  "enableScan": true,
+  "showWhen": {
+    "bind": "txt100",
+    "value": "バーコード"
+  }
+},
+
+{
+  "label": "シリアル番号(OCR結果)",
+  "description": "※シリアル1行のみを撮影してください",
+  "type": "text",
+  "bind": "txt103",
+  "enableSerialPhoto": true,
+  "photoBind": "img101",
+  "showWhen": {
+    "bind": "txt100",
+    "value": "写真"
+  }
+},
+
+{
+  "label": "シリアル番号",
+  "description": "そのまま入力してください",
+  "type": "text",
+  "bind": "txt102",
+  "showWhen": {
+    "bind": "txt100",
+    "value": "手入力"
+  }
+},
+
+{
+  "label": "問い合わせ内容",
+  "type": "textarea",
+  "bind": "txt1",
+  "required": true,
+  "showWhen": {
+    "bind": "txt0",
+    "value": "問い合わせ"
+  }
+},
+
+{
+  "label": "写真①",
+  "type": "file",
+  "bind": "img1",
+  "required": false,
+  "showWhen": {
+    "bind": "txt0",
+    "value": "問い合わせ"
+  }
+},
+
+{
+  "label": "写真②",
+  "type": "file",
+  "bind": "img2",
+  "required": false,
+  "showWhen": {
+    "bind": "txt0",
+    "value": "問い合わせ"
+  }
+}
+
 ]
 }
