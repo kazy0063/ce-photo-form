@@ -1,0 +1,77 @@
+{
+  "logo": "/logos/ogino.png",
+  "title": "オギノ様_Mex化作業 シリアル報告フォーム",
+  "description": "機器のシリアルを報告してください。",
+  "parameter1": "ogino_mex_serial",
+  "parameter2": "",
+  "parameter3": "",
+  "parameter4": "",
+  "fields": [
+    {
+      "label": "1. 店番",
+      "type": "select",
+      "bind": "txt1",
+      "required": true,
+      "allowOther": true,
+      "options": [
+        "",
+        "1111",
+        "2222",
+        "3333"
+      ]
+    },
+
+    {
+      "label": "2. シリアル報告形式",
+      "description": "報告方法を選択してください",
+      "type": "select",
+      "bind": "txt100",
+      "required": true,
+      "options": [
+        "",
+        "バーコード",
+        "写真",
+        "手入力"
+      ]
+    },
+
+    {
+      "label": "シリアル番号",
+      "description": "バーコードを読み取ってください",
+      "type": "text",
+      "bind": "txt101",
+      "enableScan": true,
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "バーコード"
+      }
+    },
+
+    {
+      "label": "シリアル番号(OCR結果)",
+      "description": "※シリアル1行のみを撮影してください",
+      "type": "text",
+      "bind": "txt103",
+      "enableSerialPhoto": true,
+      "photoBind": "img101",
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "写真"
+      }
+    },
+
+    {
+      "label": "シリアル番号",
+      "description": "そのまま入力してください",
+      "type": "text",
+      "bind": "txt102",
+      "required": true,
+      "showWhen": {
+        "bind": "txt100",
+        "value": "手入力"
+      }
+    }
+  ]
+}
