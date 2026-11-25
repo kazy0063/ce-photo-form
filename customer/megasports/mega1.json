@@ -48,17 +48,6 @@
         "bind": "txt0",
         "value": "事前連絡"
       }
-    },
-
-    {
-      "label": "1. 特記事項",
-      "type": "textarea",
-      "bind": "txt3",
-      "required": false,
-      "showWhen": {
-        "bind": "txt0",
-        "value": "移動連絡"
-      }
     }
 
   ]
