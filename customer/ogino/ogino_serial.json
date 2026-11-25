@@ -1,7 +1,7 @@
 {
   "logo": "/logos/ogino.png",
   "title": "オギノ様_Mex化作業 シリアル報告フォーム",
-  "description": "機器のシリアルを報告してください。バーコード、写真(OCR)で読めない場合は手入力してください",
+  "description": "機器のシリアルを報告してください。",
   "parameter1": "ogino_mex_serial",
   "parameter2": "",
   "parameter3": "",
@@ -23,7 +23,7 @@
 
     {
       "label": "2. シリアル報告形式",
-      "description": "報告方法を選択してください",
+      "description": "報告方法を選択してください。バーコード、写真(OCR)で読めない場合は手入力してください",
       "type": "select",
       "bind": "txt100",
       "required": true,
