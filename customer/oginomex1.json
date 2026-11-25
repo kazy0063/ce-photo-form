@@ -1,0 +1,16 @@
+﻿{
+"logo": "/logos/ogino.png",
+"title": "作業報告フォームです",
+"description": "必要事項を記載してください。",
+"parameter1": "ogino_mex",
+"parameter2": "",
+"parameter3": "",
+"parameter4": "",
+"fields": [
+{"label": "1. 店舗番号を入力","type": "select","bind": "txt1","options": ["1111","1112","1113","9999"],"required": true,"allowOther": true },
+{"label": "2. 作業項目","type": "select","bind": "txt2","options": ["入店","途中経過1","途中経過2","退店","問い合わせ"],"required": true,"allowOther": true },
+{"label": "3. 報告事項","type": "textarea","bind": "txt3","required": false},
+{"label": "4. 写真1","type": "file","bind": "img1","required": false},
+{"label": "5. 写真2","type": "file","bind": "img2","required": false}
+]
+}
