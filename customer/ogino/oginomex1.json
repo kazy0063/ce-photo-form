@@ -1,7 +1,7 @@
 {
   "logo": "/logos/ogino.png",
   "title": "オギノ様_Mex化作業の報告フォームです",
-  "description": "必要事項を記載して送信してください。店番選択のみの質問もあります。",
+  "description": "報告種別を選択して、必要事項を記載して送信してください。店番選択のみの質問もあります。",
   "parameter1": "ogino_mex",
   "parameter2": "honban",
   "parameter3": "",
