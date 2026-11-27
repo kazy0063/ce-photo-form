@@ -1,0 +1,152 @@
+{
+  "logo": "/logos/ogino.png",
+  "title": "オギノ様_Mex化作業【教育レジ用】の報告フォームです",
+  "description": "必要事項を記載して送信してください。店番選択のみの質問もあります。",
+  "parameter1": "ogino_mex",
+  "parameter2": "",
+  "parameter3": "",
+  "parameter4": "",
+  "fields": [
+    {
+      "label": "1. 報告種別",
+      "type": "select",
+      "bind": "txt0",
+      "required": true,
+      "options": [
+        "",
+        "入店",
+        "教育レジ動作確認終了",
+        "退店",
+        "問い合わせ"
+      ]
+    },
+    {
+      "label": "2. 店舗",
+      "type": "select",
+      "bind": "txt1",
+      "required": true,
+      "allowOther": true,
+      "options": [
+        "",
+        "030 貢川",
+        "690 下石田",
+        "800 伊勢",
+        "640 あづみ野",
+        "730 信濃大町",
+        "610 信州山形",
+        "340 春日居",
+        "620 南部",
+        "630 中富",
+        "360 朝日",
+        "060 田富",
+        "700 上今井",
+        "710 竜王駅前",
+        "420 韮崎",
+        "840 甲斐敷島",
+        "530 岡谷",
+        "580 諏訪",
+        "550 西八幡",
+        "460 国母",
+        "260 EM",
+        "300 峡西",
+        "780 八田",
+        "440 双葉",
+        "560 韮崎駅前",
+        "390 茅野",
+        "250 RC",
+        "590 御殿場",
+        "490 都留",
+        "650 山中湖",
+        "400 城東",
+        "430 山梨",
+        "680 富士岡",
+        "900 富士吉田横町",
+        "880 長峰",
+        "520 甲州",
+        "750 塩山",
+        "001 別館",
+        "010 EC",
+        "510 笛吹",
+        "820 向町",
+        "670 富士川",
+        "810 沼津",
+        "380 河口湖",
+        "450 吉田",
+        "410 長坂",
+        "830 須玉",
+        "540 上野原",
+        "850 田野倉",
+        "860 万野原",
+        "870 弓沢"
+      ]
+    },
+    {
+      "label": "3. CE氏名",
+      "type": "text",
+      "bind": "txt10",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "入店"
+      }
+    },
+    {
+      "label": "4. CE連絡先",
+      "type": "text",
+      "bind": "txt11",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "入店"
+      }
+    },
+    {
+      "label": "3. CE氏名",
+      "type": "text",
+      "bind": "txt12",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "翌日入店"
+      }
+    },
+    {
+      "label": "4. CE連絡先",
+      "type": "text",
+      "bind": "txt13",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "翌日入店"
+      }
+    },
+    {
+      "label": "問い合わせ内容",
+      "type": "textarea",
+      "bind": "txt2",
+      "required": true,
+      "showWhen": {
+        "bind": "txt0",
+        "value": "問い合わせ"
+      }
+    },
+    {
+      "label": "写真①",
+      "type": "file",
+      "bind": "img1",
+      "showWhen": {
+        "bind": "txt0",
+        "value": "問い合わせ"
+      }
+    },
+    {
+      "label": "写真②",
+      "type": "file",
+      "bind": "img2",
+      "showWhen": {
+        "bind": "txt0",
+        "value": "問い合わせ"
+      }
+    }
+  ]
+}
