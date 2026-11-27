@@ -3,7 +3,7 @@
   "title": "オギノ様_Mex化作業【教育レジ用】の報告フォームです",
   "description": "必要事項を記載して送信してください。店番選択のみの質問もあります。",
   "parameter1": "ogino_mex",
-  "parameter2": "",
+  "parameter2": "dev",
   "parameter3": "",
   "parameter4": "",
   "fields": [
