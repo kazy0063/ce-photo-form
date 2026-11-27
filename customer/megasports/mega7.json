@@ -12,11 +12,37 @@
 {"label": "3. 写真③　領収書","type": "file","bind": "img3","required": true},
 {"label": "4. シリアル報告形式","type":"select","bind":"txt100",
 "options":["バーコード","写真","手入力"],"required":true},
-{"label":"シリアル番号","type":"text","bind":"txt101","enableScan":true,
-"showWhen":{"bind":"txt100","value":"バーコード"}},
-{"label":"シリアル写真","type":"file","bind":"img101",
-"showWhen":{"bind":"txt100","value":"写真"}},
-{"label":"シリアル番号","type":"text","bind":"txt102",
-"showWhen":{"bind":"txt100","value":"手入力"}}
+{
+  "label":"シリアル番号",
+  "description":"バーコードを読み取ってください",
+  "type":"text",
+  "bind":"txt101",
+  "enableScan":true,
+  "showWhen":{
+    "bind":"txt100",
+    "value":"バーコード"
+  }
+},
+{
+  "label":"シリアル番号(OCR結果)",
+  "description":"※シリアル1行のみを撮影してください",
+  "type":"text",
+  "bind":"txt103",
+  "enableSerialPhoto":true,
+  "photoBind":"img101",
+  "showWhen":{
+    "bind":"txt100",
+    "value":"写真"
+  }
+},
+{
+  "label":"シリアル番号",
+  "description":"そのまま入力してください",
+  "type":"text",
+  "bind":"txt102",
+  "showWhen":{
+    "bind":"txt100",
+    "value":"手入力"
+  }}
 ]
 }
