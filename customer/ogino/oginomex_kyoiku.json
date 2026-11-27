@@ -14,10 +14,10 @@
       "required": true,
       "options": [
         "",
-        "入店",
-        "教育レジ動作確認終了",
-        "退店",
-        "問い合わせ"
+        "1_入店",
+        "2_教育レジ動作確認終了",
+        "3_退店",
+        "4_問い合わせ"
       ]
     },
     {
@@ -87,7 +87,7 @@
       "required": true,
       "showWhen": {
         "bind": "txt0",
-        "value": "入店"
+        "value": "1_入店"
       }
     },
     {
@@ -97,27 +97,7 @@
       "required": true,
       "showWhen": {
         "bind": "txt0",
-        "value": "入店"
-      }
-    },
-    {
-      "label": "3. CE氏名",
-      "type": "text",
-      "bind": "txt12",
-      "required": true,
-      "showWhen": {
-        "bind": "txt0",
-        "value": "翌日入店"
-      }
-    },
-    {
-      "label": "4. CE連絡先",
-      "type": "text",
-      "bind": "txt13",
-      "required": true,
-      "showWhen": {
-        "bind": "txt0",
-        "value": "翌日入店"
+        "value": "1_入店"
       }
     },
     {
@@ -127,7 +107,7 @@
       "required": true,
       "showWhen": {
         "bind": "txt0",
-        "value": "問い合わせ"
+        "value": "4_問い合わせ"
       }
     },
     {
@@ -136,7 +116,7 @@
       "bind": "img1",
       "showWhen": {
         "bind": "txt0",
-        "value": "問い合わせ"
+        "value": "4_問い合わせ"
       }
     },
     {
@@ -145,7 +125,7 @@
       "bind": "img2",
       "showWhen": {
         "bind": "txt0",
-        "value": "問い合わせ"
+        "value": "4_問い合わせ"
       }
     }
   ]
