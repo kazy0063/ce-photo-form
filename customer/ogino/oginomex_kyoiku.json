@@ -87,7 +87,7 @@
       "required": true,
       "showWhen": {
         "bind": "txt0",
-        "value": "1_入店"
+        "value": "K1_入店"
       }
     },
     {
@@ -97,7 +97,7 @@
       "required": true,
       "showWhen": {
         "bind": "txt0",
-        "value": "1_入店"
+        "value": "K1_入店"
       }
     },
     {
@@ -107,7 +107,7 @@
       "required": true,
       "showWhen": {
         "bind": "txt0",
-        "value": "4_問い合わせ"
+        "value": "K4_問い合わせ"
       }
     },
     {
@@ -116,7 +116,7 @@
       "bind": "img1",
       "showWhen": {
         "bind": "txt0",
-        "value": "4_問い合わせ"
+        "value": "K4_問い合わせ"
       }
     },
     {
@@ -125,7 +125,7 @@
       "bind": "img2",
       "showWhen": {
         "bind": "txt0",
-        "value": "4_問い合わせ"
+        "value": "K4_問い合わせ"
       }
     }
   ]
