@@ -2,10 +2,11 @@
   "logo": "/logos/ogino.png",
   "title": "オギノ様_Mex化作業 シリアル報告フォーム",
   "description": "機器のシリアルを報告してください。",
-  "parameter1": "ogino_mex_serial",
-  "parameter2": "",
+  "parameter1": "ogino_mex",
+  "parameter2": "serial",
   "parameter3": "",
   "parameter4": "",
+  "txt0": "serial",
   "fields": [
     {
       "label": "1. 店番",
@@ -15,6 +16,7 @@
       "allowOther": true,
  "options": [
         "",
+        "999 テスト店", 
         "030 貢川",
         "690 下石田",
         "800 伊勢",
